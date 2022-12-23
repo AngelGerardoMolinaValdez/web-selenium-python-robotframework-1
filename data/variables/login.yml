@@ -1,0 +1,9 @@
+url_parabank: https://parabank.parasoft.com/parabank/index.htm
+user_parabank: john
+password_parabank: demo
+
+input_username: name:username
+input_password: name:password
+boton_login: css:[value="Log In"]
+
+panel_inicio: id:mainPanel

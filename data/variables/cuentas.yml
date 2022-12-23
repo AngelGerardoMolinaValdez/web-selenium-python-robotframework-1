@@ -1,0 +1,9 @@
+link_nueva_cuenta: xpath://a[contains(text(), "Open New Account")]
+select_tipo_cuenta: id:type
+select_cuenta_existente: id:fromAccountId
+boton_abrir_nueva_cuenta: css:[value="Open New Account"]
+link_numero_nueva_cuenta: id:newAccountId
+
+link_resumen_de_cuenta: xpath://a[contains(text(), "Accounts Overview")]
+tabla_resumen_de_cuentas: id:accountTable
+filas_resumen_de_cuentas: css:#accountTable tbody tr
