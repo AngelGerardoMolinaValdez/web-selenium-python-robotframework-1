@@ -45,11 +45,33 @@ Abrir Nueva Cuenta Tipo CHECKING
 	[Teardown]    Close Browser
 
 
+Abrir Cuentas De Todo Tipo
+    [Documentation]
+	...    Inicia sesion en parabank y crea una nueva cuenta con los datos
+	...    proporcionados y guarda la informacion de la nueva cuenta.
+	...    En este caso de prueba se dan de alta 2 cuentas con diferentes Tipos
+	...    de apertura
+	
+	[Tags]
+	...    nueva_cuenta
+
+	[Setup]    Iniciar Sesion En ParaBank
+
+	[Template]    Crear Nueva Cuenta En ParaBank
+
+	CHECKING    13344
+	SAVINGS    13344
+
+	[Teardown]    Close Browser
+
+
 Obtener Resumen De Cuentas
     [Documentation]
 	...    Obtiene todas las cuentas en Parabank
+	
 	[Tags]
 	...    obtener_cuentas
+	
 	[Setup]    Iniciar Sesion En ParaBank
 
     Obtener Resumen De Cuentas En Parabank

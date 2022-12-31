@@ -11,14 +11,14 @@ Resource    ../loader/import_components.resource
 *** Keywords ***
 Crear Nueva Cuenta En ParaBank
     [Arguments]    ${TIPO_DE_CUENTA}    ${CUENTA_EXISTENTE}
-    Log To Console    validando
 
     Click Link    ${link_nueva_cuenta}
     
     Wait Until Element Is Visible    ${select_tipo_cuenta}
-    Wait Until Element Is Enabled    ${select_tipo_cuenta}
+    Wait Until Element Is Enabled    ${select_tipo_cuenta}    
 
     Select From List By Label    ${select_tipo_cuenta}    ${TIPO_DE_CUENTA}
+    Sleep    ${2} seconds
     Select From List By Label    ${select_cuenta_existente}    ${CUENTA_EXISTENTE}
 
     Click Element    ${boton_abrir_nueva_cuenta}

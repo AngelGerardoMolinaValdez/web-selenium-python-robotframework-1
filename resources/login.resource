@@ -9,7 +9,7 @@ Variables    ../data/variables/login.yml
 Resource    ../loader/import_components.resource
 
 *** Keywords ***
-Iniciar Sesion En ParaBank
+Iniciar Sesion En ParaBank    
     Open Browser    ${url_parabank}    gc
 
     Wait Until Element Is Visible    ${input_username}

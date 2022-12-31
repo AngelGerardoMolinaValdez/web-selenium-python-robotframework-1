@@ -12,3 +12,4 @@ Library    String
 
 Resource    ../resources/login.resource
 Resource    ../resources/cuentas.resource
+Resource    ../resources/util.resource
