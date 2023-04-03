@@ -4,11 +4,12 @@ Documentation
 
 Keyword Tags
 ...    util
+...    reusable
 
-Resource    ../loader/import_components.resource
+Resource    ../loader/libraries.resource
+
 
 *** Keywords ***
-
 Wait Until Select Has Number Options
     [Arguments]    ${select}    ${num_opciones}    ${intentos_maximos}=${60}
     
@@ -16,14 +17,9 @@ Wait Until Select Has Number Options
     ${contador}=    Set Variable    ${0}
     
     WHILE  ${True}
-
         Sleep    ${1} secondS
         ${contador}=    Evaluate    ${contador}+${1}
         ${total_opciones}=    Get Element Count    ${select_opciones}
-
-        Exit For Loop If    ${total_opciones} >= ${num_opciones}
-        Exit For Loop If    ${contador} == ${intentos_maximos}
-        
+        IF    ${total_opciones} >= ${num_opciones}    BREAK
+        IF    ${contador} == ${intentos_maximos}    BREAK
     END
-    
-

@@ -13,37 +13,37 @@ Test Tags
 ...    demo
 ...    parabank
 
-Resource    ../loader/import_components.resource
+Resource    ../loader/libraries.resource
+Resource    ../loader/util.resource
+Resource    ../loader/entry_points.resource
 
-Suite Setup    Set Selenium Timeout    2 minutes
-Test Setup    Set Selenium Speed    0.5
+
+*** Variables ***
+${URL}    https://parabank.parasoft.com/parabank/index.htm
+${USERNAME}    john
+${PASSWORD}    demo
+
 
 *** Test Cases ***
-Abrir Nueva Cuenta Tipo SAVINGS
+Test Abrir Nueva Cuenta Tipo SAVINGS
     [Documentation]
 	...    Inicia sesion en parabank y crea una nueva cuenta con los datos
 	...    proporcionados y guarda la informacion de la nueva cuenta.
 	[Tags]
 	...    nueva_cuenta
-	[Setup]    Iniciar Sesion En ParaBank
-
+	[Setup]    Iniciar Sesion    ${URL}    ${USERNAME}    ${PASSWORD}
 	Crear Nueva Cuenta En ParaBank    SAVINGS    13344
+	[Teardown]    Terminar Sesion
 
-	[Teardown]    Close Browser
-
-
-Abrir Nueva Cuenta Tipo CHECKING
+Test Abrir Nueva Cuenta Tipo CHECKING
     [Documentation]
 	...    Inicia sesion en parabank y crea una nueva cuenta con los datos
 	...    proporcionados y guarda la informacion de la nueva cuenta.
 	[Tags]
 	...    nueva_cuenta
-	[Setup]    Iniciar Sesion En ParaBank
-
-	Crear Nueva Cuenta En ParaBank    CHECKING    13344
-
-	[Teardown]    Close Browser
-
+	[Setup]    Iniciar Sesion    ${URL}    ${USERNAME}    ${PASSWORD}
+	Crear Nueva Cuenta En ParaBank    CHECKING    13233
+	[Teardown]    Terminar Sesion
 
 Abrir Cuentas De Todo Tipo
     [Documentation]
@@ -51,29 +51,19 @@ Abrir Cuentas De Todo Tipo
 	...    proporcionados y guarda la informacion de la nueva cuenta.
 	...    En este caso de prueba se dan de alta 2 cuentas con diferentes Tipos
 	...    de apertura
-	
 	[Tags]
 	...    nueva_cuenta
-
-	[Setup]    Iniciar Sesion En ParaBank
-
+	[Setup]    Iniciar Sesion    ${URL}    ${USERNAME}    ${PASSWORD}
 	[Template]    Crear Nueva Cuenta En ParaBank
-
 	CHECKING    13344
 	SAVINGS    13344
+	[Teardown]    Terminar Sesion
 
-	[Teardown]    Close Browser
-
-
-Obtener Resumen De Cuentas
+Test Obtener Resumen De Cuentas
     [Documentation]
 	...    Obtiene todas las cuentas en Parabank
-	
 	[Tags]
 	...    obtener_cuentas
-	
-	[Setup]    Iniciar Sesion En ParaBank
-
+	[Setup]    Iniciar Sesion    ${URL}    ${USERNAME}    ${PASSWORD}
     Obtener Resumen De Cuentas En Parabank
-
-	[Teardown]    Close Browser
+	[Teardown]    Terminar Sesion

@@ -1,6 +1,7 @@
 # Created by https://www.toptal.com/developers/gitignore/api/robotframework,windows,visualstudiocode,linux,python
 # Edit at https://www.toptal.com/developers/gitignore?templates=robotframework,windows,visualstudiocode,linux,python
 
+.robotcode_cache/
 ### Linux ###
 *~
 
@@ -191,11 +192,11 @@ selenium-screenshot-*.png
 
 ### VisualStudioCode ###
 .vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-!.vscode/*.code-snippets
+# !.vscode/settings.json
+# !.vscode/tasks.json
+# !.vscode/launch.json
+# !.vscode/extensions.json
+# !.vscode/*.code-snippets
 
 # Local History for Visual Studio Code
 .history/

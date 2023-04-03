@@ -32,7 +32,7 @@ Navegador [Chrome](https://www.google.com/intl/es_mx/chrome/) Version 108.
 ## Ejecucion por suite
 ```robot *.robot```
 
-```robot main.robot```
+```robot Suite.robot```
 
 
 ## Ejecucion por caso de prueba
@@ -41,6 +41,3 @@ Navegador [Chrome](https://www.google.com/intl/es_mx/chrome/) Version 108.
 ```robot --test "Abrir Nueva Cuenta Tipo CHECKING" main.robot```
 
 ```robot --test "Obtener Resumen De Cuentas" main.robot```
-
-
-
