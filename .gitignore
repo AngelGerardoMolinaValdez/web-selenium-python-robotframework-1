@@ -1,5 +1,6 @@
 # Created by https://www.toptal.com/developers/gitignore/api/robotframework,windows,visualstudiocode,linux,python
 # Edit at https://www.toptal.com/developers/gitignore?templates=robotframework,windows,visualstudiocode,linux,python
+work_textual_app
 
 results/
 .robotcode_cache/
