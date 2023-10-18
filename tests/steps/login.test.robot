@@ -5,6 +5,8 @@ Test Tags    login
 
 Library    SeleniumLibrary    timeout=1 minutes    run_on_failure=No Operation
 
+Suite Setup    Set Selenium Speed    0.1
+
 
 *** Test Cases ***
 Iniciar sesion

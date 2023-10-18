@@ -20,7 +20,6 @@ for /l %%i in (0,1,%max_iterations%) do (
         --variable ITERATION:%%i ^
         --variablefile ./data/variables/globals.yml ^
         --outputdir ./results/ ^
-        --log creacion-transferencias ^
         --report creacion-transferencias ^
         --output creacion-transferencias ^
         tests/steps/

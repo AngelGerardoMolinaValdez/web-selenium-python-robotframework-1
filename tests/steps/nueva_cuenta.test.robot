@@ -4,24 +4,21 @@ Documentation    creacion de cuentas
 Test Tags    creacion
 
 Library    SeleniumLibrary    timeout=1 minutes    run_on_failure=No Operation
+Library    ../../libraries/DataTableLibrary.py
 
 Suite Setup    Set Selenium Speed    0.1
-
-
-*** Variables ***
-${tipo_de_cuenta}    CHECKING
-${cuenta_de_referencia}    13344
 
 
 *** Test Cases ***
 Crear una cuenta
     [Tags]    creacion-transferencias
+    ${data_table}    Crear DataTable    test_data.csv    ${ITERATION}
     Click Link    link:Open New Account
 
     Wait Until Element Is Visible    css:h1[class="title"]
-
-    Select From List By Label    id:type    ${tipo_de_cuenta}
-    Select From List By Label    id:fromAccountId    ${cuenta_de_referencia}
+    
+    Select From List By Label    id:type    ${data_table.tipo_de_cuenta}
+    Select From List By Label    id:fromAccountId    ${data_table.cuenta_de_referencia}
     Click Element    css:input[value="Open New Account"]
 
     Wait Until Element Is Visible    css:h1[class="title"]
