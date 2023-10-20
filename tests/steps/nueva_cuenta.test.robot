@@ -27,4 +27,4 @@ Crear una cuenta
     Element Should Be Visible    id:newAccountId
 
     ${cuenta_creada}    Get Text    id:newAccountId
-    ${NUMERO_DE_CUENTA}    Set Global Variable    ${cuenta_creada}
+    Set Global Variable    ${NUMERO_DE_CUENTA}    ${cuenta_creada}

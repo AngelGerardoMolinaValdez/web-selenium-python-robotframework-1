@@ -1,3 +1,3 @@
-tipo_de_cuenta,cuenta_de_referencia
-CHECKING,13344
-SAVING,13344
+test_name,tipo_de_cuenta,cuenta_de_referencia,monto_transferencia
+TEST_NUEVA_CUENTA_CHECKING_Y_TRANSFERENCIA,CHECKING,13344,200
+TEST_NUEVA_CUENTA_SAVING_Y_TRANSFERENCIA,SAVING,13344,200
