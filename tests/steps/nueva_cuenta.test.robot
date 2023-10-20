@@ -16,15 +16,17 @@ Crear una cuenta
     Click Link    link:Open New Account
 
     Wait Until Element Is Visible    css:h1[class="title"]
-    
+
     Select From List By Label    id:type    ${data_table.tipo_de_cuenta}
     Select From List By Label    id:fromAccountId    ${data_table.cuenta_de_referencia}
     Click Element    css:input[value="Open New Account"]
 
+    Sleep    2 seconds
     Wait Until Element Is Visible    css:h1[class="title"]
 
     Page Should Contain    Congratulations, your account is now open.
     Element Should Be Visible    id:newAccountId
 
     ${cuenta_creada}    Get Text    id:newAccountId
-    Set Global Variable    ${NUMERO_DE_CUENTA}    ${cuenta_creada}
+    ${NUMERO_DE_CUENTA}    Set Variable    ${cuenta_creada}
+    Set Global Variable    ${NUMERO_DE_CUENTA}
