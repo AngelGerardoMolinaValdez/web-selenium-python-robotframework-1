@@ -1,4 +1,5 @@
 import os
+from typing import Union
 from robot.api.deco import keyword, not_keyword
 from datatable import DataTable
 from datatable_repository import DataTableRepository
@@ -22,10 +23,25 @@ def find_file(name: str):
     raise DataTableDoesNotExist(f"No existe el archivo {name}")
 
 @keyword("Crear DataTable")
-def create_data_table(path: str, index: int):
-    data_class = DataTableRepository.find(index)
-    if not data_class:
-        file_path = find_file(path)
-        data_class, index_from_datable = DataTable.create(file_path, index)
-        DataTable.save(data_class, index_from_datable)
+def create_data_table(filename: str, iteration: int):
+    data_class = DataTableRepository.find(iteration, filename)
+    if data_class:
+        return data_class
+
+    file_path = find_file(filename)
+    data_class, _ = DataTable.create(file_path, iteration)
+    DataTable.save(iteration, filename, data_class)
+    return data_class
+
+@keyword("Crear DataTable Por Referencia")
+def create_data_table_for_ref(
+    filename: str, iteration: int, fieldname: str, fieldvalue: str
+):
+    data_class = DataTableRepository.find(iteration, filename)
+    if data_class:
+        return data_class
+
+    file_path = find_file(filename)
+    data_class = DataTable.find_reference(file_path, fieldname, fieldvalue)
+    DataTable.save(iteration, filename, data_class)
     return data_class
