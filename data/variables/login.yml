@@ -1,5 +1,0 @@
-input_username: name:username
-input_password: name:password
-boton_login: css:[value="Log In"]
-
-panel_inicio: id:mainPanel
