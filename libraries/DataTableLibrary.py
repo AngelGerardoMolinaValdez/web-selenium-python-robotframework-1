@@ -56,3 +56,9 @@ def create_tests_results(iteration: int):
     files = [os.path.join(BASE_DIR, file) for file in os.listdir(BASE_DIR)]
     file = max(files, key=os.path.getctime)
     DataTable.create_output(file, iteration)
+
+@keyword("Guardar En DataTable")
+def save_content(datatable: DataTable, iteration: int, fieldname: str, value: str):
+    dt = DataTable.write_content(datatable, fieldname, value)
+    DataTableRepository.update(datatable, dt, iteration)
+    return dt

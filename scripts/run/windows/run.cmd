@@ -32,7 +32,9 @@ for /l %%i in (0,1,%max_iterations%) do (
         --metadata chrome:118^
         --metadata seleniumlibrary:6.1.2^
         --include creacion-transferencias ^
+        --include general ^
         --variable ITERATION:%%i ^
+        --runemptysuite ^
         --variablefile ./data/variables/globals.yml ^
         --outputdir "!results_output_dir!" ^
         --log creacion-transferencias ^

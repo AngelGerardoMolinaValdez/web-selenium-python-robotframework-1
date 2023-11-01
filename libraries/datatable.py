@@ -1,6 +1,6 @@
 import csv
 import os
-from dataclasses import make_dataclass, dataclass
+from dataclasses import make_dataclass, dataclass, asdict, fields
 from datatable_repository import DataTableRepository
 from datatable_errors import DataTableRowReferenceDoesNotExist
 
@@ -18,6 +18,16 @@ class DataTable:
             row_number, fields = list(enumerate(csv_reader))[index]
             new_data_class = DataClass(**fields)
             return new_data_class, row_number
+
+    @classmethod
+    def write_content(cls, data_class, fieldname, value):
+        data_class_dict = asdict(data_class)
+        data_class_dict[fieldname] = value
+        DataClass = make_dataclass(
+            "DataClass",
+            [(name, str) for name in data_class_dict.keys()]
+        )
+        return DataClass(**data_class_dict)
 
     @classmethod
     def find_reference(cls, file_path: str, fieldname: str, value: str):

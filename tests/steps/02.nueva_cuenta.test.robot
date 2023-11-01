@@ -12,13 +12,12 @@ Suite Setup    Set Selenium Speed    0.1
 *** Test Cases ***
 Crear una cuenta
     [Tags]    creacion-transferencias
-    ${data_table}    Crear DataTable    test_data.csv    ${ITERATION}
     Click Link    link:Open New Account
 
     Wait Until Element Is Visible    css:h1[class="title"]
 
-    Select From List By Label    id:type    ${data_table.tipo_de_cuenta}
-    Select From List By Label    id:fromAccountId    ${data_table.cuenta_de_referencia}
+    Select From List By Label    id:type    ${DATATABLE.tipo_de_cuenta}
+    Select From List By Label    id:fromAccountId    ${DATATABLE.cuenta_de_referencia}
     Click Element    css:input[value="Open New Account"]
 
     Sleep    2 seconds
@@ -29,4 +28,7 @@ Crear una cuenta
 
     ${cuenta_creada}    Get Text    id:newAccountId
     ${NUMERO_DE_CUENTA}    Set Variable    ${cuenta_creada}
+    Guardar En DataTable
+    ...    ${DATATABLE}    ${ITERATION}
+    ...    cuenta_generada    ${NUMERO_DE_CUENTA}
     Set Global Variable    ${NUMERO_DE_CUENTA}

@@ -6,11 +6,11 @@ class DataTableRepository:
         0: [ <- seria la iteración
             { 
                 "id": "general.data.csv", <- el nombre del archivo buscado
-                "values": "" <- la dataclass
+                "data": "" <- la dataclass
             },
             {
                 "id": "general2.data.csv", <- el nombre del archivo buscado
-                "values": "" <- la dataclass
+                "data": "" <- la dataclass
             }
         ]
     }
@@ -55,3 +55,12 @@ class DataTableRepository:
     @classmethod
     def find_all(cls):
         return cls.__data_tables
+
+    @classmethod
+    def update(cls, data_class, new_data_class, iteration):
+        data_classes_info = cls.__data_tables.get(iteration)
+
+        for index, data_class_info in enumerate(data_classes_info):
+            if id(data_class_info["data"]) == id(data_class):
+                cls.__data_tables[iteration][index]["data"] = new_data_class
+                break
