@@ -9,13 +9,15 @@ $basedir = Get-Location
 $max_iterations = (Get-Content $testdata_file | Measure-Object -Line).Lines
 $max_iterations -= 2
 
+python data\actions\create_tests_results.py
+
 # Bucle que va de 0 a n (max_iterations)
 for ($i = 0; $i -le $max_iterations; $i++) {
     # Obtener el sufijo del directorio de resultados
     $resultdir_sufix = python data/actions/date_time.py
     
     # Definir el directorio de salida de resultados
-    $results_output_dir = "results/result--$i--$resultdir_sufix"
+    $results_output_dir = "output/reports/execution---$i---$resultdir_sufix"
     
     # Crear el directorio de salida de resultados
     New-Item -ItemType Directory -Path $results_output_dir -Force

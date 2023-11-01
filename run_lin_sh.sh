@@ -11,13 +11,15 @@ basedir=$(pwd)
 max_iterations=$(wc -l < "$testdata_file")
 max_iterations=$((max_iterations - 2))
 
+python data/actions/create_tests_results.py
+
 # Bucle que va de 0 a n (max_iterations)
 for ((i=0; i<=max_iterations; i++)); do
     # Obtener el sufijo del directorio de resultados
     resultdir_sufix=$(python data/actions/date_time.py)
     
     # Definir el directorio de salida de resultados
-    results_output_dir="results/result--$i--$resultdir_sufix"
+    results_output_dir="output/reports/report---$i---$resultdir_sufix"
     
     # Crear el directorio de salida de resultados
     mkdir -p "$results_output_dir"

@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from datatable_errors import DataTableDoesNotExist
 
 class DataTableRepository:
     """
@@ -50,13 +49,8 @@ class DataTableRepository:
             lambda data_class: data_class["id"] == filename,
             data_info
         ))
-        if not data_class_info:
-            raise DataTableDoesNotExist(
-                f" El archivo {filename} no fue encontrado en el repositorio " +
-                f" de la iteración {iteration}"
-            )
-
-        return data_class_info[0]["data"]
+        if data_class_info:
+            return data_class_info[0]["data"]
 
     @classmethod
     def find_all(cls):

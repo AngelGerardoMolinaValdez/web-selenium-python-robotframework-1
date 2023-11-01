@@ -1,19 +1,20 @@
-import csv  
+import csv
+import os
 from dataclasses import make_dataclass, dataclass
 from datatable_repository import DataTableRepository
 from datatable_errors import DataTableRowReferenceDoesNotExist
 
 class DataTable:
     @classmethod
-    def create(cls, path, index):  
+    def create(cls, path, index):
         with open(path, 'r', encoding="utf-8") as file:
-            csv_reader = csv.DictReader(file)  
+            csv_reader = csv.DictReader(file)
             headers = csv_reader.fieldnames
             DataClass = make_dataclass(
                 "DataClass",
                 [(field, str) for field in headers]
             )
-            
+
             row_number, fields = list(enumerate(csv_reader))[index]
             new_data_class = DataClass(**fields)
             return new_data_class, row_number
@@ -37,7 +38,7 @@ class DataTable:
                 "DataClass",
                 [(field, str) for field in headers]
             )
-            
+
             if matching_row is None:
                 DataTableRowReferenceDoesNotExist(
                     f"No fue encontrada la file con el encabezado {fieldname}" +
@@ -51,3 +52,22 @@ class DataTable:
     @classmethod
     def save(cls, iteration: int, name: str, data_class: dataclass):
         DataTableRepository.save(iteration, name, data_class)
+
+    @classmethod
+    def create_output(cls, path: str, iteration: int):
+        data_tables_data = DataTableRepository.find_all()
+        info_data_classes = data_tables_data.get(iteration)
+        fieldnames = []
+        for info_data_class in info_data_classes:
+            fieldnames += info_data_class["data"].__dict__.keys()
+
+        with open(path, 'a', encoding='utf-8', newline='') as csv_file:
+            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+
+            if os.path.getsize(path) == 0:
+                writer.writeheader()
+
+            row_data = {}
+            for data_class_data in info_data_classes:
+                row_data = row_data | data_class_data["data"].__dict__
+            writer.writerow(row_data)
