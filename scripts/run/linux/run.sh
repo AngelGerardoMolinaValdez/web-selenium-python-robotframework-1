@@ -32,6 +32,8 @@ for ((i=0; i<=max_iterations; i++)); do
         --metadata chrome:118 \
         --metadata seleniumlibrary:6.1.2 \
         --include creacion-transferencias \
+        --include general `
+        --runemptysuite `
         --variable ITERATION:$i \
         --variablefile ./data/variables/globals.yml \
         --outputdir "$results_output_dir" \

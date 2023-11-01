@@ -29,6 +29,8 @@ for ($i = 0; $i -le $max_iterations; $i++) {
         --metadata python:3.11 `
         --metadata chrome:118 `
         --metadata seleniumlibrary:6.1.2 `
+        --runemptysuite `
+        --include general `
         --include creacion-transferencias `
         --variable ITERATION:$i `
         --variablefile ./data/variables/globals.yml `

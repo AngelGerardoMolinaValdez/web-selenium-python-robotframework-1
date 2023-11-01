@@ -24,7 +24,6 @@ for /l %%i in (0,1,%max_iterations%) do (
     set "results_output_dir=output/reports/report--%%i--!resultdir_sufix!"
     mkdir "!results_output_dir!"
 
-    :: Ejecuta las pruebas en la carpeta steps
     robot ^
         --name "Test crear cuenta y transferir fondos"^
         --metadata robot:6.1.1^
