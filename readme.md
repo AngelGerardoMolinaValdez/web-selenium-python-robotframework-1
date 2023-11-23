@@ -79,6 +79,9 @@ Ejemplo:
 
 - `scripts/run/linux.sh`
 
+Al ejecutar con estos archivos, se creara la variable `${ITERATION}` que contendrá
+el valor numérico de la ejecución. Ejemplo, si el archivo de datos tiene 3 filas, el valor iniciara en 0 e incrementara en 1.
+
 ## 📊 Resultados
 
 Los resultados de las pruebas se guardarán en la carpeta `output/results/`. Se crear un archivos TestResults\[index\].csv por cada vez que se ejecute el archivo de `scripts/run/`. Además, los reportes generados por Robot Framework (log.html, report.html, output.xml) se guardaran en `output/reports` con la siguiente estructura: report--\[iteration\]--\[date\]

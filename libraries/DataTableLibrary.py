@@ -22,6 +22,17 @@ Hecho esto podríamos acceder a cualquier valor con el encabezado:
 Al igual que la solución anterior, podríamos también guardar un dato especifico en la dataclass, por ejemplo:
 
 Obtuvimos un folio y necesitamos guardarlo en la dataclass para su posterior consulta. Esta librería también se encarga de esto.
+
+CONSIDERACIÓN: Los encabezados dentro del archivo de datos debe ser compatible con el naming convention de una variable en python, es decir que:
+
+Esto es valido:
+- NOMBRE_COMPLETO
+- nombre
+
+Pero esto no:
+- "nombre completo"
+- "iteracion - anterior"
+
 """
 import os
 from robot.api.deco import keyword, not_keyword
