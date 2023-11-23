@@ -1,0 +1,3 @@
+./tests/ ./resources/
+--reports all
+--output ./output/linter/robocop.log

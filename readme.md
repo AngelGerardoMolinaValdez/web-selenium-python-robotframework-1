@@ -85,3 +85,15 @@ el valor numérico de la ejecución. Ejemplo, si el archivo de datos tiene 3 fil
 ## 📊 Resultados
 
 Los resultados de las pruebas se guardarán en la carpeta `output/results/`. Se crear un archivos TestResults\[index\].csv por cada vez que se ejecute el archivo de `scripts/run/`. Además, los reportes generados por Robot Framework (log.html, report.html, output.xml) se guardaran en `output/reports` con la siguiente estructura: report--\[iteration\]--\[date\]
+
+## 📊 Análisis de código
+
+Un linter es una herramienta utilizada para analizar automáticamente el código fuente en busca de errores.
+
+En este proyecto se utilizo el linter de [RoboCop](https://github.com/MarketSquare/robotframework-robocop).
+
+Para obtener el análisis del código, hay que estar en la carpeta raíz del proyecto y ejecutar el comando:
+
+- `.\scripts\linter\robocop.cmd`
+
+Este comando generara un archivo en `output/linter/` con el nombre `robocop.log`.
