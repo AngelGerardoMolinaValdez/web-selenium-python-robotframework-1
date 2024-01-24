@@ -32,11 +32,15 @@ Para que este proyecto funcione necesitamos:
 
 NOTA: El controlador web debe ser del navegador que vas a utilizar, ejemplo: chrome == chromedriver
 
-## 🔗 Dependencias
+## 🔗 Instalación
 
-Las extensiones de python que se utilizaron en los scripts se pueden instalar a traves de pip con el siguiente comando:
+Los módulos que usamos en este proyecto los gestionamos con [Poetry](https://python-poetry.org/), para instalarlo ejecutaremos el comando:
 
-- `pip install -r requerimientos.txt`
+- `pip install poetry==1.7.1`
+
+Hecho esto, podremos instalar las dependencias para ejecución:
+
+- `poetry install`
 
 ## ⚙ Configuración
 

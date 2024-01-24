@@ -14,17 +14,17 @@ for /f %%a in (%testdata_file%) do (
 )
 set /a max_iterations-=2
 
-python data/actions/create_test_results.py
+poetry run python data/actions/create_test_results.py
 
 :: Bucle que va de 0 a n (max_iterations)
 for /l %%i in (0,1,%max_iterations%) do (
-    for /f "delims=" %%a in ('python data/actions/date_time.py') do (
+    for /f "delims=" %%a in ('poetry run python data/actions/date_time.py') do (
         set "resultdir_sufix=%%a"
     )
     set "results_output_dir=output/reports/report--%%i--!resultdir_sufix!"
     mkdir "!results_output_dir!"
 
-    robot ^
+    poetry run robot ^
         --name "Test crear cuenta y transferir fondos"^
         --metadata robot:6.1.1^
         --metadata python:3.11^
