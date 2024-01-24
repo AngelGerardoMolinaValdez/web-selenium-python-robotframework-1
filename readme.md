@@ -25,18 +25,20 @@ Visita el [sitio oficial de Robot Framework](https://robotframework.org) para ma
 Para que este proyecto funcione necesitamos:
 
 - [Python](https://www.python.org/downloads/) (>=3.11)
-- [Robot Framework](https://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html)
-- [SeleniumLibrary](https://github.com/robotframework/SeleniumLibrary)
 - Tu navegador favorito como: [GoogleChrome](https://www.google.com/intl/es-419/chrome/), [FireFox](https://www.mozilla.org/es-MX/firefox/new/), etc
 - Algún controlador web de tu navegador favorito como: [ChromeDriver](https://chromedriver.chromium.org/downloads), [GeckoDriverFirefox](https://github.com/mozilla/geckodriver/releases)
 
 NOTA: El controlador web debe ser del navegador que vas a utilizar, ejemplo: chrome == chromedriver
 
-## 🔗 Dependencias
+## 🔗 Instalación
 
-Las extensiones de python que se utilizaron en los scripts se pueden instalar a traves de pip con el siguiente comando:
+Los módulos que usamos en este proyecto los gestionamos con [Poetry](https://python-poetry.org/), para instalarlo ejecutaremos el comando:
 
-- `pip install -r requerimientos.txt`
+- `pip install poetry==1.7.1`
+
+Hecho esto, podremos instalar las dependencias para ejecución:
+
+- `poetry install`
 
 ## ⚙ Configuración
 
