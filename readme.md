@@ -20,28 +20,32 @@ Puntos clave sobre Robot Framework:
 
 Visita el [sitio oficial de Robot Framework](https://robotframework.org) para mas información.
 
-## ☑️ Requerimientos
-En estos scripts fueron usados los siguientes componentes:
+## ☑️ Requisitos
 
-- [Python](https://www.python.org/downloads/) (3.11)
+Para que este proyecto funcione necesitamos:
 
+- [Python](https://www.python.org/downloads/) (>=3.11)
 - [Robot Framework](https://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html)
-
 - [SeleniumLibrary](https://github.com/robotframework/SeleniumLibrary)
+- Tu navegador favorito como: [GoogleChrome](https://www.google.com/intl/es-419/chrome/), [FireFox](https://www.mozilla.org/es-MX/firefox/new/), etc
+- Algún controlador web de tu navegador favorito como: [ChromeDriver](https://chromedriver.chromium.org/downloads), [GeckoDriverFirefox](https://github.com/mozilla/geckodriver/releases)
 
-- [GoogleChrome](https://www.google.com/intl/es-419/chrome/)
-
-- [ChromeDriver](https://chromedriver.chromium.org/downloads)
-
-- [GeckoDriverFirefox](https://github.com/mozilla/geckodriver/releases)
-
-- [EdgeWebDriver](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/)
+NOTA: El controlador web debe ser del navegador que vas a utilizar, ejemplo: chrome == chromedriver
 
 ## 🔗 Dependencias
 
 Las extensiones de python que se utilizaron en los scripts se pueden instalar a traves de pip con el siguiente comando:
 
 - `pip install -r requerimientos.txt`
+
+## ⚙ Configuración
+
+Es necesario hacer algunas cosas mas para que puedas ejecutar:
+
+- Guarda en una carpeta el ejecutable del controlador web que hayas elegido
+- Agregar a las variables de entorno **PATH** (Sistema o usuario) la ruta de la carpeta donde esta dicho controlador.
+
+NOTA: Algunas veces es necesario reiniciar la consola de comandos que vayas a utilizar.
 
 ## 📚 Documentación
 
