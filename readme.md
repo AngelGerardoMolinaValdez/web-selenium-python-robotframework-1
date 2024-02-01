@@ -24,7 +24,7 @@ Visita el [sitio oficial de Robot Framework](https://robotframework.org) para ma
 
 Para que este proyecto funcione necesitamos:
 
-- [Python](https://www.python.org/downloads/) (>=3.11)
+- [Python](https://www.python.org/downloads/) (>=3.9)
 - Tu navegador favorito como: [GoogleChrome](https://www.google.com/intl/es-419/chrome/), [FireFox](https://www.mozilla.org/es-MX/firefox/new/), etc
 - Algún controlador web de tu navegador favorito como: [ChromeDriver](https://chromedriver.chromium.org/downloads), [GeckoDriverFirefox](https://github.com/mozilla/geckodriver/releases)
 
@@ -40,6 +40,16 @@ Hecho esto, podremos instalar las dependencias para ejecución:
 
 - `poetry install`
 
+## 📦 Gestión de dependencias
+
+Si necesitas agregar más dependencias, puedes hacerlo con el comando:
+
+- `poetry add <nombre-de-la-dependencia>`
+
+Si necesitas eliminar dependencias, puedes hacerlo con el comando:
+
+- `poetry remove <nombre-de-la-dependencia>`
+
 ## ⚙ Configuración
 
 Es necesario hacer algunas cosas mas para que puedas ejecutar:
@@ -49,48 +59,36 @@ Es necesario hacer algunas cosas mas para que puedas ejecutar:
 
 NOTA: Algunas veces es necesario reiniciar la consola de comandos que vayas a utilizar.
 
-## 📚 Documentación
-
-La documentación de la librería `TestDataLibrary.py` se encuentra en la carpeta `./data/documentation/`.
-
 ## 📁 Estructura de Carpetas
 
-- **data/**: Carpeta donde se guardan los datos utilizados durante la ejecución.
-  - **steps/**: Contiene los archivos `.csv` con los datos para la ejecución.
-    - **test_data.csv**: el archivo con los datos de prueba
-  - **variables/**: Contiene variables globales de la ejecución, como el login, rutas de carpetas, etc.
+Este proyecto de scripts automatizados se implementaron varios patrones de arquitectura de pruebas:
 
-- **libraries/**: Carpeta para las bibliotecas externas propias generadas.
-  - **Datatablelibrary.py**: Biblioteca externa que permite crear data tables para la ejecución.
+- **Page Object Model (POM):** Este patrón se utiliza para mejorar el mantenimiento de las pruebas y reducir la duplicación de código. Los objetos de cada página de la aplicación se representan como archivos .resource en la carpeta pages. Estos objetos se adaptan a las palabras clave para su uso en los casos de prueba.
 
-- **output/**: Carpeta destinada a los archivos generados por ejecución.
-  - **results/**: Donde se guardan los archivos de resultados de las pruebas.
-  - **reports/**: Carpeta donde se guardan los archivos que genera Robot Framework log, report, output.
+- **Data Driven Testing (DDT):** Este patrón permite que los casos de prueba se ejecuten con diferentes conjuntos de datos. Los archivos de datos para DDT se almacenan en la carpeta data. Según el número total de filas en el archivo CSV, se ejecutará la suite de pruebas correspondiente.
 
-- **resources/**: Carpeta para los archivos `.resource` que se implementan para los casos de prueba.
+- **Keyword Driven:** Este patrón implica la definición de palabras clave personalizadas que representan acciones de nivel superior que se pueden utilizar en los casos de prueba. Las palabras clave se almacenan en la carpeta keywords y se invocan desde los casos de prueba.
 
-- **scripts/**: Carpeta que contiene los archivos de configuración/ejecución, etc.
-  - **run/**: Contiene los archivos de ejecución como `windows.cmd`, `windows.ps1`, `linux.sh`.
+- **Workflow Pattern:** Este patrón se utiliza para definir una secuencia de pasos (o "flujo de trabajo") que se deben seguir en un caso de prueba. En este proyecto, los flujos de trabajo se definen en la carpeta tests, que contiene los casos de prueba que se ejecutarán.
 
-- **tests/**: Carpeta que contiene los archivos `.robot`.
-  - **steps/**: Contiene los pasos de cada caso de prueba.
+```bash
+project/
+--libraries/ # librerías externas
+--data/ # los archivos de datos para DDT
+--pages/ # los archivos .resource que representaran los objetos de cada pagina de la aplicacion (adaptada a keywords)
+--keywords/ # las palabras clave que se usaran para invocarse desde los casos de prueba
+--tests/ # los casos de prueba que se ejecutaran
+```
 
 ## 🚀 Ejecución de Pruebas
 
-Para ejecutar las pruebas, abrir la consola de comandos y ejecutar el script correspondiente al sistema operativo. Cabe mencionar que según el total de filas que haya en el csv serán las veces que se ejecute la suite `tests/steps`
+Para ejecutar las pruebas, abrir la terminal y ejecutar el comando:
 
-Ejemplo:
+- `poetry run robot ...[options] [file]`
 
-- `scripts/run/windows.cmd`
+Por ejemplo:
 
-- `scripts/run/linux.sh`
-
-Al ejecutar con estos archivos, se creara la variable `${ITERATION}` que contendrá
-el valor numérico de la ejecución. Ejemplo, si el archivo de datos tiene 3 filas, el valor iniciara en 0 e incrementara en 1.
-
-## 📊 Resultados
-
-Los resultados de las pruebas se guardarán en la carpeta `output/results/`. Se crear un archivos TestResults\[index\].csv por cada vez que se ejecute el archivo de `scripts/run/`. Además, los reportes generados por Robot Framework (log.html, report.html, output.xml) se guardaran en `output/reports` con la siguiente estructura: report--\[iteration\]--\[date\]
+- `poetry run robot --outputdir results/ tests/e2e.robot`
 
 ## 📊 Análisis de código
 
@@ -100,6 +98,6 @@ En este proyecto se utilizo el linter de [RoboCop](https://github.com/MarketSqua
 
 Para obtener el análisis del código, hay que estar en la carpeta raíz del proyecto y ejecutar el comando:
 
-- `.\scripts\linter\robocop.cmd`
+- `poetry run robocop`
 
-Este comando generara un archivo en `output/linter/` con el nombre `robocop.log`.
+Este comando generara en la terminal un resumen de todos los issues encontrados
