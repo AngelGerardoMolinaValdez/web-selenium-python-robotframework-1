@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation    A test suite with a single test for e2e testing of the app functionality.
+Documentation    A test suite with a tests for e2e testing of the app functionality.
 
 Metadata    Author    Angel Gerardo Molina Valdez
 Metadata    Application    ParaBank
@@ -12,7 +12,7 @@ Resource    ../keywords/login_keywords.resource
 
 Suite Setup    Login In To The Application
 
-Suite Teardown    Login In To The Application
+Suite Teardown    Logout Application
 
 
 *** Test Cases ***
@@ -20,7 +20,7 @@ Open New Account
     [Tags]    Smoke
     No Operation
 
-Account Summary
+Account Overview
     [Tags]    Smoke
     No Operation
 
