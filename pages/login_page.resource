@@ -17,7 +17,7 @@ ${PASSWORD}    demo
 Open Browser To Login Page
     Open Browser    ${URL}    ${BROWSER}
     Maximize Browser Window
-    Set Selenium Speed    0
+    Set Selenium Speed    0.5
     Login Page Should Be Open
 
 Login Page Should Be Open
