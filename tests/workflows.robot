@@ -9,6 +9,8 @@ Metadata    Test Level    Regression
 Test Tags    Regression
 
 Resource    ../keywords/login_keywords.resource
+Resource    ../workflows/open_account_and_transfer_fund_workflow.resource
+Resource    ../workflows/open_account_and_get_overview_workflow.resource
 
 Suite Setup    Login In To The Application
 
@@ -19,14 +21,9 @@ Suite Teardown    Logout From The Application
 Open New Account And Transfer Funds
     [Documentation]    Open a new account for the user
     [Tags]    OpenAccount
-    No Operation
+    Create New Account And Transfer Money
 
-Open New Account And Transfer Funds And Verify The Account Overview
+Open New Account And Verify The Account Overview
     [Documentation]    Open a new account for the user and verify the account overview
     [Tags]    OpenAccount    AccountOverview    transferFunds
-    No Operation
-
-Transfer Funds And Verify The Account Overview
-    [Documentation]    Transfer funds and verify the account overview
-    [Tags]    AccountOverview    transferFunds
-    No Operation
+    Create New Account And Get Account Overview
