@@ -38,7 +38,7 @@ Credentials Should Be Accepted
     [Tags]    robot:private
     Page Should Contain    Account Services
 
-Logout From The Application
+Logout Application
     Click Link    Log Out
     Title Should Be    ParaBank | Welcome | Online Banking
     Close Browser

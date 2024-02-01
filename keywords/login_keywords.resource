@@ -15,4 +15,4 @@ Login In To The Application
     Submit Credentials
 
 Logout From The Application
-    Logout From The Application
+    Logout Application
