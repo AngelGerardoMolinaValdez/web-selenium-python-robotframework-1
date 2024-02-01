@@ -39,9 +39,6 @@ Los módulos que usamos en este proyecto los gestionamos con [Poetry](https://py
 Hecho esto, podremos instalar las dependencias para ejecución:
 
 - `poetry install`
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
 ## 📦 Gestión de dependencias
 
@@ -52,9 +49,6 @@ Si necesitas agregar más dependencias, puedes hacerlo con el comando:
 Si necesitas eliminar dependencias, puedes hacerlo con el comando:
 
 - `poetry remove <nombre-de-la-dependencia>`
->>>>>>> dev
-=======
->>>>>>> 6676e6bf414c40655fe035a2c48796b67c334e8e
 
 ## ⚙ Configuración
 
