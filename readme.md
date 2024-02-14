@@ -102,7 +102,13 @@ Para ejecutar las pruebas, abrir la terminal y ejecutar el comando:
 
 Por ejemplo:
 
-- `poetry run robot --outputdir results/ tests/e2e.robot`
+- `poetry run robot --outputdir results/reports tests/e2e.robot`
+
+Tambien es posible agregar el comando `--listener` para agregar un reporte del paso a paso de la ejecucion.
+
+- `poetry run robot --outputdir results/reports --listener libraries/ExecutionStepReporter.py tests/e2e.robot`
+
+Para mas informacion consulta el archivo `./libraries/ExecutionStepReporter.py`.
 
 ## 📊 Análisis de código
 
