@@ -43,6 +43,13 @@ Hay dos tipos de acciones que se pueden hacer en el reporte:
         [INFO] DESCRIPCIÓN DEL PASO 2
         [FAIL] DESCRIPCIÓN DEL PASO 3
     [KEYWORD] [STATUS] My Keyword 
+    
+Cuando usar cada tipo de acción:
+- REPORT:LOG: Se debe usar cuando se quiere reportar un bloque de pasos. El bloque de pasos permite ver de manera más clara los pasos que se ejecutan en una keyword.
+- STEP: Se debe usar cuando se quiere reportar un mensaje en un paso. El mensaje se puede usar para reportar información adicional de un paso, como por ejemplo, el valor de una variable, el resultado de una operación, etc.
+
+Consideraciones:
+- Se puede agregar un STEP: en la misma keyword donde indicamos REPORT:LOG, pero el mensaje se agregara al final del bloque de pasos.
 """
 import re
 import os
@@ -83,7 +90,6 @@ class ExecutionStepReporter:
     def end_keyword(self, name, attrs):
         tag_message = re.search(r"STEP:(.+?)(?::(INFO|FAIL|FALTAL|CRITICAL|DEBUG|WARNING))?(?:===|:|$)", "===>".join(attrs['tags']))
         if tag_message:
-            print(tag_message.group(1), tag_message.group(2))
             level = tag_message.group(2) if tag_message.group(2) else "INFO"
             self._log_file_content.append(f"\t[{level}] " + tag_message.group(1))
 
@@ -92,8 +98,6 @@ class ExecutionStepReporter:
 
     def log_message(self, message):
         log_message = re.search(r"STEP:(.+?)(?::(INFO|FAIL|FALTAL|CRITICAL|DEBUG|WARNING))?(?:===|:|$)",message['message'])
-        print(log_message)
         if log_message:
-            print(log_message.group(1), log_message.group(2))
             level = log_message.group(2) if log_message.group(2) else "INFO"
             self._log_file_content.append(f"\t[{level}] " + log_message.group(1))
