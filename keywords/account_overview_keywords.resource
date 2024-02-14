@@ -9,6 +9,7 @@ Resource    ../pages/account_overview_page.resource
 
 *** Keywords ***
 Get Account Overview
+    [Tags]    REPORT:LOG
     [Arguments]    ${account}
     Select Account Service    Accounts Overview
 

@@ -9,6 +9,7 @@ Resource    ../pages/transfer_funds_page.resource
 
 *** Keywords ***
 Transfer Funds In The Application
+    [Tags]    REPORT:LOG
     [Arguments]    ${from_account}    ${to_account}    ${amount}
     Select Account Service    Transfer Funds
 

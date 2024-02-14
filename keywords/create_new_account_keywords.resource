@@ -12,6 +12,7 @@ Resource    ../pages/create_new_account_page.resource
 
 *** Keywords ***
 Open New Account In The Application
+    [Tags]    REPORT:LOG
     VAR    @{accounts}
     @{test_data}    Read Csv    ${CURDIR}/../data/account.csv
 
