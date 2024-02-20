@@ -98,7 +98,6 @@ class HtmlTestReportListener1:
             )
         )
         template = env.get_template('step_report_1.html')
-
         output = template.render(data=[self.keyword_config, self.accumulator], testdata=self.current_test)
         with open(os.path.join(path_to_report, self.current_test["name"] + ".html"), 'w') as f:
             f.write(output)
@@ -129,7 +128,8 @@ class HtmlTestReportListener1:
         if tag_message:
             level = tag_message.group(2) if tag_message.group(2) else "INFO"
             step_message = tag_message.group(1)
-            self.keyword_data['steps'].append({'level': level.lower(), 'message': step_message})
+            if "steps" in self.keyword_data:
+                self.keyword_data['steps'].append({'level': level.lower(), 'message': step_message})
 
         if 'REPORT:LOG' in attrs['tags']:
             self.keyword_data['status'] = attrs['status']
