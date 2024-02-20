@@ -95,6 +95,17 @@ files = [
 pycparser = "*"
 
 [[package]]
+name = "docutils"
+version = "0.20.1"
+description = "Docutils -- Python Documentation Utilities"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "docutils-0.20.1-py3-none-any.whl", hash = "sha256:96f387a2c5562db4476f09f13bbab2192e764cac08ebbf3a34a95d9b1e4a59d6"},
+    {file = "docutils-0.20.1.tar.gz", hash = "sha256:f08a4e276c3a1583a86dce3e34aba3fe04d02bba2dd51ed16106244e8a923e3b"},
+]
+
+[[package]]
 name = "h11"
 version = "0.14.0"
 description = "A pure-Python, bring-your-own-I/O implementation of HTTP/1.1"
@@ -370,6 +381,21 @@ files = [
 ]
 
 [[package]]
+name = "pygments"
+version = "2.17.2"
+description = "Pygments is a syntax highlighting package written in Python."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "pygments-2.17.2-py3-none-any.whl", hash = "sha256:b27c2826c47d0f3219f29554824c30c5e8945175d888647acd804ddd04af846c"},
+    {file = "pygments-2.17.2.tar.gz", hash = "sha256:da46cec9fd2de5be3a8a784f434e4c4ab670b4ff54d605c4c2717e9d49c4c367"},
+]
+
+[package.extras]
+plugins = ["importlib-metadata"]
+windows-terminal = ["colorama (>=0.4.6)"]
+
+[[package]]
 name = "pysocks"
 version = "1.7.1"
 description = "A Python SOCKS client module. See https://github.com/Anorov/PySocks for more information."
@@ -476,6 +502,25 @@ files = [
     {file = "robotframework-7.0-py3-none-any.whl", hash = "sha256:865f427c4e4ec8c0b71a24dedbdad6668adfecc9fce04d77d02e1b8e54b77f41"},
     {file = "robotframework-7.0.zip", hash = "sha256:04623f758346c917db182e17591ffa474090560c02ed5a64343902e72b7b4bd5"},
 ]
+
+[[package]]
+name = "robotframework-datadriver"
+version = "1.11.0"
+description = "A library for Data-Driven Testing."
+optional = false
+python-versions = ">=3.8.0"
+files = [
+    {file = "robotframework-datadriver-1.11.0.tar.gz", hash = "sha256:adb6a763bbef2eff98e31b4c4891bb71c567f0dcc691ec03fbb79d80b7eaaa45"},
+    {file = "robotframework_datadriver-1.11.0-py3-none-any.whl", hash = "sha256:7de5e9b0fc0d03d32b7685a2fbd003c513f278442205d2e7220afa8fc2ffd4f3"},
+]
+
+[package.dependencies]
+docutils = "*"
+Pygments = "*"
+robotframework = ">=4.0.2,<8.0"
+
+[package.extras]
+xls = ["openpyxl", "pandas", "xlrd (>=1.2.0)"]
 
 [[package]]
 name = "robotframework-pythonlibcore"
@@ -682,4 +727,4 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "bf11a2fb4d1fbbcee02e355fdb936e54c9ad4fb0b516ead29ff277db92c56e3b"
+content-hash = "aad4e89acf0aa0943539aa92701e6e2ad66de14c9f49d519f9a69f7ca942242e"

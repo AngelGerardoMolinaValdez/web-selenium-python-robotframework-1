@@ -1,0 +1,5 @@
+*** Test Cases ***;${keyword_name};${type_account};${account_reference};[Documentation];[Tags]
+TEST_PARABANK_CREATE_ACCOUNT_CHECKING;Open New Account In The Application;CHECKING;13344;Crea una cuenta tipo CHECKING;ddt,creation,golden-case
+TEST_PARABANK_CREATE_ACCOUNT_SAVING;Open New Account In The Application;SAVINGS;13344;Crea una cuenta tipo SAVING;ddt,creation
+TEST_PARABANK_CREATE_ACCOUNT_AND_GET_OVERVIEW;Create New Account And Get Account Overview;CHECKING;13344;Crea una cuenta y obtiene el resumen de la misma;ddt,workflows,golden-case
+TEST_PARABANK_CREATE_TWO_ACCOUNT_AND_TRANSFER_FUNDS;Create Two New Accounts And Transfer Money;SAVINGS;13344;Crea dos cuentas y transfiere dinero entre ellas;ddt,workflows,golden-case

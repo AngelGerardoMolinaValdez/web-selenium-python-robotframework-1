@@ -16,14 +16,10 @@ Resource    ../keywords/create_new_account_keywords.resource
 
 Suite Setup    Login In To The Application
 
-Suite Teardown    Logout Application
+Suite Teardown    Logout From The Application
 
 
 *** Test Cases ***
-Open New Account
-    [Tags]    Smoke
-    Open New Account In The Application
-
 Account Overview
     [Tags]    Smoke
     Get Account Overview    12345
