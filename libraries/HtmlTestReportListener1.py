@@ -60,6 +60,8 @@ class HtmlTestReportListener1:
     ROBOT_LISTENER_API_VERSION = 2
 
     def __init__(self):
+        self.keyword_data = []
+        self.keyword_config = []
         self.accumulator = []
         self.current_test = None
         self.base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -97,7 +99,7 @@ class HtmlTestReportListener1:
         )
         template = env.get_template('step_report_1.html')
 
-        output = template.render(data=self.accumulator, testdata=self.current_test)
+        output = template.render(data=[self.keyword_config, self.accumulator], testdata=self.current_test)
         with open(os.path.join(path_to_report, self.current_test["name"] + ".html"), 'w') as f:
             f.write(output)
         
@@ -115,7 +117,11 @@ class HtmlTestReportListener1:
                 'status': None,
                 'steps': []
         }
-        self.accumulator.append(self.keyword_data)
+
+        if attrs['type'].lower() in ['setup', 'teardown']:
+            self.keyword_config.append(self.keyword_data)
+        else:
+            self.accumulator.append(self.keyword_data)
 
     def end_keyword(self, name, attrs):
         tag_message = re.search(r"STEP:(.+?)(?::(INFO|FAIL|WARN))?(?:===|:|$)", "===>".join(attrs['tags']))

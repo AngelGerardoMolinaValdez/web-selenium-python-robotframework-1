@@ -206,27 +206,29 @@
         <button class="expand-all-btn">Expandir Todo</button>
 
         <section class="log-container">
-            {% for item in data %}
-            <article>
-                <header class="accordion-container">
-                    <button class="accordion">
-                        <span class="log-type">{{ item.type }}</span>
-                        <span class="keyword-name">{{ item.name }}</span>
-                    </button>
-                </header>
+            {% for item_data in data %}
+                {% for item in item_data %}
+                <article>
+                    <header class="accordion-container">
+                        <button class="accordion">
+                            <span class="log-type">{{ item.type }}</span>
+                            <span class="keyword-name">{{ item.name }}</span>
+                        </button>
+                    </header>
 
-                <div class="panel">
-                    <button class="doc-toggle">Documentación</button>
-                    <div class="desc-panel">
-                        <p>{{ item.doc }}</p>
+                    <div class="panel">
+                        <button class="doc-toggle">Documentación</button>
+                        <div class="desc-panel">
+                            <p>{{ item.doc }}</p>
+                        </div>
+                        <div class="steps-container">
+                            {% for step in item.steps %}
+                                <div class="log-entry {{ step.level }}"><span class="log-level">{{ step.message }}</span></div>
+                            {% endfor %}
+                        </div>
                     </div>
-                    <div class="steps-container">
-                        {% for step in item.steps %}
-                            <div class="log-entry {{ step.level }}"><span class="log-level">{{ step.message }}</span></div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </article>
+                </article>
+                {% endfor %}
             {% endfor %}
         </section>
     </div>
