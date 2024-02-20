@@ -4,7 +4,7 @@ El reporte se genera en un archivo de log con el mismo nombre del test case.
 El reporte se genera en la carpeta ./base/output/reports/
 
 Para utilizar la librería, se debe especificar como listener al ejecutar las pruebas:
-- robot --listener ExecutionStepReporter.py tests
+- robot --listener HtmlTestReportListener1.py tests
 
 Hay dos tipos de acciones que se pueden hacer en el reporte:
 1 - Especificar un bloque de pasos que se deben reportar
@@ -22,7 +22,7 @@ Hay dos tipos de acciones que se pueden hacer en el reporte:
 
 2 - Especificar un mensaje en un paso
     - Se debe agregar el tag STEP: en el mensaje
-    - Se puede agregar un nivel de log (INFO, FAIL, FATAL, CRITICAL, DEBUG, WARNING) después de agregar el mensaje con el formato STEP:DESCRIPCIÓN DEL PASO:NIVEL, el nivel es opcional y su valor predeterminado es INFO
+    - Se puede agregar un nivel de log (INFO, FAIL, WARN) después de agregar el mensaje con el formato STEP:DESCRIPCIÓN DEL PASO:NIVEL, el nivel es opcional y su valor predeterminado es INFO
     - Ejemplo:
         *** Keywords ***
         My Sub Keyword
@@ -51,18 +51,18 @@ Cuando usar cada tipo de acción:
 Consideraciones:
 - Se puede agregar un STEP: en la misma keyword donde indicamos REPORT:LOG, pero el mensaje se agregara al final del bloque de pasos.
 """
-import re
 import os
+import re
+import datetime
+from jinja2 import Environment, FileSystemLoader
 
-class ExecutionStepReporter:
+class HtmlTestReportListener1:
     ROBOT_LISTENER_API_VERSION = 2
 
     def __init__(self):
-        self._log_file = None
-        self._log_file_name = None
-        self._log_file_path = None
+        self.accumulator = []
+        self.current_test = None
         self.base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-        self._log_file_content = []
 
         if not os.path.exists(os.path.join(self.base_path, "output")):
             os.mkdir(os.path.join(self.base_path, "output"))
@@ -70,34 +70,63 @@ class ExecutionStepReporter:
         if not os.path.exists(os.path.join(self.base_path, "output", "reports")):
             os.mkdir(os.path.join(self.base_path, "output", "reports"))
 
+        if not os.path.exists(os.path.join(self.base_path, "output", "robot")):
+            os.mkdir(os.path.join(self.base_path, "output", "robot"))
+
     def start_test(self, name, attrs):
-        self._log_file_name = name + '.log'
-        self._log_file_path = os.path.join(self.base_path, "output", "reports", self._log_file_name)
-        self._log_file = open(self._log_file_path, 'a', encoding='utf-8')
+        self.current_test = {
+            'name': name,
+            'doc': attrs['doc'],
+            'status': None,
+            'message': None,
+            'template': attrs['template']
+        }
 
     def end_test(self, name, attrs):
-        self._log_file_content.append("\n[TEST MESSAGE]" + " " + attrs["message"])
-        self._log_file.write('\n'.join(self._log_file_content))
-        self._log_file.write('\n')
-        self._log_file.close()
-        self._log_file_content = []
-    
+        self.current_test['status'] = attrs['status']
+        self.current_test['message'] = attrs['message']
+
     def start_keyword(self, name, attrs):
         if not 'REPORT:LOG' in attrs['tags']:
             return
-        self._log_file_content.append("[" + attrs["type"] + "]" + " " + name)
+
+        self.keyword_data = {
+                'name': name,
+                'doc': attrs['doc'],
+                'type': attrs['type'],
+                'status': None,
+                'steps': []
+        }
+        self.accumulator.append(self.keyword_data)
 
     def end_keyword(self, name, attrs):
-        tag_message = re.search(r"STEP:(.+?)(?::(INFO|FAIL|FALTAL|CRITICAL|DEBUG|WARNING))?(?:===|:|$)", "===>".join(attrs['tags']))
+        tag_message = re.search(r"STEP:(.+?)(?::(INFO|FAIL|WARN))?(?:===|:|$)", "===>".join(attrs['tags']))
+
         if tag_message:
             level = tag_message.group(2) if tag_message.group(2) else "INFO"
-            self._log_file_content.append(f"\t[{level}] " + tag_message.group(1))
+            step_message = tag_message.group(1)
+            self.keyword_data['steps'].append({'level': level.lower(), 'message': step_message})
 
         if 'REPORT:LOG' in attrs['tags']:
-            self._log_file_content.append("[" + attrs["type"] + "]" + " " + "[" + attrs["status"] + "]" + " " + name)
+            self.keyword_data['status'] = attrs['status']
 
     def log_message(self, message):
-        log_message = re.search(r"STEP:(.+?)(?::(INFO|FAIL|FALTAL|CRITICAL|DEBUG|WARNING))?(?:===|:|$)",message['message'])
+        log_message = re.search(r"STEP:(.+?)(?::(INFO|FAIL|WARN))?(?:===|:|$)",message['message'])
         if log_message:
             level = log_message.group(2) if log_message.group(2) else "INFO"
-            self._log_file_content.append(f"\t[{level}] " + log_message.group(1))
+            self.keyword_data['steps'].append({'level': level, 'message': log_message.group(1)})
+
+    def close(self):
+        today = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        path_to_report = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "output", "reports", self.current_test["name"] + " " + today.replace(":", "-")))
+        os.mkdir(path_to_report)
+
+        env = Environment(loader=FileSystemLoader(
+            os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "assets", "static", 'templates'))
+            )
+        )
+        template = env.get_template('step_report_1.html')
+
+        output = template.render(data=self.accumulator, testdata=self.current_test)
+        with open(os.path.join(path_to_report, self.current_test["name"] + ".html"), 'w') as f:
+            f.write(output)

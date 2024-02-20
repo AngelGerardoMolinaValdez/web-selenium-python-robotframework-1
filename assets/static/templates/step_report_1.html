@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .test-info-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .test-info-card h2 {
+            margin: 0 0 10px;
+            font-size: 1.5em;
+        }
+
+        .test-info-card p {
+            margin: 0;
+        }
+
+        .test-status {
+            color: #0f0;
+        }
+
+        .mode-toggle-btn, .expand-all-btn {
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            margin-bottom: 10px;
+        }
+
+        .mode-toggle-btn:hover, .expand-all-btn:hover {
+            background-color: #444;
+            transform: scale(1.1);
+        }
+
+        .log-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+
+        .log-container article {
+            margin-bottom: 20px;
+        }
+
+        .log-container article header {
+            background-color: #f4f4f4;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+        }
+
+        .log-container article header button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            text-align: left;
+        }
+
+        .log-container article .panel {
+            display: none;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .log-container article .panel.active {
+            display: block;
+        }
+
+        .log-container article .panel .doc-toggle {
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .log-container article .panel .doc-toggle:hover {
+            background-color: #444;
+        }
+
+        .log-container article .panel .desc-panel {
+            display: none;
+            padding: 20px;
+            background-color: #f4f4f4;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+        }
+
+        .log-container article .panel .desc-panel.active {
+            display: block;
+        }
+
+        .log-container article .panel .steps-container {
+            padding: 20px;
+            background-color: #f4f4f4;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .log-container article .panel .steps-container .log-entry {
+            margin-bottom: 10px;
+        }
+
+        .log-container article .panel .steps-container .log-entry .log-level {
+            font-weight: bold;
+        }
+
+        .log-container article .panel .steps-container .log-entry.info {
+            color: #00f;
+        }
+
+        .log-container article .panel .steps-container .log-entry.warn {
+            color: orange;
+        }
+
+        .log-container article .panel .steps-container .log-entry.error {
+            color: #f00;
+        }
+
+        .dark-mode {
+            background-color: #222;
+            color: #ddd;
+        }
+
+        .dark-mode .test-info-card, .dark-mode .log-container {
+            background-color: #333;
+            color: #ddd;
+        }
+
+        .dark-mode .log-container article .panel, .dark-mode .log-container article .panel .desc-panel, .dark-mode .log-container article .panel .steps-container {
+            background-color: #444;
+            color: #ccc;
+        }
+
+        .dark-mode .mode-toggle-btn, .dark-mode .expand-all-btn, .dark-mode .log-container article .panel .doc-toggle {
+            background-color: #555;
+            color: #bbb;
+        }
+
+        .dark-mode .mode-toggle-btn:hover, .dark-mode .expand-all-btn:hover, .dark-mode .log-container article .panel .doc-toggle:hover {
+            background-color: #666;
+            color: #aaa;
+        }
+
+        .dark-mode .log-container article .panel .steps-container .log-entry.info {
+            color: #0077cc;
+        }
+
+        .dark-mode .log-container article .panel .steps-container .log-entry.warn {
+            color: #cc7700;
+        }
+
+        .dark-mode .log-container article .panel .steps-container .log-entry.error {
+            color: #cc0000;
+        }
+
+        .test-info-card .testname {
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="dark-mode">
+
+    <div class="container">
+        <section class="test-info-card">
+            <h2 class="testname">{{ testdata.name }}</h2>
+            <p class="doc">Documentation:<span class="doc-content">{{ testdata.doc }}</span></p>
+            <p class="doc">Test Template:<span class="doc-content">{{ testdata.template }}</span></p>
+            <p class="status">Status: <span class="test-status1">{{ testdata.status }}</span></p>
+            <p class="msg">Message: {{ testdata.message }}</p>
+        </section>
+
+        <button class="mode-toggle-btn">Cambiar a Light Mode</button>
+        <button class="expand-all-btn">Expandir Todo</button>
+
+        <section class="log-container">
+            {% for item in data %}
+            <article>
+                <header class="accordion-container">
+                    <button class="accordion">
+                        <span class="log-type">{{ item.type }}</span>
+                        <span class="keyword-name">{{ item.name }}</span>
+                    </button>
+                </header>
+
+                <div class="panel">
+                    <button class="doc-toggle">Documentación</button>
+                    <div class="desc-panel">
+                        <p>{{ item.doc }}</p>
+                    </div>
+                    <div class="steps-container">
+                        {% for step in item.steps %}
+                            <div class="log-entry {{ step.level }}"><span class="log-level">{{ step.message }}</span></div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </section>
+    </div>
+
+    <script>
+        const modeToggleBtn = document.querySelector('.mode-toggle-btn');
+        const expandAllBtn = document.querySelector('.expand-all-btn');
+        const accordionBtns = document.querySelectorAll('.accordion');
+        const docToggleBtns = document.querySelectorAll('.doc-toggle');
+        const panels = document.querySelectorAll('.panel');
+        const descPanels = document.querySelectorAll('.desc-panel');
+
+        function toggleDarkMode() {
+            const elements = document.querySelectorAll('body, .test-info-card, .log-container, .log-container article .panel, .log-container article .panel .desc-panel, .log-container article .panel .steps-container, .mode-toggle-btn, .expand-all-btn, .log-container article .panel .doc-toggle, .accordion-container');
+            elements.forEach(element => {
+                element.classList.toggle('dark-mode');
+            });
+            modeToggleBtn.textContent = document.body.classList.contains('dark-mode') ? 'Cambiar a Light Mode' : 'Cambiar a Dark Mode';
+        }
+
+        function togglePanels() {
+            panels.forEach(panel => {
+                panel.classList.toggle('active');
+            });
+            descPanels.forEach(descPanel => {
+                descPanel.classList.toggle('active');
+            });
+        }
+
+        function toggleAccordion(panel) {
+            panel.classList.toggle('active');
+        }
+
+        function toggleDescPanel(descPanel) {
+            descPanel.classList.toggle('active');
+        }
+
+        modeToggleBtn.addEventListener('click', toggleDarkMode);
+        expandAllBtn.addEventListener('click', togglePanels);
+
+        accordionBtns.forEach(accordionBtn => {
+            accordionBtn.addEventListener('click', () => {
+                const panel = accordionBtn.parentElement.nextElementSibling;
+                toggleAccordion(panel);
+            });
+        });
+
+        docToggleBtns.forEach(docToggleBtn => {
+            docToggleBtn.addEventListener('click', () => {
+                const descPanel = docToggleBtn.nextElementSibling;
+                toggleDescPanel(descPanel);
+            });
+        });
+    </script>
+</body>
+</html>

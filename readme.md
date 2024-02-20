@@ -106,9 +106,9 @@ Por ejemplo:
 
 Tambien es posible agregar el comando `--listener` para agregar un reporte del paso a paso de la ejecucion.
 
-- `poetry run robot --outputdir results/reports --listener libraries/ExecutionStepReporter.py tests/e2e.robot`
+- `poetry run robot --outputdir results/reports --listener libraries/HtmlTestReportListener1.py tests/e2e.robot`
 
-Para mas informacion consulta el archivo `./libraries/ExecutionStepReporter.py`.
+Para mas informacion consulta el archivo `./libraries/HtmlTestReportListener1.py`.
 
 ## 📊 Análisis de código
 
