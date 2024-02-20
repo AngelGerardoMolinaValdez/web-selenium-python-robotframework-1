@@ -86,6 +86,24 @@ class HtmlTestReportListener1:
         self.current_test['status'] = attrs['status']
         self.current_test['message'] = attrs['message']
 
+        today = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        path_to_report = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "output", "reports", self.current_test["name"] + " " + today.replace(":", "-")))
+
+        os.mkdir(path_to_report)
+
+        env = Environment(loader=FileSystemLoader(
+            os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "assets", "static", 'templates'))
+            )
+        )
+        template = env.get_template('step_report_1.html')
+
+        output = template.render(data=self.accumulator, testdata=self.current_test)
+        with open(os.path.join(path_to_report, self.current_test["name"] + ".html"), 'w') as f:
+            f.write(output)
+        
+        self.keyword_data = []
+        self.accumulator = []
+
     def start_keyword(self, name, attrs):
         if not 'REPORT:LOG' in attrs['tags']:
             return
@@ -115,18 +133,3 @@ class HtmlTestReportListener1:
         if log_message:
             level = log_message.group(2) if log_message.group(2) else "INFO"
             self.keyword_data['steps'].append({'level': level, 'message': log_message.group(1)})
-
-    def close(self):
-        today = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        path_to_report = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "output", "reports", self.current_test["name"] + " " + today.replace(":", "-")))
-        os.mkdir(path_to_report)
-
-        env = Environment(loader=FileSystemLoader(
-            os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "assets", "static", 'templates'))
-            )
-        )
-        template = env.get_template('step_report_1.html')
-
-        output = template.render(data=self.accumulator, testdata=self.current_test)
-        with open(os.path.join(path_to_report, self.current_test["name"] + ".html"), 'w') as f:
-            f.write(output)
