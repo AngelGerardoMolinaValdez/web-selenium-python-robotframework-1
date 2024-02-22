@@ -73,12 +73,11 @@ class HtmlTestStepsReport3:
         today = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         path_to_report = os.path.abspath(os.path.join(self.execution_path, self.current_test["name"] + " " + today.replace(":", "-")))
 
-        if os.path.exists(path_to_report):
-            new_path = os.path.join(path_to_report, "style_3")
-            path_to_report = new_path
+        if not os.path.exists(path_to_report):
             os.mkdir(path_to_report)
-        else:
-            os.mkdir(path_to_report)
+
+        path_to_report = os.path.join(path_to_report, "style_3")
+        os.mkdir(path_to_report)
 
         env = Environment(loader=FileSystemLoader(
             os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "assets", "static", 'templates'))
