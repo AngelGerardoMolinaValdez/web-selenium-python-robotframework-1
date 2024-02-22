@@ -56,10 +56,11 @@ import re
 import datetime
 from jinja2 import Environment, FileSystemLoader
 
-class HtmlTestReportListener1:
+class HtmlTestStepsReport1:
     ROBOT_LISTENER_API_VERSION = 2
 
     def __init__(self):
+        self.keyword_config = bool
         self.keyword_data = []
         self.keyword_config = []
         self.accumulator = []
@@ -91,6 +92,10 @@ class HtmlTestReportListener1:
         today = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         path_to_report = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "output", "reports", self.current_test["name"] + " " + today.replace(":", "-")))
 
+        if not os.path.exists(path_to_report):
+            os.mkdir(path_to_report)
+
+        path_to_report = os.path.join(path_to_report, "style_1")
         os.mkdir(path_to_report)
 
         env = Environment(loader=FileSystemLoader(
@@ -118,12 +123,13 @@ class HtmlTestReportListener1:
         }
 
         if attrs['type'].lower() in ['setup', 'teardown']:
+            self.keyword_config = True
             self.keyword_config.append(self.keyword_data)
         else:
             self.accumulator.append(self.keyword_data)
 
     def end_keyword(self, name, attrs):
-        tag_message = re.search(r"STEP:(.+?)(?::(INFO|FAIL|WARN))?(?:===|:|$)", "===>".join(attrs['tags']))
+        tag_message = re.search(r"^STEP:(?:IMAGE:)?(.+?)(?::(INFO|PASS|CRITICAL|FAIL|FALTA|WARNING|DEBUG))?(?:===|:|$)", "===>".join(attrs['tags']))
 
         if tag_message:
             level = tag_message.group(2) if tag_message.group(2) else "INFO"
@@ -135,7 +141,7 @@ class HtmlTestReportListener1:
             self.keyword_data['status'] = attrs['status']
 
     def log_message(self, message):
-        log_message = re.search(r"STEP:(.+?)(?::(INFO|FAIL|WARN))?(?:===|:|$)",message['message'])
+        log_message = re.search(r"^STEP:(?:IMAGE:)?(.+?)(?::(INFO|PASS|CRITICAL|FAIL|FALTA|WARNING|DEBUG))?(?:===|:|$)",message['message'])
         if log_message:
             level = log_message.group(2) if log_message.group(2) else "INFO"
             self.keyword_data['steps'].append({'level': level, 'message': log_message.group(1)})
