@@ -110,6 +110,169 @@ Tambien es posible agregar el comando `--listener` para agregar un reporte del p
 
 Para mas informacion consulta el archivo `./libraries/HtmlTestReportListener1.py`.
 
+## Reportes
+
+Robot Framework ya ofrece reportes de ejecución de test cases, pero no ofrece un reporte de los pasos de ejecución de un test case.
+
+Consideraciones:
+- El reporte se genera en un archivo de log con el mismo nombre del test case.
+- El reporte se genera en la carpeta ./base/output/reports/
+- Es posible convinar los 3 reportes
+
+Hay 3 listeners que podremos usar para generar reportes de los pasos de ejecución de un test case:
+- HtmlTestReportListener1.py: Genera un reporte de los pasos de ejecución de un test case por bloques en un archivo de log.
+- HtmlTestStepsReport2.py: Genera un reporte de los pasos de ejecución de un test case en un archivo html.
+- HtmlTestStepsReport3.py: Genera un reporte de los pasos de ejecución de un test case en un archivo html con imágenes.
+
+### HtmlTestStepsReport1
+
+Hay dos tipos de acciones que se pueden hacer en el reporte:
+1 - Especificar un bloque de pasos que se deben reportar
+    - Se debe agregar el tag REPORT:LOG en la keyword
+    - Ejemplo:
+```robotframework
+        *** Keywords ***
+        My Keyword
+            [Tags]  REPORT:LOG
+            Log  Step 1
+            Log  Step 2
+            Log  Step 3
+```
+
+Este ejemplo agregara al reporte lo siguiente:
+
+```
+[KEYWORD] My Keyword
+[KEYWORD] [STATUS] My Keyword 
+```
+
+2 - Especificar un mensaje en un paso
+    - Se debe agregar el tag STEP: en el mensaje
+    - Se puede agregar un nivel de log (INFO, FAIL, WARN) después de agregar el mensaje con el formato STEP:DESCRIPCIÓN DEL PASO:NIVEL, el nivel es opcional y su valor predeterminado es INFO
+    - Ejemplo:
+
+```robotframework
+        *** Keywords ***
+        My Sub Keyword
+            [Tags]  STEP:DESCRIPCIÓN DEL PASO:INFO
+            No Operation
+
+        My Other Sub Keyword
+            [Tags]  STEP:DESCRIPCIÓN DEL PASO 2
+            No Operation
+
+        My Other Sub Keyword
+            [Tags]  STEP:DESCRIPCIÓN DEL PASO 3:FAIL
+            No Operation
+```
+
+    Este ejemplo agregara al reporte lo siguiente:
+    [KEYWORD] My Keyword
+        [INFO] DESCRIPCIÓN DEL PASO
+        [INFO] DESCRIPCIÓN DEL PASO 2
+        [FAIL] DESCRIPCIÓN DEL PASO 3
+    [KEYWORD] [STATUS] My Keyword 
+    
+Cuando usar cada tipo de acción:
+- REPORT:LOG: Se debe usar cuando se quiere reportar un bloque de pasos. El bloque de pasos permite ver de manera más clara los pasos que se ejecutan en una keyword.
+- STEP: Se debe usar cuando se quiere reportar un mensaje en un paso. El mensaje se puede usar para reportar información adicional de un paso, como por ejemplo, el valor de una variable, el resultado de una operación, etc.
+
+Consideraciones:
+- Se puede agregar un STEP: en la misma keyword donde indicamos REPORT:LOG, pero el mensaje se agregara al final del bloque de pasos.
+
+![](./assets/images/test_report_style_1.png)
+
+
+### HtmlTestStepsReport2
+
+En este listener es posible generar un reporte de los pasos de ejecución de un test case. Para agregar un paso al reporte, se debe agregar el tag STEP: en la keyword o en el mensaje de log. El mensaje se puede usar para reportar información adicional de un paso, como por ejemplo, el valor de una variable, el resultado de una operación, etc.
+
+El reporte se genera en la carpeta output/reports/style_2/ y se genera un archivo HTML por cada test que se ejecute.
+
+Para utilizar el listener, se debe especificar como listener al ejecutar las pruebas:
+
+- `robot --listener HtmlTestStepsReport2.py tests`
+
+Ejemplo:
+```robotframework
+*** Keywords ***
+My Keyword
+    [Tags]  STEP:DESCRIPCIÓN DEL PASO:INFO
+    No Operation
+
+My Other Keyword
+    [Tags]  STEP:DESCRIPCIÓN DEL PASO 2
+    No Operation
+
+My Other Keyword
+    [Tags]  STEP:DESCRIPCIÓN DEL PASO 3:FAIL
+    No Operation
+```
+
+Los estatus posibles son:
+- INFO
+- PASS
+- CRITICAL
+- FAIL
+- FALTA
+- WARNING
+- DEBUG
+
+El valor predeterminado es INFO.
+
+También es posible utilizar la keyword Log con la misma estructura de tags.
+
+Consideraciones:
+
+- Si bien se puede usar STEP: para definir un paso también se tomara en cuenta STEP:IMAGE: para agregar un paso en este reporte pero no tomara la captura de pantalla, esto con el fin de poder reutilizar la misma descripción de paso en diferentes reportes.
+
+![](./assets/images/test_report_style_2.png)
+
+### HtmlTestStepsReport3
+
+En este listener es posible generar un reporte de pasos con imágenes. Para agregar una imagen a un paso, se debe agregar el tag STEP:IMAGE: en el mensaje. El mensaje se puede usar para reportar información adicional de un paso, como por ejemplo, el valor de una variable, el resultado de una operación, etc.
+
+El reporte se genera en la carpeta output/reports y se genera un archivo HTML por cada test que se ejecute.
+
+Para utilizar el listener, se debe especificar como listener al ejecutar las pruebas:
+
+- `robot --listener HtmlTestStepsReport3.py tests`
+
+Ejemplo:
+
+```robotframework
+*** Keywords ***
+My Keyword
+    [Tags]  STEP:IMAGE:DESCRIPCIÓN DEL PASO:INFO
+    No Operation
+
+My Other Keyword
+    [Tags]  STEP:IMAGE:DESCRIPCIÓN DEL PASO 2
+    No Operation
+
+My Other Keyword
+    [Tags]  STEP:IMAGE:DESCRIPCIÓN DEL PASO 3:FAIL
+    No Operation
+```
+
+Los estatus posibles son:
+
+- INFO
+- PASS
+- CRITICAL
+- FAIL
+- FALTA
+- WARNING
+- DEBUG
+
+El valor predeterminado es INFO.
+
+También es posible utilizar la keyword Log con la misma estructura de tags.
+
+Este reporte tiene la misma estructura que el HtmlTestStepsReport2.py, pero con la diferencia de que se agrega una imagen a los pasos.
+
+![](./assets/images/test_report_style_3.png)
+
 ## 📊 Análisis de código
 
 Un linter es una herramienta utilizada para analizar automáticamente el código fuente en busca de errores.
