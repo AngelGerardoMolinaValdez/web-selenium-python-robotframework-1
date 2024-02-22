@@ -60,7 +60,6 @@ class HtmlTestStepsReport1:
     ROBOT_LISTENER_API_VERSION = 2
 
     def __init__(self):
-        self.keyword_config = bool
         self.keyword_data = []
         self.keyword_config = []
         self.accumulator = []
@@ -123,7 +122,6 @@ class HtmlTestStepsReport1:
         }
 
         if attrs['type'].lower() in ['setup', 'teardown']:
-            self.keyword_config = True
             self.keyword_config.append(self.keyword_data)
         else:
             self.accumulator.append(self.keyword_data)
