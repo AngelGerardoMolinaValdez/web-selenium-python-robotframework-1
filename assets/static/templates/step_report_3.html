@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Reporte de Ejecución de Caso de Prueba con Capturas</title>
+    <style>
+        :root {
+            --color-text: #eaeaea;
+            --background-color: #333;
+            --container-background-color: #454545;
+            --border-color: #0056b3;
+            --info-color: #17a2b8;
+            --debug-color: #6c757d;
+            --pass-color: #28a745;
+            --fail-color: #dc3545; /* Rojo claro para FAIL */
+            --fatal-color: #870000; /* Rojo oscuro para FATAL */
+            --critical-color: #ff5733; /* Rojo naranja para CRITICAL */
+            --warning-color: #ff851b; /* Naranja para WARNING */
+        }
+        [data-theme="light"] {
+            --color-text: #333;
+            --background-color: #f4f4f4;
+            --container-background-color: #fff;
+            --info-color: #17a2b8;
+            --debug-color: #6c757d;
+            --pass-color: #28a745;
+            --fail-color: #dc3545;
+            --fatal-color: #870000;
+            --critical-color: #ff5733;
+            --warning-color: #ff851b;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            color: var(--color-text);
+            background-color: var(--background-color);
+            padding: 20px;
+            margin: 0;
+            transition: background-color 0.3s ease;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background-color: var(--container-background-color);
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: background-color 0.3s ease;
+        }
+        h1, h2, h3, .theme-switcher {
+            color: var(--color-text);
+        }
+        .step {
+            margin: 20px 0;
+            padding: 10px 20px;
+            background-color: var(--container-background-color);
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+        .info { border-left: 4px solid var(--info-color); }
+        .debug { border-left: 4px solid var(--debug-color); }
+        .pass { border-left: 4px solid var(--pass-color); }
+        .fail { border-left: 4px solid var(--fail-color); }
+        .fatal { border-left: 4px solid var(--fatal-color); }
+        .critical { border-left: 4px solid var(--critical-color); }
+        .warning { border-left: 4px solid var(--warning-color); }
+        .status {
+            font-weight: bold;
+        }
+        .theme-switcher {
+            cursor: pointer;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            background-color: #0056b3;
+            color: white;
+            font-size: 16px;
+            text-align: left;
+        }
+        .screenshot {
+            max-width: 100%;
+            display: none; /* Hide by default */
+            margin-top: 15px;
+            border: 1px solid #ddd; /* Light border for dark theme and vice-versa */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h2 {
+            max-width: 100%; /* Asegura que el título no exceda el ancho del contenedor */
+            overflow-wrap: break-word; /* Permite que las palabras se rompan y pasen a la siguiente línea */
+            word-break: break-word; /* Rompe la palabra si es necesario para evitar desbordamiento */
+            hyphens: auto; /* Añade guiones automáticamente si es necesario (necesita el idioma correcto en el elemento o en el documento) */
+        }
+    </style>
+</head>
+<body data-theme="dark">
+<div class="container">
+    <button class="theme-switcher" onclick="switchTheme()">Cambiar a Tema Claro</button>
+    <button class="theme-switcher" id="toggleAll">Desplegar Todo</button>
+    <h1>Reporte De Ejecución Automatizada</h1>
+    <h2>Test: {{ testname }}</h2>
+
+    {% for step_data in steps_data %}
+        <div class="step {{ step_data.step_level }}" onclick="toggleVisibility(this)">
+            <h3>{{ step_data.step_title }}</h3>
+            <img src="data:image/png;base64,{{ step_data.step_image }}" alt="Captura de evidencia" class="screenshot">
+        </div>
+    {% endfor %}
+
+</div>
+<script>
+    function switchTheme() {
+        const body = document.body;
+        const themeSwitcher = document.querySelector('.theme-switcher');
+        if (body.getAttribute('data-theme') === 'dark') {
+            body.setAttribute('data-theme', 'light');
+            themeSwitcher.textContent = 'Cambiar a Tema Oscuro';
+        } else {
+            body.setAttribute('data-theme', 'dark');
+            themeSwitcher.textContent = 'Cambiar a Tema Claro';
+        }
+    }
+
+    function toggleVisibility(stepElement) {
+        const screenshot = stepElement.querySelector('.screenshot');
+        screenshot.style.display = screenshot.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function initializeScreenshots() {
+        const screenshots = document.querySelectorAll('.screenshot');
+        screenshots.forEach(function(screenshot) {
+            screenshot.style.display = 'none';
+        });
+    }
+
+    window.onload = function() {
+        initializeScreenshots();
+    };
+
+    let areAllExpanded = false;
+    function toggleAllSteps() {
+        const screenshots = document.querySelectorAll('.screenshot');
+        screenshots.forEach(screenshot => {
+            screenshot.style.display = areAllExpanded ? 'none' : 'block';
+        });
+        areAllExpanded = !areAllExpanded;
+        document.getElementById('toggleAll').textContent = areAllExpanded ? 'Contraer Todo' : 'Desplegar Todo';
+    }
+
+    document.getElementById('toggleAll').addEventListener('click', toggleAllSteps);
+
+</script>
+</body>
+</html>
