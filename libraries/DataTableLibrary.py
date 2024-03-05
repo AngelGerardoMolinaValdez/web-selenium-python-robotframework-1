@@ -39,7 +39,7 @@ import csv
 from typing import Any
 from dataclasses import dataclass, make_dataclass
 
-class __CsvReader:
+class CsvReader:
     __content: list[dict[str, Any]] = []
 
     @classmethod
@@ -52,16 +52,22 @@ class __CsvReader:
             cls.__content = list(csv.DictReader(file))
     
     @classmethod
-    def read(cls, index: int) -> dict:
+    def get(cls, index: int) -> dict:
+        try:
+            index = int(index)
+        except ValueError:
+            raise ValueError(f"El índice {index} no es un número entero.")
+
         if index < 0 or index >= len(cls.__content):
             raise IndexError(f"El índice {index} está fuera de rango de las filas del archivo de datos.")
+
         return cls.__content[index]
 
 
 class DataTableLibrary:    
     def create_data_table(self, path: str, index: int) -> dataclass:
         """Crea un DataTable a partir de un archivo CSV."""
-        __CsvReader.read(path)
-        test_data_row = __CsvReader.read(index)
+        CsvReader.read(path)
+        test_data_row = CsvReader.get(index)
         DataTable: dataclass = make_dataclass("DataTable", test_data_row.keys())
         return DataTable(**test_data_row)
