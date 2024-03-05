@@ -9,7 +9,8 @@ Metadata    Test Level    regression
 
 Test Tags    regression    data_driven
 
-Library    DataDriver    file=${EXECDIR}/data/data.csv    encoding=utf_8
+Library    DataDriver    file=${EXECDIR}/data/test_data.csv    encoding=utf_8
+Library    ../libraries/DataTableLibrary.py
 
 Resource    ../keywords/login_keywords.resource
 Resource    ../keywords/create_new_account_keywords.resource
@@ -25,11 +26,12 @@ Test Template    Account Workflows
 
 
 *** Test Cases ***
-Account Service Workflows    ${type_account}    ${account_reference}    # robotcode: ignore
+Account Service Workflows    keyword_name    index
 
 
 *** Keywords ***
 Account Workflows
     [Documentation]    Execute specific workflow to open a new account with the given data.
-    [Arguments]    ${keyword_name}    ${type_account}    ${account_reference}
-    Run Keyword    ${keyword_name}    ${type_account}    ${account_reference}
+    [Arguments]    ${keyword_name}    ${data_row_index}
+    ${data_table}    Create Data Table    ${EXECDIR}/data/account.csv    ${data_row_index}
+    Run Keyword    ${keyword_name}    ${data_table}
