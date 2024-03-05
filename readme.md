@@ -293,11 +293,15 @@ Las funcionalidades se integran con la librería DataTableLibrary.py de este pro
 Estos resultados se guardarán por ejecución y no por caso de prueba, es decir, si se ejecutan 3 test cases, se guardarán los resultados de los 3 test cases en un solo archivo de datos. 📊
 
 ### Importar la librería 📚
-+++ Settings +++
+
+```robotframework
+*** Settings ***
 Library    ./libraries/TestsExecutionResults.py
+```
 
 ### Guardar los resultados de la ejecución de los tests 💾
 Dada la siguiente DataTable:
+
 `${dt}    VAR    DataTable(name="Foo", age=12, city="New York", country="EUA", email="fake@mail.com", phone="5565656565")`
 
 Se puede guardar la información de la siguiente manera:
@@ -328,7 +332,7 @@ ${dt2}    DataTable(name="Bar", age=24, city="Los Angeles", country="EUA", email
 ```
 
 Se puede guardar la información de la siguiente manera:
-```
+```robotframework
 *** Test Cases ***
 Test 1
     Save Test Execution Results    ${dt1}
