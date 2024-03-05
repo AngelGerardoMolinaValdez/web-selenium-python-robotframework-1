@@ -96,17 +96,21 @@ project/
 
 ## 🚀 Ejecución de Pruebas
 
-Para ejecutar las pruebas, abrir la terminal y ejecutar el comando:
+Para ejecutar las pruebas, abrir la terminal en la carpeta raiz y ejecutar:
 
 - `poetry run robot ...[options] [file]`
 
 Por ejemplo:
 
-- `poetry run robot --outputdir results/reports tests/e2e.robot`
+- `poetry run robot --outputdir output\robot tests\account.robot`
 
 Tambien es posible agregar el comando `--listener` para agregar un reporte del paso a paso de la ejecucion.
 
-- `poetry run robot --outputdir results/reports --listener libraries/HtmlTestStepLogReport.py tests/e2e.robot`
+- `poetry run robot --outputdir output\robot --listener .\libraries\HtmlTestStepLogReport.py tests\account.robot`
+
+Se puede especificar mas de un tipo de reporte de evidencia en el mismo comando:
+
+- `poetry run robot --outputdir output/robot --listener .\libraries\HtmlTestStepLogReport.py --listener .\libraries\HtmlTestStepSilderReport.py tests\account.robot`
 
 ## Reportes
 
