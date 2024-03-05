@@ -3,7 +3,6 @@ Documentation    A keywords from open new account page
 
 Keyword Tags    open-new-account-keywords
 
-Library    ../libraries/FileDataReader.py
 Library    Collections
 
 Resource    ../keywords/common_keywords.resource
@@ -16,7 +15,7 @@ Open New Account In The Application
     [Arguments]    ${data_table}
     Select Account Service    Open New Account
 
-    Select Account Type    ${data_table.account_type}
+    Select Account Type    ${data_table.type_account}
     Select Account Owner    ${data_table.account_reference}
     Click Open Account
 
