@@ -88,7 +88,10 @@ class HtmlTestStepLogReport:
             self.keyword_config = True
 
     def end_keyword(self, name, attrs):
-        tag_message_title = re.search(r"^STEP:(?:IMAGE:)?(.+?)(?::(INFO|PASS|CRITICAL|FAIL|FATAL|WARNING|DEBUG))?(?:===|:|$)", "===>".join(attrs['tags']))
+        tag_message_title = re.search(
+            r"^STEP:(?:IMAGE:)?(?:CAPTURE:)?(?:ELEMENT:)?(.+?)(?::(INFO|PASS|CRITICAL|FAIL|FATAL|WARNING|DEBUG))?(?:===|:|$)",
+            "===>".join(attrs['tags'])
+        )
 
         if tag_message_title:
             step_data = {}
@@ -106,7 +109,10 @@ class HtmlTestStepLogReport:
             self.keyword_config = False
 
     def log_message(self, message):
-        tag_message_title = re.search(r"^STEP:(?:IMAGE:)?(.+?)(?::(INFO|PASS|CRITICAL|FAIL|FALTA|WARNING|DEBUG))?(?:===|:|$)", message['message'])
+        tag_message_title = re.search(
+            r"^STEP:(?:IMAGE:)?(?:CAPTURE:)?(?:ELEMENT:)?(.+?)(?::(INFO|PASS|CRITICAL|FAIL|FATAL|WARNING|DEBUG))?(?:===|:|$)",
+            message['message']
+        )
 
         if tag_message_title:
             step_data = {}

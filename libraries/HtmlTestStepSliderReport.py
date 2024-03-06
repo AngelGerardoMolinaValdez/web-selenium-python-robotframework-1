@@ -37,6 +37,7 @@ Este reporte tiene la misma estructura que el HtmlTestStepsReport2.py, pero con 
 """
 import os
 import re
+from typing import Literal
 import datetime
 from jinja2 import Environment, FileSystemLoader
 from PIL import Image, ImageGrab
@@ -51,6 +52,8 @@ class HtmlTestStepSliderReport:
         self.keywords_config = []
         self.keywords_data = []
         self.current_test = {}
+        self.screenshot_element_counter = 1
+        self.screenshot_counter = 1
         self.base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
         if not os.path.exists(os.path.join(self.base_path, "output")):
@@ -59,9 +62,16 @@ class HtmlTestStepSliderReport:
         if not os.path.exists(os.path.join(self.base_path, "output", "reports")):
             os.mkdir(os.path.join(self.base_path, "output", "reports"))
 
+        if not os.path.exists(os.path.join(self.base_path, "output", "selenium-screenshots")):
+            os.mkdir(os.path.join(self.base_path, "output", "selenium-screenshots"))
+
         self.execution_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "output", "reports"))
+        self.selenium_screenshots_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "output", "selenium-screenshots"))
 
     def start_test(self, name, attrs):
+        for file in os.listdir(self.selenium_screenshots_path):
+            os.remove(os.path.join(self.selenium_screenshots_path, file))
+
         self.current_test = {
             'name': name
         }
@@ -86,19 +96,45 @@ class HtmlTestStepSliderReport:
             f.write(output)
 
         self.keywords_data = []
+        self.screenshot_element_counter = 1
+        self.screenshot_counter = 1
 
     def start_keyword(self, name, attrs):
         if attrs['type'].lower() in ['setup', 'teardown']:
             self.keyword_config = True
 
     def end_keyword(self, name, attrs):
-        tag_message_title = re.search(r"STEP:IMAGE:(.+?)(?::(INFO|PASS|CRITICAL|FAIL|FATAL|WARNING|DEBUG))?(?:===|:|$)", "===>".join(attrs['tags']))
+        step_image = re.search(
+            r"STEP:IMAGE:(.+?)(?::(INFO|PASS|CRITICAL|FAIL|FATAL|WARNING|DEBUG))?(?:===|:|$)",
+            "===>".join(attrs['tags'])
+        )
+        step_capture_selenium = re.search(
+            r"STEP:CAPTURE:(.+?)(?::(INFO|PASS|CRITICAL|FAIL|FATAL|WARNING|DEBUG))?(?:===|:|$)",
+            "===>".join(attrs['tags'])
+        )
+        step_element_selenium = re.search(
+            r"STEP:ELEMENT:(.+?)(?::(INFO|PASS|CRITICAL|FAIL|FATAL|WARNING|DEBUG))?(?:===|:|$)",
+            "===>".join(attrs['tags'])
+        )
 
-        if tag_message_title:
+        if step_image:
             image_content = self.__take_screenshot()
+            step_re_data = step_image
+        
+        if step_capture_selenium:
+            image_content = self.__get_image_content("selenium-screenshot-", self.screenshot_counter)
+            self.screenshot_counter += 1
+            step_re_data = step_capture_selenium
+        
+        if step_element_selenium:
+            image_content = self.__get_image_content("selenium-element-screenshot-", self.screenshot_element_counter)
+            self.screenshot_element_counter += 1
+            step_re_data = step_element_selenium
+
+        if any([step_image, step_capture_selenium, step_element_selenium]):
             step_data = {}
-            level = tag_message_title.group(2) if tag_message_title.group(2) else "INFO"
-            step_title = tag_message_title.group(1)
+            level = step_re_data.group(2) if step_re_data.group(2) else "INFO"
+            step_title = step_re_data.group(1)
             step_data["step_level"] = level.lower()
             step_data["step_title"] = step_title
             step_data["step_image"] = image_content
@@ -112,13 +148,37 @@ class HtmlTestStepSliderReport:
             self.keyword_config = False
 
     def log_message(self, message):
-        tag_message_title = re.search(r"STEP:IMAGE:(.+?)(?::(INFO|PASS|CRITICAL|FAIL|FALTA|WARNING|DEBUG))?(?:===|:|$)", message['message'])
+        step_image = re.search(
+            r"STEP:IMAGE:(.+?)(?::(INFO|PASS|CRITICAL|FAIL|FATAL|WARNING|DEBUG))?(?:===|:|$)",
+            message['message']
+        )
+        step_capture_selenium = re.search(
+            r"STEP:CAPTURE:(.+?)(?::(INFO|PASS|CRITICAL|FAIL|FATAL|WARNING|DEBUG))?(?:===|:|$)",
+            message['message']
+        )
+        step_element_selenium = re.search(
+            r"STEP:ELEMENT:(.+?)(?::(INFO|PASS|CRITICAL|FAIL|FATAL|WARNING|DEBUG))?(?:===|:|$)",
+            message['message']
+        )
 
-        if tag_message_title:
+        if step_image:
             image_content = self.__take_screenshot()
+            step_re_data = step_image
+        
+        if step_capture_selenium:
+            image_content = self.__get_image_content("selenium-screenshot-", self.screenshot_counter)
+            self.screenshot_counter += 1
+            step_re_data = step_capture_selenium
+        
+        if step_element_selenium:
+            image_content = self.__get_image_content("selenium-element-screenshot-", self.screenshot_element_counter)
+            self.screenshot_element_counter += 1
+            step_re_data = step_element_selenium
+
+        if any([step_image, step_capture_selenium, step_element_selenium]):
             step_data = {}
-            level = tag_message_title.group(2) if tag_message_title.group(2) else "INFO"
-            step_title = tag_message_title.group(1)
+            level = step_re_data.group(2) if step_re_data.group(2) else "INFO"
+            step_title = step_re_data.group(1)
             step_data["step_level"] = level.lower()
             step_data["step_title"] = step_title
             step_data["step_image"] = image_content
@@ -127,6 +187,13 @@ class HtmlTestStepSliderReport:
                 self.keywords_config.append(step_data)
             else:
                 self.keywords_data.append(step_data)
+
+    def __get_image_content(self, type_image: Literal["selenium-element-screenshot-", "selenium-screenshot-"], counter: int):
+        image_path = os.path.join(self.selenium_screenshots_path, type_image + str(counter) + ".png")
+        im = Image.open(image_path)
+        buff = io.BytesIO()
+        im.save(buff, format="PNG")
+        return base64.b64encode(buff.getvalue()).decode("utf-8")
 
     def __take_screenshot(self):
         image_path = os.path.join(self.execution_path,"imagen.png")

@@ -166,7 +166,7 @@ También es posible utilizar la keyword Log con la misma estructura de tags.
 
 Consideraciones:
 
-- Si bien se puede usar STEP: para definir un paso también se tomara en cuenta STEP:IMAGE: para agregar un paso en este reporte pero no tomara la captura de pantalla, esto con el fin de poder reutilizar la misma descripción de paso en diferentes reportes.
+- Si bien se puede usar STEP: para definir un paso también se tomara en cuenta STEP:IMAGE:, STEP:CAPTURE y STEP:ELEMENT para agregar un paso en este reporte pero no tomara la captura de pantalla, esto con el fin de poder reutilizar la misma descripción de paso en diferentes reportes.
 
 ![](./assets/images/test_report_style_2.png)
 
@@ -212,6 +212,56 @@ El valor predeterminado es INFO.
 También es posible utilizar la keyword Log con la misma estructura de tags.
 
 Este reporte tiene la misma estructura que el HtmlTestStepLogReport.py, pero con la diferencia de que se agrega una imagen a los pasos.
+
+#### Integración con Capture Element Screenshot y Capture Page Screenshot
+
+Si bien es posible agregar imágenes a los pasos con la keyword Log y el formato STEP:IMAGE, también es posible agregar imágenes a los pasos con las keywords Capture Element Screenshot y Capture Page Screenshot.
+
+##### Capture Element Screenshot
+
+Ejemplo:
+```robotframework
+*** Keywords ***
+My Keyword
+    Capture Element Screenshot    xpath=//div[@id="foo"]
+    Log     STEP:ELEMENT:DESCRIPCIÓN DEL PASO:INFO
+```
+
+Primero se captura la imagen del elemento y después se agrega la imagen al reporte con la keyword Log.
+
+##### Capture Page Screenshot
+Ejemplo:
+```robotframework
+*** Keywords ***
+My Keyword
+    Capture Page Screenshot
+    Log     STEP:CAPTURE:DESCRIPCIÓN DEL PASO:INFO
+    No Operation
+```
+Primero se captura la imagen de la página y después se agrega la imagen al reporte con la keyword Log.
+
+#### Configurar SeleniumLibrary
+
+Para que esta integración funcione hay que tomar en cuenta lo siguiente:
+
+Al importar la librería de SeleniumLibrary, se debe especificar la ruta de la carpeta donde se guardaran las imágenes. En este caso, se debe especificar la carpeta output/selenium-screenshots.
+
+Ejemplo:
+```robotframework
+*** Settings ***
+Library    SeleniumLibrary    run_on_failure=${None}    screenshot_root_directory=${EXECDIR}/output/selenium-screenshots
+```
+
+Para esto se ha creado el archivo config/Libraries.resource que contiene la importación de la librería de SeleniumLibrary con la configuración necesaria.
+
+Entonces para importar la librería de SeleniumLibrary con la configuración necesaria, se debe importar el archivo config/Libraries.resource.
+
+Ejemplo:
+
+```robotframework
+*** Settings ***
+Resource    config/Libraries.resource
+```
 
 ![](./assets/images/test_report_style_3.png)
 
