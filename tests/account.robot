@@ -11,6 +11,7 @@ Test Tags    regression    data_driven
 
 Library    DataDriver    file=${EXECDIR}/data/test_data.csv    encoding=utf_8
 Library    ../libraries/DataTableLibrary.py
+Library    ../libraries/TestsExecutionResults.py
 
 Resource    ../keywords/login_keywords.resource
 Resource    ../keywords/create_new_account_keywords.resource
@@ -34,4 +35,5 @@ Account Workflows
     [Documentation]    Execute specific workflow to open a new account with the given data.
     [Arguments]    ${keyword_name}    ${data_row_index}
     ${data_table}    Create Data Table    ${EXECDIR}/data/account.csv    ${data_row_index}
-    Run Keyword    ${keyword_name}    ${data_table}
+    ${dt_updated}    Run Keyword    ${keyword_name}    ${data_table}
+    Save Test Execution Results    ${dt_updated}

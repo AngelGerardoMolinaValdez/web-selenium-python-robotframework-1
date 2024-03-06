@@ -15,3 +15,13 @@ Click In Account In The Account Table
 Verify Account Overview Page Is Open
     Wait Until Page Contains Element    css:h1.title
     Page Should Contain Element    css:td#accountId
+
+Get Balance
+    ${balance}    Get Text    css:td#balance
+    Log    ${balance}
+    RETURN    ${balance}
+
+Get Available Balance
+    ${availableBalance}    Get Text    css:td#availableBalance
+    Log    ${availableBalance}
+    RETURN    ${availableBalance}

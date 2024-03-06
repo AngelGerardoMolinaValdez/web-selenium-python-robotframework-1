@@ -11,8 +11,14 @@ Resource    ../keywords/transfer_funds_keywords.resource
 Create Two New Accounts And Transfer Money    # robotcode: ignore
     [Tags]    REPORT:LOG    STEP:Se crearan dos cuentas y se transferira dinero entre ellas
     [Arguments]    ${data_table}
-    ${new_account_1}    Open New Account In The Application    ${data_table}
-    ${new_account_2}    Open New Account In The Application    ${data_table}
+    ${new_account_1_dt}    Open New Account In The Application    ${data_table}
+    ${new_account_2_dt}    Open New Account In The Application    ${data_table}
+    
+    ${dt}    Update Data Table
+    ...    ${data_table}
+    ...    from_account=${new_account_1_dt.account_id}
+    ...    to_account=${new_account_2_dt.account_id}
+    ...    amount=100
+    Transfer Funds In The Application    ${dt}
 
-    Transfer Funds In The Application    ${new_account_1}    ${new_account_2}    1
-
+    RETURN    ${dt}

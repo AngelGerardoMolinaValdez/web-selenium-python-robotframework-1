@@ -25,6 +25,7 @@ Select To Account
 Click Transfer Button
     Log    STEP:IMAGE:Datos de la transferencia y se hace click en el botón de transferir.
     Click Element    css:input[value="Transfer"]
+    Sleep    2s
 
 Verify Transfer Success
     Page Should Contain    Transfer Complete!

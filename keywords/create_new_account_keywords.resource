@@ -3,7 +3,7 @@ Documentation    A keywords from open new account page
 
 Keyword Tags    open-new-account-keywords
 
-Library    Collections
+Library    ../libraries/DataTableLibrary.py
 
 Resource    ../keywords/common_keywords.resource
 Resource    ../pages/create_new_account_page.resource
@@ -19,4 +19,5 @@ Open New Account In The Application
     Click Open Account
 
     ${account_id}    Verify Account Opened And Get Account Id
-    RETURN    ${account_id}
+    ${dt}    Update Data Table    ${data_table}    account_id=${account_id}
+    RETURN    ${dt}

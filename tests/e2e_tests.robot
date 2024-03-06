@@ -8,6 +8,8 @@ Metadata    Test Level    Regression
 
 Test Tags    Regression
 
+Library    ../libraries/DataTableLibrary.py
+
 Resource    ../keywords/login_keywords.resource
 Resource    ../keywords/common_keywords.resource
 Resource    ../keywords/transfer_funds_keywords.resource
@@ -22,8 +24,10 @@ Suite Teardown    Logout From The Application
 *** Test Cases ***
 Account Overview
     [Tags]    Smoke
-    Get Account Overview    12345
+    ${dt}    Create Data Table    ${EXECDIR}/data/data.csv    0
+    Get Account Overview    ${dt}
 
 Transfer Funds
     [Tags]    Smoke
-    Transfer Funds In The Application    12345    12345    1000
+    ${dt}    Create Data Table    ${EXECDIR}/data/data.csv    0
+    Transfer Funds In The Application    ${dt}
