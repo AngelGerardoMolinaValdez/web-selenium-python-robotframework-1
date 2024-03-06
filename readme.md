@@ -248,8 +248,6 @@ Create DataTable
     Log    ${table.age}
     Log    ${table.city}
     Log    ${table.country}
-    Log    ${table.email}
-    Log    ${table.phone}
 ```
 
 ### Agregar un campo al DataTable ➕
