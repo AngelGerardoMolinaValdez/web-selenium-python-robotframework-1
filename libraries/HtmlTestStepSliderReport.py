@@ -47,7 +47,7 @@ class HtmlTestStepSliderReport:
     ROBOT_LISTENER_API_VERSION = 2
 
     def __init__(self):
-        self.keyword_config = bool
+        self.keyword_config = False
         self.keywords_config = []
         self.keywords_data = []
         self.current_test = {}
@@ -58,9 +58,6 @@ class HtmlTestStepSliderReport:
 
         if not os.path.exists(os.path.join(self.base_path, "output", "reports")):
             os.mkdir(os.path.join(self.base_path, "output", "reports"))
-
-        if not os.path.exists(os.path.join(self.base_path, "output", "robot")):
-            os.mkdir(os.path.join(self.base_path, "output", "robot"))
 
         self.execution_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "output", "reports"))
 
