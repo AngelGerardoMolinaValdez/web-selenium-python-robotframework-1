@@ -92,7 +92,7 @@ class HtmlTestStepSliderReport:
             self.keyword_config = True
 
     def end_keyword(self, name, attrs):
-        tag_message_title = re.search(r"STEP:IMAGE:(.+?)(?::(INFO|PASS|CRITICAL|FAIL|FALTA|WARNING|DEBUG))?(?:===|:|$)", "===>".join(attrs['tags']))
+        tag_message_title = re.search(r"STEP:IMAGE:(.+?)(?::(INFO|PASS|CRITICAL|FAIL|FATAL|WARNING|DEBUG))?(?:===|:|$)", "===>".join(attrs['tags']))
 
         if tag_message_title:
             image_content = self.__take_screenshot()

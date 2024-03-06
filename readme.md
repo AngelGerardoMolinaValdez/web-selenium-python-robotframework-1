@@ -156,7 +156,7 @@ Los estatus posibles son:
 - PASS
 - CRITICAL
 - FAIL
-- FALTA
+- FATAL
 - WARNING
 - DEBUG
 
@@ -203,7 +203,7 @@ Los estatus posibles son:
 - PASS
 - CRITICAL
 - FAIL
-- FALTA
+- FATAL
 - WARNING
 - DEBUG
 
