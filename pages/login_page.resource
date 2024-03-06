@@ -18,7 +18,7 @@ Open Browser To Login Page
     [Tags]    STEP: He abierto el navegador
     Open Browser    ${URL}    ${BROWSER}
     Maximize Browser Window
-    Set Selenium Speed    0.5
+    Set Selenium Speed    0.1
     Login Page Should Be Open
 
 Login Page Should Be Open
