@@ -3,7 +3,7 @@ Documentation     A representation of a transfer fund workflows in the applicati
 
 Keyword Tags    transfer_fund-page
 
-Library    SeleniumLibrary
+Resource    ${EXECDIR}/config/Libraries.resource
 
 
 *** Keywords ***

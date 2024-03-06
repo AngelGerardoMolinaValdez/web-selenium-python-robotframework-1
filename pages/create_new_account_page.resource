@@ -3,7 +3,7 @@ Documentation     A representation of a open new account page
 
 Keyword Tags    open-new-account-page
 
-Library    SeleniumLibrary
+Resource    ${EXECDIR}/config/Libraries.resource
 
 
 *** Keywords ***

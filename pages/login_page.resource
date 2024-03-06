@@ -3,7 +3,7 @@ Documentation     A representation of a login page
 
 Keyword Tags    login-page
 
-Library    SeleniumLibrary
+Resource    ${EXECDIR}/config/Libraries.resource
 
 
 *** Variables ***

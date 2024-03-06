@@ -3,7 +3,7 @@ Documentation     A representation of a account overview in the application
 
 Keyword Tags    account-overview-page
 
-Library    SeleniumLibrary
+Resource    ${EXECDIR}/config/Libraries.resource
 
 
 *** Keywords ***

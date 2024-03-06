@@ -3,9 +3,8 @@ Documentation    A resource file with reusable keywords from login page
 
 Keyword Tags    login-keywords
 
-Library    SeleniumLibrary
-
 Resource    ../pages/login_page.resource
+
 
 *** Keywords ***
 Login In To The Application
