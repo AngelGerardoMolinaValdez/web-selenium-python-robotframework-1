@@ -104,10 +104,10 @@ class DataTableLibrary:
         DataTable: dataclass = make_dataclass("DataTable", test_data_row.keys())
         return DataTable(**test_data_row)
 
-    def update_data_table(self, data_table: dataclass, field_name: str, value: str) -> dataclass:
+    def update_data_table(self, data_table: dataclass, **fields) -> dataclass:
         """Agrega un nuevo campo al DataTable y retorna una nueva instancia del DataTable."""
         data_class_dict = asdict(data_table)
-        data_class_dict[field_name] = value
+        data_class_dict.update(fields)
         DataClass = make_dataclass(
             "DataClass",
             [(name, str) for name in data_class_dict.keys()]

@@ -266,13 +266,26 @@ Se puede agregar un campo al DataTable de la siguiente manera:
 *** Test Cases ***
 Add Field
     ${table}=    Create Data Table    ${CURDIR}/data.csv    0
-    ${new_table}=    Update Data Table    ${table}   is_active   True
-    Log    ${new_table}
+    ${new_table}=    Update Data Table    ${table}   is_active=True
+    Log    ${new_table.is_alive}
 ```
 
 Dando como resultado:
 
 `DataTable(name='John Doe', age='30', city='New York', country='USA', is_active='True')`
+
+También es posible agregar varios campos al DataTable:
+    
+```robotframework
+*** Test Cases ***
+Add Field
+    ${table}=    Create Data Table    ${CURDIR}/data.csv    0
+    ${new_table}=    Update Data Table    ${table}   is_active=True     account_type=premium
+```
+
+Dando como resultado:
+
+`DataTable(name='John Doe', age='30', city='New York', country='USA', is_active='True', account_type='premium')`
 
 ### Consideraciones 🤔
 
