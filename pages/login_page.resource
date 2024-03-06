@@ -34,13 +34,13 @@ Input Password
     Input Text    name:password    ${PASSWORD}
 
 Submit Credentials
-    [Tags]    STEP:He enviado las credenciales
+    Log    STEP:IMAGE:He enviado las credenciales
     Click Element    css:input[value="Log In"]
     Credentials Should Be Accepted
 
 Credentials Should Be Accepted
-    [Tags]    STEP:Las credenciales han sido aceptadas
     Page Should Contain    Account Services
+    Log    STEP:Las credenciales han sido aceptadas:PASS
 
 Logout Application
     [Tags]    STEP:He cerrado la sesión

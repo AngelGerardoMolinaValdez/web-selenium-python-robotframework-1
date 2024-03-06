@@ -11,4 +11,4 @@ Select Account Service
     [Arguments]    ${service_name}
     Click Link    ${service_name}
     Wait Until Page Contains Element   css:h1.title    10s
-    Log    Account Service is selected
+    Log    STEP:IMAGE:Seleccione el servicio "${service_name}":PASS

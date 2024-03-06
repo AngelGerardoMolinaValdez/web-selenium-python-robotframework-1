@@ -9,7 +9,6 @@ Resource    ../pages/login_page.resource
 
 *** Keywords ***
 Login In To The Application
-    [Tags]    REPORT:LOG
     Open Browser To Login Page
     Input Username
     Input Password

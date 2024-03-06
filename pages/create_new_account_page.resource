@@ -18,11 +18,11 @@ Select Account Owner
     Select From List By Label    id=fromAccountId    ${account_owner}
 
 Click Open Account
-    [Tags]    STEP:Se hace clic en el botón 'Open New Account'
+    Log    STEP:IMAGE:Datos de la cuenta ingresados, se procede a abrir la cuenta.
     Click Element    css:input[value="Open New Account"]
 
 Verify Account Opened And Get Account Id
-    [Tags]    STEP:Se verifica que la cuenta se abrió y se obtiene el id de la cuenta
     Page Should Contain    Congratulations, your account is now open.
     ${account_id}=    Get Text    id=newAccountId
+    Log    STEP:IMAGE:Se obtiene el id de la cuenta '${account_id}':PASS
     RETURN    ${account_id}

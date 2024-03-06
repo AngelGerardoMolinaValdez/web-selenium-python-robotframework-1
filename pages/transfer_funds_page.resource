@@ -23,9 +23,9 @@ Select To Account
     Select From List By Value    id:fromAccountId    ${to_account}
 
 Click Transfer Button
-    [Tags]    STEP:Se hace clic en el botón de transferencia
+    Log    STEP:IMAGE:Datos de la transferencia y se hace click en el botón de transferir.
     Click Element    css:input[value="Transfer"]
 
 Verify Transfer Success
-    [Tags]    STEP:Se verifica que la transferencia se realizó con éxito
     Page Should Contain    Transfer Complete!
+    Log    STEP:IMAGE:Transferencia completada con éxito.:PASS
