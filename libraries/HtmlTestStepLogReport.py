@@ -76,7 +76,7 @@ class HtmlTestStepLogReport:
             os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "assets", "static", 'templates'))
             )
         )
-        template = env.get_template('step_report_2.html')
+        template = env.get_template('step_log_report.html')
         output = template.render(testname=self.current_test["name"], steps_data=self.keywords_config + self.keywords_data)
         with open(os.path.join(path_to_report, self.current_test["name"] + ".html"), "w", encoding="utf-8") as f:
             f.write(output)
