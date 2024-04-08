@@ -9,6 +9,7 @@ Resource    ${EXECDIR}/config/Libraries.resource
 *** Keywords ***
 Click In Account In The Account Table
     [Arguments]    ${account}
+    Highlight Element Async    link:${account}
     Log    STEP:IMAGE:Seleccione la cuenta en la tabla de cuentas "${account}"
     Click Link    ${account}
 

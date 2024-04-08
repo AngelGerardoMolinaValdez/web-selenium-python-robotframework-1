@@ -27,13 +27,16 @@ Login Page Should Be Open
 
 Input Username
     [Tags]    STEP:He introducido el usuario
+    Highlight Element Async    name:username
     Input Text    name:username    ${USERNAME}
 
 Input Password
     [Tags]    STEP:He introducido la contraseña
+    Highlight Element Async    name:password
     Input Text    name:password    ${PASSWORD}
 
 Submit Credentials
+    Highlight Element Async    css:input[value="Log In"]
     Log    STEP:IMAGE:He enviado las credenciales
     Click Element    css:input[value="Log In"]
     Credentials Should Be Accepted
