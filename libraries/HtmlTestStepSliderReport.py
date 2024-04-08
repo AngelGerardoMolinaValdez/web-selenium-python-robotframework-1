@@ -43,6 +43,7 @@ from jinja2 import Environment, FileSystemLoader
 from PIL import Image, ImageGrab
 import base64
 import io
+from test_paths import TestsOutputPath, TestsReportsPath, TestsSeleniumScreenShootsPath
 
 class HtmlTestStepSliderReport:
     ROBOT_LISTENER_API_VERSION = 2
@@ -56,17 +57,9 @@ class HtmlTestStepSliderReport:
         self.screenshot_counter = 1
         self.base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
-        if not os.path.exists(os.path.join(self.base_path, "output")):
-            os.mkdir(os.path.join(self.base_path, "output"))
-
-        if not os.path.exists(os.path.join(self.base_path, "output", "reports")):
-            os.mkdir(os.path.join(self.base_path, "output", "reports"))
-
-        if not os.path.exists(os.path.join(self.base_path, "output", "selenium-screenshots")):
-            os.mkdir(os.path.join(self.base_path, "output", "selenium-screenshots"))
-
-        self.execution_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "output", "reports"))
-        self.selenium_screenshots_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "output", "selenium-screenshots"))
+        self.base_path = TestsOutputPath().path()
+        self.reports_path = TestsReportsPath().path()
+        self.selenium_screenshots_path = TestsSeleniumScreenShootsPath().path()
 
     def start_test(self, name, attrs):
         for file in os.listdir(self.selenium_screenshots_path):
@@ -78,7 +71,8 @@ class HtmlTestStepSliderReport:
 
     def end_test(self, name, attrs):
         today = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        path_to_report = os.path.abspath(os.path.join(self.execution_path, self.current_test["name"] + " " + today.replace(":", "-")))
+        test_name = self.current_test["name"] + " " + today.replace(":", "-")
+        path_to_report = os.path.abspath(os.path.join(self.reports_path, test_name))
 
         if not os.path.exists(path_to_report):
             os.mkdir(path_to_report)
@@ -196,7 +190,7 @@ class HtmlTestStepSliderReport:
         return base64.b64encode(buff.getvalue()).decode("utf-8")
 
     def __take_screenshot(self):
-        image_path = os.path.join(self.execution_path,"imagen.png")
+        image_path = os.path.join(self.reports_path,"imagen.png")
 
         im1 = ImageGrab.grab()
         im1.save(image_path)

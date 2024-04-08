@@ -82,7 +82,7 @@ Test 1
 import csv
 import os
 from dataclasses import dataclass, fields
-
+from test_paths import TestsOutputPath, TestsResultsPath
 
 class TestsExecutionResults:
     __file_path: str = None
@@ -90,11 +90,8 @@ class TestsExecutionResults:
 
     def __new__(cls):
         if cls.__file_path is None:
-            cd = os.path.dirname(__file__)
-            cls.__results_dir = os.path.abspath(os.path.join(cd, "..", "output","results"))
-
-            if not os.path.exists(cls.__results_dir):
-                os.makedirs(cls.__results_dir)
+            output_path = TestsOutputPath().path()
+            cls.__results_dir = TestsResultsPath().path()
 
             file_name = f"TestExecutionResults{cls.__get_file_index()}.csv"
             cls.__file_path = os.path.join(cls.__results_dir, file_name)

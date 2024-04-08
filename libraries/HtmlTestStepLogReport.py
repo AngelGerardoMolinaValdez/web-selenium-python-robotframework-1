@@ -40,6 +40,7 @@ import os
 import re
 import datetime
 from jinja2 import Environment, FileSystemLoader
+from test_paths import TestsOutputPath, TestsReportsPath
 
 class HtmlTestStepLogReport:
     ROBOT_LISTENER_API_VERSION = 2
@@ -51,11 +52,8 @@ class HtmlTestStepLogReport:
         self.current_test = {}
         self.base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
-        if not os.path.exists(os.path.join(self.base_path, "output")):
-            os.mkdir(os.path.join(self.base_path, "output"))
-
-        if not os.path.exists(os.path.join(self.base_path, "output", "reports")):
-            os.mkdir(os.path.join(self.base_path, "output", "reports"))
+        self.base_path = TestsOutputPath().path()
+        self.reports_path = TestsReportsPath().path()
 
     def start_test(self, name, attrs):
         self.current_test = {
@@ -64,7 +62,8 @@ class HtmlTestStepLogReport:
 
     def end_test(self, name, attrs):
         today = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        path_to_report = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "output", "reports", self.current_test["name"] + " " + today.replace(":", "-")))
+        test_name = self.current_test["name"] + " " + today.replace(":", "-")
+        path_to_report = os.path.abspath(os.path.join(self.reports_path, test_name))
 
         if not os.path.exists(path_to_report):
             os.mkdir(path_to_report)
