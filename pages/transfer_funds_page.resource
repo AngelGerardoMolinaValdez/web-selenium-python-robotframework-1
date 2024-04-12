@@ -34,3 +34,7 @@ Click Transfer Button
 Verify Transfer Success
     Page Should Contain    Transfer Complete!
     Log    STEP:IMAGE:Transferencia completada con éxito.:PASS
+
+Verify Transfer Failure
+    Page Should Contain    Please enter a valid amount.
+    Log    STEP:IMAGE:Transferencia fallida por cantidad alfanumerica:PASS

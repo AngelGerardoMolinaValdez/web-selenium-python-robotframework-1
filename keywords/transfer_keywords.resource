@@ -8,7 +8,7 @@ Resource    ../pages/transfer_funds_page.resource
 
 
 *** Keywords ***
-Transfer Funds In The Application
+Transfer Funds
     [Arguments]    ${data_table}
     Select Account Service    Transfer Funds
 
@@ -16,4 +16,14 @@ Transfer Funds In The Application
     Select From Account   ${data_table.from_account}
     Select To Account    ${data_table.to_account}
     Click Transfer Button
-    Verify Transfer Success
+    
+    ${amount_is_numeric}    Run Keyword And Return Status    
+    ...    Should Match Regexp    ${data_table.amount}    ^-?\\d+$    flags=MULTILINE
+
+    IF    ${amount_is_numeric}
+        Verify Transfer Success
+    ELSE
+        Verify Transfer Failure
+    END
+
+    RETURN    ${data_table}

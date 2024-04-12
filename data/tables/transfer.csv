@@ -1,0 +1,5 @@
+amount,from_account,to_account,type_account,account_reference
+100,13344,13344,CHECKING,13344
+100,13344,13344,SAVINGS,13344
+-100,13344,13344,,
+10A,13344,13344,,

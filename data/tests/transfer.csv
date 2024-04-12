@@ -1,0 +1,8 @@
+*** Test Cases ***;[Documentation];[Tags];${keyword_name};${data_row_index}
+TC003_TransferFundsToNewAccountCheckingFromExistingAccount;Crea una cuenta de tipo Checking y transfiere fondos de una cuenta existente a la nueva cuenta;workflow,ddt;Create New Account And Transfer Funds From Existing Account;0
+TC004_TransferFundsToExistingAccountFromNewAccountChecking;Crea una cuenta de tipo Checking y transfiere los fondos de la nueva cuenta a una existente;workflow,ddt;Create New Account And Transfer Funds To Existing Account;0
+TC005_TransferFundsToNewAccountSavingsFromExistingAccount;Crea una cuenta de tipo Savings y transfiere fondos de una cuenta existente a la nueva cuenta;workflow,ddt;Create New Account And Transfer Funds From Existing Account;1
+TC006_TransferFundsToExistingAccountFromNewAccountSavings;Crea una cuenta de tipo Savings y transfiere los fondos de la nueva cuenta a una existente;workflow,ddt;Create New Account And Transfer Funds To Existing Account;1
+TC026_TransferFunds_PositiveBalance;Transfiere fondos de una cuenta existente con saldo positivo;e2e,default;Transfer Funds;0
+TC027_TransferFunds_NegativeBalance;Transfiere fondos de una cuenta existente con saldo negativo;e2e,ddt;Transfer Funds;2
+TC028_TransferFunds_AlphanumericAmount;Transfiere fondos de una cuenta existente con monto alfanumérico;e2e,ddt;Transfer Funds;3
