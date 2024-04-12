@@ -1,0 +1,3 @@
+*** Test Cases ***;[Documentation];[Tags];${keyword_name};${data_row_index}
+TC001_NewAccountChecking;Crea una cuenta de tipo Checking;e2e,ddt,default;Open New Account In The Application;0
+TC002_NewAccountSavings;Crea una cuenta de tipo Savings;e2e,ddt;Open New Account In The Application;1
