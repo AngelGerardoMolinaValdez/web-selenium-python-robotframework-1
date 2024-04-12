@@ -1,31 +1,31 @@
-ID del Caso de Prueba," Descripción"," Labels"," Modulo de ejecución"
-TC001_NewAccountChecking,Crea una cuenta de tipo Checking,"e2e,ddt",tests.account.Account Service Workflows
-TC002_NewAccountSavings,Crea una cuenta de tipo Savings,"e2e,ddt",tests.account.Account Service Workflows
-TC003_NewAccountChecking_TransferFundsToNewAccount,Crea una cuenta de tipo Checking y transfiere fondos de una cuenta existente a la nueva cuenta,"workflow,ddt",tests.transfer.Transfer Service Workflows
-TC004_NewAccountChecking_TransferFundsToExistingAccount,Crea una cuenta de tipo Checking y transfiere los fondos de la nueva cuenta a una existente,"workflow,ddt",tests.transfer.Transfer Service Workflows
-TC005_NewAccountSavings_TransferFundsToNewAccount,Crea una cuenta de tipo Savings y transfiere fondos de una cuenta existente a la nueva cuenta,"workflow,ddt",tests.transfer.Transfer Service Workflows
-TC006_NewAccountSavings_TransferFundsToExistingAccount,Crea una cuenta de tipo Savings y transfiere los fondos de la nueva cuenta a una existente,"workflow,ddt",tests.transfer.Transfer Service Workflows
-TC007_NewAccountChecking_GetOverview,Crea una cuenta de tipo Checking y obtiene el resumen de la cuenta,"workflow,ddt",tests.transfer.Overview Service Workflows
-TC008_NewAccountSavings_GetOverview,Crea una cuenta de tipo Savings y obtiene el resumen de la cuenta,"workflow,ddt",tests.overview.Overview Service Workflows
-TC009_NewAccountChecking_TransferFundsToNewAccount_GetOverview,Crea una cuenta de tipo Checking. Transfiere fondos a una nueva cuenta y obtiene el resumen,"workflow,ddt",tests.overview.Overview Service Workflows
-TC010_NewAccountChecking_TransferFundsToExistingAccount_GetOverview,Crea una cuenta de tipo Checking. Transfiere fondos a una nueva cuenta y obtiene el resumen,"workflow,ddt",tests.overview.Overview Service Workflows
-TC011_NewAccountSavings_TransferFundsToNewAccount_GetOverview,Crea una cuenta de tipo Savings. Transfiere fondos a una nueva cuenta y obtiene el resumen,"workflow,ddt",tests.overview.Overview Service Workflows
-TC012_NewAccountSavings_TransferFundsToExistingAccount_GetOverview,Crea una cuenta de tipo Savings. Transfiere fondos a una nueva cuenta y obtiene el resumen,"workflow,ddt",tests.overview.Overview Service Workflows
-TC013_NewAccountChecking_BillPayment,Crea una cuenta de tipo Checking y realiza un pago de factura,"workflow,ddt",tests.bill_payment.Bill Payment Service Workflows
-TC014_NewAccountSavings_BillPayment,Crea una cuenta de tipo Savings y realiza un pago de factura,"workflow,ddt",tests.bill_payment.Bill Payment Service Workflows
-TC015_NewAccountChecking_TransferFundsToNewAccount_FindTransactionByID,Crea una cuenta de tipo Checking. Transfiere fondos a una nueva cuenta y busca la transacción por ID,"workflow,ddt",tests.find_transaction.Find Transaction Service Workflows
-TC016_NewAccountChecking_TransferFundsToNewAccount_FindTransactionByDate," Crea una cuenta de tipo Checking. Transfiere fondos a una nueva cuenta y busca la transacción por fecha","workflow,ddt",tests.find_transaction.Find Transaction Service Workflows
-TC017_NewAccountChecking_TransferFundsToNewAccount_FindTransactionByDateRange," Crea una cuenta de tipo Checking. Transfiere fondos a una nueva cuenta y busca la transacción por rango de fechas","workflow,ddt",tests.find_transaction.Find Transaction Service Workflows
-TC018_NewAccountChecking_TransferFundsToNewAccount_FindTransactionByAmount," Crea una cuenta de tipo Checking. Transfiere fondos a una nueva cuenta y busca la transacción por monto","workflow,ddt",tests.find_transaction.Find Transaction Service Workflows
-TC019_NewAccountSavings_TransferFundsToNewAccount_FindTransactionByID,Crea una cuenta de tipo Savings. Transfiere fondos a una nueva cuenta y busca la transacción por ID,"workflow,ddt",tests.find_transaction.Find Transaction Service Workflows
-TC020_NewAccountSavings_TransferFundsToNewAccount_FindTransactionByDate," Crea una cuenta de tipo Savings. Transfiere fondos a una nueva cuenta y busca la transacción por fecha","workflow,ddt",tests.find_transaction.Find Transaction Service Workflows
-TC021_NewAccountSavings_TransferFundsToNewAccount_FindTransactionByDateRange," Crea una cuenta de tipo Savings. Transfiere fondos a una nueva cuenta y busca la transacción por rango de fechas","workflow,ddt",tests.find_transaction.Find Transaction Service Workflows
-TC022_NewAccountSavings_TransferFundsToNewAccount_FindTransactionByAmount," Crea una cuenta de tipo Savings. Transfiere fondos a una nueva cuenta y busca la transacción por monto","workflow,ddt",tests.find_transaction.Find Transaction Service Workflows
-TC023_NewAccountChecking_RequestLoan,Crea una cuenta de tipo Checking y solicita un préstamo,"workflow,ddt",tests.loan.Request Loan Service Workflows
-TC024_NewAccountSavings_RequestLoan,Crea una cuenta de tipo Checking y solicita un préstamo,"workflow,ddt",tests.loan.Request Loan Service Workflows
-TC025_AccountOverview,Obtiene el resumen de una cuenta existente,"e2e,ddt",tests.overview.Overview Service Workflows
-TC026_TransferFunds_PositiveBalance,Transfiere fondos de una cuenta existente con saldo positivo,e2e,tests.transfer.Transfer Service Workflows
-TC027_TransferFunds_NegativeBalance,Transfiere fondos de una cuenta existente con saldo negativo,"e2e,ddt",tests.transfer.Transfer Service Workflows
-TC028_TransferFunds_AlphanumericAmount,Transfiere fondos de una cuenta existente con monto alfanumérico,"e2e,ddt",tests.transfer.Transfer Service Workflows
-TC029_BillPayment," Realiza un pago de factura de una cuenta existente",e2e,tests.bill_payment.Bill Payment Service Workflows
-TC030_RequestLoan," Solicita un préstamo de una cuenta existente",e2e,tests.loan.Request Loan Service Workflows
+ID del Caso de Prueba," Descripción"," Labels",Keyword asignada," Modulo de ejecución",Datos requeridos,Parametros definidos
+TC001_NewAccountChecking,"Crea una cuenta de tipo Checking","e2e,ddt,default",Open New Account In The Application,"tests.account.Account Service Workflows","Tipo de cuenta, cuenta de referencia","type_account,account_reference"
+TC002_NewAccountSavings,"Crea una cuenta de tipo Savings","e2e,ddt",Open New Account In The Application,"tests.account.Account Service Workflows","Tipo de cuenta, cuenta de referencia","type_account,account_reference"
+TC003_NewAccountChecking_TransferFundsToNewAccount,"Crea una cuenta de tipo Checking y transfiere fondos de una cuenta existente a la nueva cuenta","workflow,ddt",,"tests.transfer.Transfer Service Workflows",,
+TC004_NewAccountChecking_TransferFundsToExistingAccount,"Crea una cuenta de tipo Checking y transfiere los fondos de la nueva cuenta a una existente","workflow,ddt",,"tests.transfer.Transfer Service Workflows",,
+TC005_NewAccountSavings_TransferFundsToNewAccount,"Crea una cuenta de tipo Savings y transfiere fondos de una cuenta existente a la nueva cuenta","workflow,ddt",,"tests.transfer.Transfer Service Workflows",,
+TC006_NewAccountSavings_TransferFundsToExistingAccount,"Crea una cuenta de tipo Savings y transfiere los fondos de la nueva cuenta a una existente","workflow,ddt",,"tests.transfer.Transfer Service Workflows",,
+TC007_NewAccountChecking_GetOverview,"Crea una cuenta de tipo Checking y obtiene el resumen de la cuenta","workflow,ddt",,"tests.transfer.Overview Service Workflows",,
+TC008_NewAccountSavings_GetOverview,"Crea una cuenta de tipo Savings y obtiene el resumen de la cuenta","workflow,ddt",,"tests.overview.Overview Service Workflows",,
+TC009_NewAccountChecking_TransferFundsToNewAccount_GetOverview,"Crea una cuenta de tipo Checking. Transfiere fondos a una nueva cuenta y obtiene el resumen","workflow,ddt",,"tests.overview.Overview Service Workflows",,
+TC010_NewAccountChecking_TransferFundsToExistingAccount_GetOverview,"Crea una cuenta de tipo Checking. Transfiere fondos a una nueva cuenta y obtiene el resumen","workflow,ddt",,"tests.overview.Overview Service Workflows",,
+TC011_NewAccountSavings_TransferFundsToNewAccount_GetOverview,"Crea una cuenta de tipo Savings. Transfiere fondos a una nueva cuenta y obtiene el resumen","workflow,ddt",,"tests.overview.Overview Service Workflows",,
+TC012_NewAccountSavings_TransferFundsToExistingAccount_GetOverview,"Crea una cuenta de tipo Savings. Transfiere fondos a una nueva cuenta y obtiene el resumen","workflow,ddt",,"tests.overview.Overview Service Workflows",,
+TC013_NewAccountChecking_BillPayment,"Crea una cuenta de tipo Checking y realiza un pago de factura","workflow,ddt",,"tests.bill_payment.Bill Payment Service Workflows",,
+TC014_NewAccountSavings_BillPayment,"Crea una cuenta de tipo Savings y realiza un pago de factura","workflow,ddt",,"tests.bill_payment.Bill Payment Service Workflows",,
+TC015_NewAccountChecking_TransferFundsToNewAccount_FindTransactionByID,"Crea una cuenta de tipo Checking. Transfiere fondos a una nueva cuenta y busca la transacción por ID","workflow,ddt",,"tests.find_transaction.Find Transaction Service Workflows",,
+TC016_NewAccountChecking_TransferFundsToNewAccount_FindTransactionByDate," Crea una cuenta de tipo Checking. Transfiere fondos a una nueva cuenta y busca la transacción por fecha","workflow,ddt",,"tests.find_transaction.Find Transaction Service Workflows",,
+TC017_NewAccountChecking_TransferFundsToNewAccount_FindTransactionByDateRange," Crea una cuenta de tipo Checking. Transfiere fondos a una nueva cuenta y busca la transacción por rango de fechas","workflow,ddt",,"tests.find_transaction.Find Transaction Service Workflows",,
+TC018_NewAccountChecking_TransferFundsToNewAccount_FindTransactionByAmount," Crea una cuenta de tipo Checking. Transfiere fondos a una nueva cuenta y busca la transacción por monto","workflow,ddt",,"tests.find_transaction.Find Transaction Service Workflows",,
+TC019_NewAccountSavings_TransferFundsToNewAccount_FindTransactionByID,"Crea una cuenta de tipo Savings. Transfiere fondos a una nueva cuenta y busca la transacción por ID","workflow,ddt",,"tests.find_transaction.Find Transaction Service Workflows",,
+TC020_NewAccountSavings_TransferFundsToNewAccount_FindTransactionByDate," Crea una cuenta de tipo Savings. Transfiere fondos a una nueva cuenta y busca la transacción por fecha","workflow,ddt",,"tests.find_transaction.Find Transaction Service Workflows",,
+TC021_NewAccountSavings_TransferFundsToNewAccount_FindTransactionByDateRange," Crea una cuenta de tipo Savings. Transfiere fondos a una nueva cuenta y busca la transacción por rango de fechas","workflow,ddt",,"tests.find_transaction.Find Transaction Service Workflows",,
+TC022_NewAccountSavings_TransferFundsToNewAccount_FindTransactionByAmount," Crea una cuenta de tipo Savings. Transfiere fondos a una nueva cuenta y busca la transacción por monto","workflow,ddt",,"tests.find_transaction.Find Transaction Service Workflows",,
+TC023_NewAccountChecking_RequestLoan,"Crea una cuenta de tipo Checking y solicita un préstamo","workflow,ddt",,"tests.loan.Request Loan Service Workflows",,
+TC024_NewAccountSavings_RequestLoan,"Crea una cuenta de tipo Checking y solicita un préstamo","workflow,ddt",,"tests.loan.Request Loan Service Workflows",,
+TC025_AccountOverview,"Obtiene el resumen de una cuenta existente","e2e,ddt",,"tests.overview.Overview Service Workflows",,
+TC026_TransferFunds_PositiveBalance,"Transfiere fondos de una cuenta existente con saldo positivo","e2e",,"tests.transfer.Transfer Service Workflows",,
+TC027_TransferFunds_NegativeBalance,"Transfiere fondos de una cuenta existente con saldo negativo","e2e,ddt",,"tests.transfer.Transfer Service Workflows",,
+TC028_TransferFunds_AlphanumericAmount,"Transfiere fondos de una cuenta existente con monto alfanumérico","e2e,ddt",,"tests.transfer.Transfer Service Workflows",,
+TC029_BillPayment," Realiza un pago de factura de una cuenta existente","e2e",,"tests.bill_payment.Bill Payment Service Workflows",,
+TC030_RequestLoan," Solicita un préstamo de una cuenta existente","e2e",,"tests.loan.Request Loan Service Workflows",,
