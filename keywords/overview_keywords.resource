@@ -10,7 +10,7 @@ Resource    ../pages/account_overview_page.resource
 
 
 *** Keywords ***
-Get Account Overview
+Account Overview
     [Arguments]    ${data_table}
     Select Account Service    Accounts Overview
 

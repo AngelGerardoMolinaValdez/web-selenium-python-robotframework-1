@@ -1,0 +1,8 @@
+*** Test Cases ***;[Documentation];[Tags];${keyword_name};${data_row_index}
+TC007_GetOverviewFromNewAccountChecking;Crea una cuenta de tipo Checking y obtiene el resumen de la cuenta;workflow,ddt;Create New Account And Get Overview;0
+TC008_GetOverviewFromNewAccountSavings;Crea una cuenta de tipo Savings y obtiene el resumen de la cuenta;workflow,ddt;Create New Account And Get Overview;1
+TC009_GetOverviewOfAFundsTransferToNewAccountChecking;Crea una cuenta de tipo Checking. Transfiere fondos a una nueva cuenta y obtiene el resumen;workflow,ddt;Create New Account Then Transfer Funds From Existing Account And Get Overview;0
+TC010_GetOverviewOfAFundsTransferToExistingAccountChecking;Crea una cuenta de tipo Checking. Transfiere fondos a una nueva cuenta y obtiene el resumen;workflow,ddt;Create New Account Then Transfer Funds To Existing Account And Get Overview;0
+TC011_GetOverviewOfAFundsTransferToNewAccountSavings;Crea una cuenta de tipo Savings. Transfiere fondos a una nueva cuenta y obtiene el resumen;workflow,ddt;Create New Account Then Transfer Funds From Existing Account And Get Overview;1
+TC012_GetOverviewOfAFundsTransferToExistingAccountSavings;Crea una cuenta de tipo Savings. Transfiere fondos a una nueva cuenta y obtiene el resumen;workflow,ddt;Create New Account Then Transfer Funds To Existing Account And Get Overview;1
+TC025_AccountOverview;Obtiene el resumen de una cuenta existente;e2e,ddt,default;Account Overview;0
