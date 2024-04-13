@@ -1,0 +1,3 @@
+type_account,account_reference,payee_name,address,city,state,zip_code,phone,account_payable,amount,account_id
+CHECKING,13344,Foo Bar,Robot Framework,Python City,Internet,010101,550000005500,13344,100,13344
+SAVINGS,13344,Foo Bar,Robot Framework,Python City,Internet,010101,550000005500,13344,100,13344
