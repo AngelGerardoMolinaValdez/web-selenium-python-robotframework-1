@@ -1,0 +1,9 @@
+type_account,account_reference,from_account,to_account,account_id,transaction_id,date,start_date,end_date,amount,type_search
+CHECKING,13344,13344,13344,,,,,,10000,Id
+CHECKING,13344,13344,13344,,,,,,10000,Date
+CHECKING,13344,13344,13344,,,,,,10000,Date Range
+CHECKING,13344,13344,13344,,,,,,10000,Amount
+SAVINGS,13344,13344,13344,,,,,,10000,Id
+SAVINGS,13344,13344,13344,,,,,,10000,Date
+SAVINGS,13344,13344,13344,,,,,,10000,Date Range
+SAVINGS,13344,13344,13344,,,,,,10000,Amount

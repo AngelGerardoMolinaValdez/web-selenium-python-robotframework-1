@@ -14,7 +14,7 @@ Create New Account And Transfer Funds From Existing Account    # robotcode: igno
     [Arguments]    ${dt}
     ${new_account_dt}    Open New Account In The Application    ${dt}
     VAR    ${new_accound_id}    ${new_account_dt.account_id}
-    ${transfer_dt}    Update Data Table    ${dt}    to_account=${new_accound_id}
+    ${transfer_dt}    Update Data Table    ${new_account_dt}    to_account=${new_accound_id}
     Transfer Funds    ${transfer_dt}
     RETURN    ${transfer_dt}
 

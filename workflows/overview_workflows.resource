@@ -29,3 +29,9 @@ Create New Account Then Transfer Funds To Existing Account And Get Overview    #
     ${new_account_transfer_dt}    Create New Account And Transfer Funds To Existing Account    ${dt}
     ${overview_dt}    Account Overview    ${new_account_transfer_dt}
     RETURN    ${overview_dt}
+
+Create New Account Then Transfer Funds From Existing Account And Save Overview
+    [Arguments]    ${dt}
+    ${new_account_transfer_dt}    Create New Account And Transfer Funds From Existing Account    ${dt}
+    ${dt_last_transaction_overview}    Save Last Account Transaction Overview    ${new_account_transfer_dt}
+    RETURN    ${dt_last_transaction_overview}
