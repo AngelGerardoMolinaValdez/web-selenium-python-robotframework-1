@@ -170,6 +170,8 @@ Consideraciones:
 
 ![](./assets/images/test_report_style_2.png)
 
+NOTA: Se puede implementar este reporte tambien en PDF con el listener `PdfTestStepLogReport.py`
+
 ### HtmlTestStepSliderReport
 
 En este listener es posible generar un reporte de pasos con imágenes. Para agregar una imagen a un paso, se debe agregar el tag STEP:IMAGE: en el mensaje. El mensaje se puede usar para reportar información adicional de un paso, como por ejemplo, el valor de una variable, el resultado de una operación, etc.
@@ -264,6 +266,8 @@ Resource    config/Libraries.resource
 ```
 
 ![](./assets/images/test_report_style_3.png)
+
+NOTA: Se puede implementar este reporte tambien en PDF con el listener `PdfTestStepSliderReport.py`
 
 ## Datos de prueba
 
