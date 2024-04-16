@@ -1,75 +1,8 @@
-"""Librería para la creación de DataTables a partir de archivos CSV.
-
-Esta librería esta hecho con el fin de reducir la declaración de variables en el archivo de pruebas, ya que se puede crear un DataTable a partir de un archivo CSV y acceder a los datos de la fila como atributos del objeto.
-
-Un DataTable es una estructura de datos que representa una tabla de datos. Este se crea a partir de una lista de diccionarios, donde cada diccionario representa una fila de la tabla y este mismo diccionario se convierte en un dataclass para poder acceder a los datos de la fila como atributos del objeto.
-
-Un `dataclass` es una funcionalidad de Python 3.7 que simplifica la creación de clases para almacenar datos. Mediante el módulo `dataclasses`, automatiza la generación de métodos como `__init__()`, `__repr__()`, `__eq__()`, y `__hash__()`, esenciales en clases usadas principalmente como contenedores de datos.
-
-### Importar la librería
-
-```robotframework
-*** Settings ***
-Library    ./libraries/DataTableLibrary.py
-```
-
-### Crear un DataTable
-Con los siguientes datos de prueba:
-
-```csv
-name,age,city,country
-John Doe,30,New York,USA
-Jane Doe,25,San Francisco,USA
-```
-
-```robotframework
-*** Test Cases ***
-Create DataTable
-    ${table}=    Create Data Table    ${CURDIR}/data.csv    0
-    Log    ${table}
-    Log    ${table.name}
-    Log    ${table.age}
-    Log    ${table.city}
-    Log    ${table.country}
-    Log    ${table.email}
-    Log    ${table.phone}
-```
-
-### Agregar un campo al DataTable
-
-Con los siguientes datos de prueba:
-
-```csv
-name,age,city,country
-John Doe,30,New York,USA
-Jane Doe,25,San Francisco,USA
-```
-
-Se puede agregar un campo al DataTable de la siguiente manera:
-
-```robotframework
-*** Test Cases ***
-Add Field
-    ${table}=    Create Data Table    ${CURDIR}/data.csv    0
-    ${new_table}=    Update Data Table    ${table}   is_active   True
-    Log    ${new_table}
-```
-
-Dando como resultado:
-
-`DataTable(name='John Doe', age='30', city='New York', country='USA', is_active='True')`
-
-### Consideraciones
-
-- El índice de la fila inicia en 0.
-- Los nombres de las columnas del archivo de datos deben ser únicos.
-- Los nombres de las columnas del archivo de datos no deben contener espacios en blanco.
-- Los nombres de las columnas del archivo de datos no deben contener tildes ni caracteres especiales.
-"""
 import os
 import csv
 from typing import Any
 from dataclasses import dataclass, make_dataclass, asdict
+from robot.api.deco import library
 
 class CsvReader:
     __content: list[dict[str, Any]] = []
@@ -95,7 +28,7 @@ class CsvReader:
 
         return cls.__content[index]
 
-
+@library
 class DataTableLibrary:    
     def create_data_table(self, path: str, index: int) -> dataclass:
         """Crea un DataTable a partir de un archivo CSV."""
@@ -103,6 +36,11 @@ class DataTableLibrary:
         test_data_row = CsvReader.get(index)
         DataTable: dataclass = make_dataclass("DataTable", test_data_row.keys())
         return DataTable(**test_data_row)
+
+    def create_data_table_from_fields(self, **fields) -> dataclass:
+        """Crea un DataTable a partir de un archivo CSV."""
+        DataTable: dataclass = make_dataclass("DataTable", fields.keys())
+        return DataTable(**fields)
 
     def update_data_table(self, data_table: dataclass, **fields) -> dataclass:
         """Agrega un nuevo campo al DataTable y retorna una nueva instancia del DataTable."""
@@ -113,3 +51,26 @@ class DataTableLibrary:
             [(name, str) for name in data_class_dict.keys()]
         )
         return DataClass(**data_class_dict)
+
+    def merge_data_tables(self, data_table: dataclass, another_data_table: dataclass) -> dataclass:
+        """Agrega un nuevo campo al DataTable y retorna una nueva instancia del DataTable."""
+        data_table_dict = asdict(data_table)
+        another_data_table_dict = asdict(another_data_table)
+        data_table_dict.update(another_data_table_dict)
+        DataClass = make_dataclass(
+            "DataClass",
+            [(name, str) for name in data_table_dict.keys()]
+        )
+        return DataClass(**data_table_dict)
+
+    def unify_data_tables(self, data_table: dataclass, *data_tables) -> dataclass:
+        """Agrega un nuevo campo al DataTable y retorna una nueva instancia del DataTable."""
+        original_data_table_dict = asdict(data_table)
+        for another_data_table in data_tables:
+            another_data_table_dict = asdict(another_data_table)
+            original_data_table_dict.update(another_data_table_dict)
+        DataClass = make_dataclass(
+            "DataClass",
+            [(name, str) for name in original_data_table_dict.keys()]
+        )
+        return DataClass(**original_data_table_dict)

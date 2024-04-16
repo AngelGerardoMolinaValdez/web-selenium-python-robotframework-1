@@ -304,6 +304,23 @@ Create DataTable
     Log    ${table.country}
 ```
 
+### Crear DataTAble sin archivo de datos
+
+Los data tables se crean a partir de un archivo CSV, pero también se pueden crear a partir de un diccionario de datos.
+
+```robotframework
+*** Test Cases ***
+Create DataTable From Fields
+    ${table}=    Create Data Table From Fields    name=John Doe    age=30    city=New York    country=USA
+    Log    ${table}
+    Log    ${table.name}
+    Log    ${table.age}
+    Log    ${table.city}
+    Log    ${table.country}
+    Log    ${table.email}
+    Log    ${table.phone}
+```
+
 ### Agregar un campo al DataTable ➕
 
 Con los siguientes datos de prueba:
@@ -340,6 +357,75 @@ Add Field
 Dando como resultado:
 
 `DataTable(name='John Doe', age='30', city='New York', country='USA', is_active='True', account_type='premium')`
+
+### Unir dos DataTables
+
+Con los siguientes datos de prueba:
+    
+```csv
+name,age,city,country
+John Doe,30,New York,USA
+Jane Doe,25,San Francisco,USA
+```
+
+```csv
+email,phone
+foo@mail.com,123456789
+bar@mail.com,123456789
+```
+
+Se pueden unir dos DataTables de la siguiente manera:
+
+```robotframework
+*** Test Cases ***
+Merge DataTables
+    ${table1}=    Create Data Table    ${CURDIR}/data.csv    0
+    ${table2}=    Create Data Table    ${CURDIR}/data2.csv    0
+    ${new_table}=    Merge Data Tables    ${table1}    ${table2}
+    Log    ${new_table}
+```
+
+Dando como resultado:
+
+`DataTable(name='John Doe', age='30', city='New York', country='USA', email='foo@mail.com', phone='123456789')`
+
+### Unir varios DataTables
+
+Con los siguientes datos de prueba:
+
+```csv
+name,age,city,country
+John Doe,30,New York,USA
+Jane Doe,25,San Francisco,USA
+```
+
+```csv
+email,phone
+foo@mail.com,123456789
+bar@mail.com,123456789
+```
+
+```csv
+is_active
+True
+False
+```
+
+Se pueden unir varios DataTables de la siguiente manera:
+    
+    ```robotframework
+    *** Test Cases ***
+    Unify DataTables
+        ${table1}=    Create Data Table    ${CURDIR}/data.csv    0
+        ${table2}=    Create Data Table    ${CURDIR}/data2.csv    0
+        ${table3}=    Create Data Table    ${CURDIR}/data3.csv    0
+        ${new_table}=    Unify Data Tables    ${table1}    ${table2}    ${table3}
+        Log    ${new_table}
+    ```
+
+Dando como resultado:
+
+`DataTable(name='John Doe', age='30', city='New York', country='USA', email='foo@mail.com', phone='123456789', is_active='True')`
 
 ### Consideraciones 🤔
 
