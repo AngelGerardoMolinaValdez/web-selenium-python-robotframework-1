@@ -3,7 +3,7 @@ Documentation     A representation of a find transaction page
 
 Keyword Tags    find-transaction-page
 
-Resource    ${EXECDIR}/config/Libraries.resource
+Resource    ${EXECDIR}/config/global/dependencies/pages.resource
 
 
 *** Keywords ***

@@ -3,7 +3,7 @@ Documentation     A reusable keywords that can be used to login to the applicati
 
 Keyword Tags      common
 
-Resource    ${EXECDIR}/config/Libraries.resource
+Resource    ${EXECDIR}/config/global/dependencies/pages.resource
 
 
 *** Keywords ***

@@ -3,7 +3,7 @@ Documentation     A representation of a account overview in the application
 
 Keyword Tags    account-overview-page
 
-Resource    ${EXECDIR}/config/Libraries.resource
+Resource    ${EXECDIR}/config/global/dependencies/pages.resource
 
 
 *** Keywords ***

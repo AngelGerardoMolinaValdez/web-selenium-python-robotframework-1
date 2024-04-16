@@ -1,7 +1,7 @@
 *** Settings ***
 Keyword Tags    steps
 
-Resource    ${EXECDIR}/config/Libraries.resource
+Resource    ${EXECDIR}/config/global/dependencies/pages.resource
 
 
 *** Keywords ***

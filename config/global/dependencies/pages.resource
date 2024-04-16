@@ -12,4 +12,4 @@ Library    SeleniumLibrary
 ...    run_on_failure=${None}
 ...    screenshot_root_directory=${EXECDIR}/output/selenium-screenshots
 
-Library   ../libraries/HighLightLibrary.py
+Library   ${EXECDIR}/libraries/HighLightLibrary.py

@@ -3,7 +3,7 @@ Documentation     A representation of a login page
 
 Keyword Tags    login-page
 
-Resource    ${EXECDIR}/config/Libraries.resource
+Resource    ${EXECDIR}/config/global/dependencies/pages.resource
 
 
 *** Variables ***
