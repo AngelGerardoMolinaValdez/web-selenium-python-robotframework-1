@@ -1,0 +1,4 @@
+*** Test Cases ***;[Documentation];[Tags];${keyword_name};${data_row_index}
+TC023_RequestLoanOfANewAccountChecking;Crea una cuenta de tipo Checking y solicita un préstamo;workflow,ddt;Get Request Loan Of A New Account;0
+TC024_RequestLoanOfANewAccountSavings;Crea una cuenta de tipo Checking y solicita un préstamo;workflow,ddt;Get Request Loan Of A New Account;1
+TC030_RequestLoan;" Solicita un préstamo de una cuenta existente";e2e,default;Request Loan;2

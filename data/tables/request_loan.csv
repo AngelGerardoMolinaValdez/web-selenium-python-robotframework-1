@@ -1,0 +1,4 @@
+type_account,account_reference,loan_amount,down_amount,account_id
+CHECKING,13344,100,50,
+SAVINGS,13344,100,50,
+,,100,50,13344
