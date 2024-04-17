@@ -1,39 +1,15 @@
 import os
-import csv
-from typing import Any
 from dataclasses import dataclass, make_dataclass, asdict
-from robot.api.deco import library
+from file_readers import FileReaderType
 
-class CsvReader:
-    __content: list[dict[str, Any]] = []
 
-    @classmethod
-    def read(cls, path: str) -> list:
-        """Read the CSV file and return a list of dictionaries."""
-        if not os.path.exists(path):
-            raise FileNotFoundError(f"El archivo de datos no existe: {path}")
-
-        with open(path, 'r') as file:
-            cls.__content = list(csv.DictReader(file))
-    
-    @classmethod
-    def get(cls, index: int) -> dict:
-        try:
-            index = int(index)
-        except ValueError:
-            raise ValueError(f"El índice {index} no es un número entero.")
-
-        if index < 0 or index >= len(cls.__content):
-            raise IndexError(f"El índice {index} está fuera de rango de las filas del archivo de datos.")
-
-        return cls.__content[index]
-
-@library
 class DataTableLibrary:    
     def create_data_table(self, path: str, index: int) -> dataclass:
         """Crea un DataTable a partir de un archivo CSV."""
-        CsvReader.read(path)
-        test_data_row = CsvReader.get(index)
+        ext_file = os.path.splitext(path)[1]
+        reader = FileReaderType[ext_file[1:].upper()].value
+        reader.read(path)
+        test_data_row = reader.get(index)
         DataTable: dataclass = make_dataclass("DataTable", test_data_row.keys())
         return DataTable(**test_data_row)
 
