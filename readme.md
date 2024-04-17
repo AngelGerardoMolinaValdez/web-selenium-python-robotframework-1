@@ -534,12 +534,20 @@ Esta libreria permite resaltar elementos en la página web durante la ejecución
 
 Es util para resaltar elementos en la página web durante la ejecución de pruebas, para que los usuarios puedan ver claramente que elementos están siendo afectados por las pruebas. 👀
 
-Hay 3 tipos de iluminación:
-- `highlight_element_persistent`: Resalta el elemento de forma permanente. 🟦
-- `highlight_element_sync`: Resalta el elemento de forma sincrona durante un tiempo determinado. ⏳
-- `highlight_element_async`: Resalta el elemento de forma asincrona durante un tiempo determinado. ⌛
+#### Iluminación de elementos
+
+La iluminación de elementos se puede realizar de varias maneras, incluyendo:
+
+1. **Resaltado Permanente:** Resalta un elemento de forma permanente con un color específico y un estilo de borde.
+2. **Resaltado Asíncrono:** Resalta un elemento con un color específico y un estilo de borde durante un tiempo específico y luego restaura el estilo original.
+3. **Resaltado de Gradiente:** Aplica un gradiente de arcoíris continuo en el borde de un elemento.
+4. **Resaltado de Gradiente Cónico:** Aplica un gradiente cónico que rota alrededor del borde de un elemento web.
+5. **Resaltado de Gradiente Móvil:** Aplica un gradiente de arcoíris continuo que se mueve alrededor del borde de un elemento indefinidamente.
+6. **Resaltado de Gradiente Suave:** Resalta un elemento con una transición suave entre múltiples colores en el fondo usando animación de CSS.
+7. **Resaltado de Gradiente Suave en Borde:** Resalta un elemento con una transición suave entre múltiples colores usando animación de CSS.
 
 #### Localización de elementos 🔍
+
 La localización de elementos se realiza con el uso de Selectors de CSS, Selectors de XPath, Selectors de ID, Selectors de Name, Selectors de Class, Selectors de Tag, Selectors de Link Text, Selectors de Partial Link Text. En pocas palabras, se puede utilizar cualquier selector que se pueda utilizar con SeleniumLibrary.
 
 #### Colores 🎨
@@ -578,7 +586,45 @@ Aquí algunos ejemplos de cómo pasar diferentes tipos de valores de color a tu 
   highlight_element('id:tu-id-elemento', 'rgba(255, 99, 71, 0.5)')  # Tomato con opacidad del 50%
   ```
 
+#### Estilos de Borde
+
+Puedes personalizar el estilo del borde de los elementos resaltados en tus pruebas automatizadas con Selenium y Robot Framework. Los estilos de borde disponibles incluyen:
+
+1. **Solid:** Un borde sólido.
+2. **Dotted:** Un borde punteado.
+3. **Dashed:** Un borde discontinuo.
+4. **Double:** Un borde doble.
+5. **Groove:** Un borde en relieve.
+6. **Ridge:** Un borde en relieve.
+7. **Inset:** Un borde en relieve.
+8. **Outset:** Un borde en relieve.
+
+#### Sombra
+
+Puedes añadir una sombra a los elementos resaltados en tus pruebas automatizadas con Selenium y Robot Framework. La sombra se puede añadir con la propiedad `box-shadow` de CSS. Por ejemplo, para añadir una sombra de 5px de ancho y 5px de desplazamiento en todas las direcciones, puedes hacer lo siguiente:
+
+```python
+highlight_element('id:tu-id-elemento', shadow='5px 5px 5px #888888')
+```
+
+#### Opacidad de Relleno
+
+Puedes añadir una opacidad de relleno a los elementos resaltados en tus pruebas automatizadas con Selenium y Robot Framework. La opacidad de relleno se puede añadir con la función `rgba()` de CSS. Por ejemplo, para añadir un relleno con un 10% de opacidad, puedes hacer lo siguiente:
+
+```python
+highlight_element('id:tu-id-elemento', fill_opacity=0.1)
+```
+
+#### Animación
+
+Puedes añadir animación a los elementos resaltados en tus pruebas automatizadas con Selenium y Robot Framework. La animación se puede añadir con la propiedad `transition` de CSS. Por ejemplo, para añadir una animación de 0.5 segundos al resaltar un elemento, puedes hacer lo siguiente:
+
+```python
+highlight_element('id:tu-id-elemento', with_animation=True, seconds=0.5)
+```
+
 #### Uso 🛠️
+
 ```robotframework
 *** Settings ***
 Library    SeleniumLibrary
@@ -593,6 +639,10 @@ Example
     Highlight Element Sync    name=q
     Close Browser
 ```
+
+#### Consideraciones
+
+- Al usar selectores web con el caracter `=`, se debe colocar una diagonal invertida `\` antes del caracter `=`, para que no sea interpretado como un operador de asignación. Ejemplo: `id\=your-element-id`. Esto ultimo se puede evitar si el locator se guarda previamente en una variable y se pasa como argumento a la función.
 
 ## 📊 Análisis de código
 
