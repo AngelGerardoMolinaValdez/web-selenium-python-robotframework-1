@@ -44,8 +44,8 @@
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        .theme-switcher {
-            margin-bottom: 20px; /* Espacio entre el botón y la caja de información */
+        .theme-switcher, .start-end-buttons {
+            margin-bottom: 20px; /* Espacio entre botones y contenido */
         }
         .test-info {
             background-color: var(--container-background-color);
@@ -95,14 +95,21 @@
             margin-top: 10px;
             color: var(--info-color);
         }
+        .status-text {
+            color: var(--info-color); /* Color inicial, cambiar según el estado */
+        }
     </style>
 </head>
 <body data-theme="dark">
 <div class="container">
     <button class="theme-switcher" onclick="switchTheme()">Cambiar a Tema Claro</button>
     <div class="test-info">
-        <h1>Reporte De Ejecución Automatizada</h1>
+        <h1>Reporte De Ejecución Automatizada <span class="status-text-{{ status }}" id="status-text">Estatus: {{ status }}</span></h1>
         <h2>Test: {{ testname }}</h2>
+    </div>
+    <div class="start-end-buttons">
+        <button onclick="goToStart()">Ir al Inicio</button>
+        <button onclick="goToEnd()">Ir al Final</button>
     </div>
     {% for step_data in steps_data %}
         <div class="step {{ step_data.step_level }}" id="step-{{ loop.index }}">
@@ -126,6 +133,7 @@
         if (newStep) newStep.style.display = 'block';
         currentStep = index;
         updateStepCounter();
+        updateStatusColor(newStep.classList.contains('fail') ? 'fail' : 'pass'); // Simplificado para ejemplo
     }
     function changeStep(direction) {
         let newIndex = currentStep + direction;
@@ -133,9 +141,19 @@
         if (newIndex >= totalSteps) newIndex = 0;
         showStep(newIndex);
     }
+    function goToStart() {
+        showStep(0);
+    }
+    function goToEnd() {
+        showStep(totalSteps - 1);
+    }
     function updateStepCounter() {
         const counterElement = document.getElementById('step-counter');
         counterElement.textContent = (currentStep + 1) + ' de ' + totalSteps;
+    }
+    function updateStatusColor(status) {
+        const statusText = document.getElementById('status-text');
+        statusText.style.color = getComputedStyle(document.documentElement).getPropertyValue('--' + status + '-color');
     }
     function switchTheme() {
         const body = document.body;
@@ -150,6 +168,7 @@
     }
     window.onload = function() {
         showStep(0); // Mostrar el primer paso al cargar
+        updateStatusColor('info'); // Inicializar color de estado, cambiar según necesidad
     };
 </script>
 </body>

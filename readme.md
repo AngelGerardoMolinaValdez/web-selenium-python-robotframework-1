@@ -121,11 +121,12 @@ Robot Framework ya ofrece reportes de ejecución de test cases, pero no ofrece u
 - El reporte se genera en la carpeta ./base/output/reports/
 - Es posible desde no generar el reporte de todos los listeners.
 
-Hay 4 listeners que podremos usar para generar reportes de los pasos de ejecución de un test case:
+Hay 5 listeners que podremos usar para generar reportes de los pasos de ejecución de un test case:
 - **HtmlTestReportStepLog.py:** Genera un reporte de los pasos de ejecución de un test case en un archivo html.
 - **HtmlTestReportStepSlider.py:** Genera un reporte de los pasos de ejecución de un test case en un archivo html con imágenes.
 - **PdfTestReportStepLog.py:** Genera un reporte de los pasos de ejecución de un test case en un archivo pdf.
 - **PdfTestReportStepSlider.py:** Genera un reporte de los pasos de ejecución de un test case en un archivo pdf con imágenes.
+- **HtmlTestReportStepHorizontalSlider.py:** Genera un reporte de los pasos de ejecución de un test case en un archivo html con imágenes en horizontal.
 
 Para utilizar estos listeners, se debe especificar como listener al ejecutar las pruebas:
 
@@ -143,6 +144,7 @@ Las carpetas que crea cada listener son:
 - **HtmlTestReportStepSlider.py:** output/reports/report_step_slider/
 - **PdfTestReportStepLog.py:** output/reports/report_pdf_log/
 - **PdfTestReportStepSlider.py:** output/reports/report_pdf_slider/
+- **HtmlTestReportStepHorizontalSlider.py:** output/reports/report_horizontal_step_slider/
 
 Pese a que hay 4 listeners, se pueden clasificar en 2 tipos: con imágenes y sin imágenes. Los listeners que contienen la palabra "Slider" generan reportes con imágenes, mientras que los otros generan reportes sin imágenes.
 

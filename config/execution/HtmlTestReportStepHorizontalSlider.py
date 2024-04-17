@@ -66,7 +66,7 @@ class HtmlTestReportStepHorizontalSlider:
         if not os.path.exists(path_to_report):
             os.mkdir(path_to_report)
 
-        path_to_report = os.path.join(path_to_report, "report_step_slider")
+        path_to_report = os.path.join(path_to_report, "report_horizontal_step_slider")
         os.mkdir(path_to_report)
 
         env = Environment(loader=FileSystemLoader(
@@ -74,7 +74,7 @@ class HtmlTestReportStepHorizontalSlider:
             )
         )
         template = env.get_template('step_horizontal_slider_report.html')
-        output = template.render(testname=self.current_test["name"], steps_data=self.keywords_config + self.keywords_data)
+        output = template.render(testname=self.current_test["name"], steps_data=self.keywords_config + self.keywords_data, status=attrs['status'].lower())
         with open(os.path.join(path_to_report, self.current_test["name"] + ".html"), "w", encoding="utf-8") as f:
             f.write(output)
 
