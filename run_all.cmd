@@ -1,1 +1,1 @@
-poetry run robot --outputdir output/robot --listener ./libraries/HtmlTestStepSliderReport.py tests
+poetry run robot --outputdir output/robot --listener ./config/execution/HtmlTestReportStepSlider.py tests
