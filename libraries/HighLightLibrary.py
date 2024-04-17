@@ -1,123 +1,131 @@
-"""
-Esta librería permite resaltar elementos en la página web durante la ejecución de pruebas.
-
-Es util para resaltar elementos en la página web durante la ejecución de pruebas, para que los usuarios puedan ver claramente que elementos están siendo afectados por las pruebas.
-
-#### Iluminación de elementos
-
-La iluminación de elementos se puede realizar de varias maneras, incluyendo:
-
-1. **Resaltado Permanente:** Resalta un elemento de forma permanente con un color específico y un estilo de borde.
-2. **Resaltado Asíncrono:** Resalta un elemento con un color específico y un estilo de borde durante un tiempo específico y luego restaura el estilo original.
-3. **Resaltado de Gradiente:** Aplica un gradiente de arcoíris continuo en el borde de un elemento.
-4. **Resaltado de Gradiente Cónico:** Aplica un gradiente cónico que rota alrededor del borde de un elemento web.
-5. **Resaltado de Gradiente Móvil:** Aplica un gradiente de arcoíris continuo que se mueve alrededor del borde de un elemento indefinidamente.
-6. **Resaltado de Gradiente Suave:** Resalta un elemento con una transición suave entre múltiples colores en el fondo usando animación de CSS.
-7. **Resaltado de Gradiente Suave en Borde:** Resalta un elemento con una transición suave entre múltiples colores usando animación de CSS.
-
-#### Localización de elementos
-
-La localización de elementos se realiza con el uso de Selectors de CSS, Selectors de XPath, Selectors de ID, Selectors de Name, Selectors de Class, Selectors de Tag, Selectors de Link Text, Selectors de Partial Link Text. En pocas palabras, se puede utilizar cualquier selector que se pueda utilizar con SeleniumLibrary.
-
-#### Colores
-
-Para personalizar aún más los colores al iluminar elementos en tus pruebas automatizadas con Selenium y Robot Framework, puedes usar cualquier valor de color que sea válido en CSS. Esto incluye varios tipos de especificaciones de color:
-
-1. **Nombres de Color CSS:** CSS soporta nombres de color predefinidos, como `red`, `green`, `blue`, `yellow`, `orange`, `purple`, `pink`, `cyan`, `magenta`, `lime`, `gray`, `black`, `white`, y muchos más.
-
-2. **Valores Hexadecimales:** Puedes especificar colores usando valores hexadecimales, que comienzan con `#` seguido de 3 o 6 dígitos que representan los componentes de color RGB (Rojo, Verde, Azul). Por ejemplo, `#FF0000` es rojo, `#00FF00` es verde, y `#0000FF` es azul. Los valores hexadecimales pueden ofrecer más de 16 millones de colores.
-
-3. **RGB y RGBA:** La función `rgb()` permite especificar colores en términos de la intensidad de los componentes rojo, verde y azul, con valores que van de 0 a 255. Por ejemplo, `rgb(255, 0, 0)` es rojo. `RGBA` añade un cuarto valor para la opacidad, donde 0 es completamente transparente y 1 es completamente opaco. Por ejemplo, `rgba(255, 0, 0, 0.5)` sería rojo con una opacidad del 50%.
-
-4. **HSL y HSLA:** La función `hsl()` especifica colores en términos de tono (hue), saturación (saturation) y luminosidad (lightness). Por ejemplo, `hsl(0, 100%, 50%)` es rojo. Al igual que con RGBA, `HSLA` añade un componente de opacidad. Por ejemplo, `hsla(0, 100%, 50%, 0.5)` sería rojo con una opacidad del 50%.
-
-Estos tipos de valores te permiten definir prácticamente cualquier color que puedas necesitar para resaltar elementos en tus pruebas. Por ejemplo, si quisieras usar un tono específico de azul que tiene un código hex, o un valor RGB específico para una precisión de color exacta, podrías hacerlo pasando el valor correspondiente al argumento `color` en la función `highlight_element`.
-
-Aquí algunos ejemplos de cómo pasar diferentes tipos de valores de color a tu función `highlight_element`:
-
-- **Usando un nombre de color CSS:**
-  ```python
-  highlight_element('id:tu-id-elemento', 'cyan')
-  ```
-  
-- **Usando un valor hexadecimal:**
-  ```python
-  highlight_element('id:tu-id-elemento', '#33cc33')
-  ```
-  
-- **Usando RGB:**
-  ```python
-  highlight_element('id:tu-id-elemento', 'rgb(255, 165, 0)')  # Orange
-  ```
-  
-- **Usando RGBA (con opacidad):**
-  ```python
-  highlight_element('id:tu-id-elemento', 'rgba(255, 99, 71, 0.5)')  # Tomato con opacidad del 50%
-  ```
-
-#### Estilos de Borde
-
-Puedes personalizar el estilo del borde de los elementos resaltados en tus pruebas automatizadas con Selenium y Robot Framework. Los estilos de borde disponibles incluyen:
-
-1. **Solid:** Un borde sólido.
-2. **Dotted:** Un borde punteado.
-3. **Dashed:** Un borde discontinuo.
-4. **Double:** Un borde doble.
-5. **Groove:** Un borde en relieve.
-6. **Ridge:** Un borde en relieve.
-7. **Inset:** Un borde en relieve.
-8. **Outset:** Un borde en relieve.
-
-#### Sombra
-
-Puedes añadir una sombra a los elementos resaltados en tus pruebas automatizadas con Selenium y Robot Framework. La sombra se puede añadir con la propiedad `box-shadow` de CSS. Por ejemplo, para añadir una sombra de 5px de ancho y 5px de desplazamiento en todas las direcciones, puedes hacer lo siguiente:
-
-```python
-highlight_element('id:tu-id-elemento', shadow='5px 5px 5px #888888')
-```
-
-#### Opacidad de Relleno
-
-Puedes añadir una opacidad de relleno a los elementos resaltados en tus pruebas automatizadas con Selenium y Robot Framework. La opacidad de relleno se puede añadir con la función `rgba()` de CSS. Por ejemplo, para añadir un relleno con un 10% de opacidad, puedes hacer lo siguiente:
-
-```python
-highlight_element('id:tu-id-elemento', fill_opacity=0.1)
-```
-
-#### Animación
-
-Puedes añadir animación a los elementos resaltados en tus pruebas automatizadas con Selenium y Robot Framework. La animación se puede añadir con la propiedad `transition` de CSS. Por ejemplo, para añadir una animación de 0.5 segundos al resaltar un elemento, puedes hacer lo siguiente:
-
-```python
-highlight_element('id:tu-id-elemento', with_animation=True, seconds=0.5)
-```
-
-#### Uso
-
-```robotframework
-*** Settings ***
-Library    SeleniumLibrary
-Library    HighLightLibrary.py
-
-*** Test Cases ***
-Example
-    Open Browser    https://www.google.com    chrome
-    Highlight Element Persistent    name=q
-    Input Text    name=q    robot framework
-    Click Element    name=btnK
-    Highlight Element Sync    name=q
-    Close Browser
-```
-
-#### Consideraciones
-
-- Al usar selectores web con el caracter `=`, se debe colocar una diagonal invertida `\` antes del caracter `=`, para que no sea interpretado como un operador de asignación. Ejemplo: `id\=your-element-id`. Esto ultimo se puede evitar si el locator se guarda previamente en una variable y se pasa como argumento a la función.
-"""
 from robot.libraries.BuiltIn import BuiltIn
 
-
 class HighLightLibrary:
+    """
+    HighLightLibrary es una librería de Robot Framework que permite resaltar elementos en la página web durante la ejecución de pruebas. Es útil para resaltar elementos en la página web durante la ejecución de pruebas.
+
+    Utiliza la instancia de SeleniumLibrary para encontrar elementos en la página web y aplicar estilos de resaltado a esos elementos. Los estilos de resaltado incluyen colores, estilos de borde, sombras, opacidad de relleno y animaciones.
+
+    = Iluminación de elementos =
+
+    La iluminación de elementos se puede realizar de varias maneras, incluyendo:
+
+    
+    - _*Resaltado Permanente:*_ Resalta un elemento de forma permanente con un color específico y un estilo de borde.
+    - _*Resaltado Asíncrono:*_ Resalta un elemento con un color específico y un estilo de borde durante un tiempo específico y luego restaura el estilo original.
+    - _*Resaltado de Gradiente:*_ Aplica un gradiente de arcoíris continuo en el borde de un elemento.
+    - _*Resaltado de Gradiente Cónico:*_ Aplica un gradiente cónico que rota alrededor del borde de un elemento web.
+    - _*Resaltado de Gradiente Móvil:*_ Aplica un gradiente de arcoíris continuo que se mueve alrededor del borde de un elemento indefinidamente.
+    - _*Resaltado de Gradiente Suave:*_ Resalta un elemento con una transición suave entre múltiples colores en el fondo usando animación de CSS.
+    - _*Resaltado de Gradiente Suave en Borde:*_ Resalta un elemento con una transición suave entre múltiples colores usando animación de CSS.
+
+    = Localización de elementos =
+
+    La localización de elementos se realiza con el uso de Selectors de CSS, Selectors de XPath, Selectors de ID, Selectors de Name, Selectors de Class, Selectors de Tag, Selectors de Link Text, Selectors de Partial Link Text. En pocas palabras, se puede utilizar cualquier selector que se pueda utilizar con SeleniumLibrary.
+
+    [https://robotframework.org/SeleniumLibrary/SeleniumLibrary.html#Locating%20elements|Más acerca de la localización de elementos con SeleniumLibrary]
+
+    = Colores =
+
+    Para personalizar aún más los colores al iluminar elementos en tus pruebas automatizadas con Selenium y Robot Framework, puedes usar cualquier valor de color que sea válido en CSS. Esto incluye varios tipos de especificaciones de color:
+
+    - _*Nombres de Color CSS:*_ CSS soporta nombres de color predefinidos, como `red`, `green`, `blue`, `yellow`, `orange`, `purple`, `pink`, `cyan`, `magenta`, `lime`, `gray`, `black`, `white`, y muchos más.
+    - _*Valores Hexadecimales:*_ Puedes especificar colores usando valores hexadecimales, que comienzan con `#` seguido de 3 o 6 dígitos que representan los componentes de color RGB (Rojo, Verde, Azul). Por ejemplo, `#FF0000` es rojo, `#00FF00` es verde, y `#0000FF` es azul. Los valores hexadecimales pueden ofrecer más de 16 millones de colores.
+    - _*RGB y RGBA:*_ La función `rgb()` permite especificar colores en términos de la intensidad de los componentes rojo, verde y azul, con valores que van de 0 a 255. Por ejemplo, `rgb(255, 0, 0)` es rojo. `RGBA` añade un cuarto valor para la opacidad, donde 0 es completamente transparente y 1 es completamente opaco. Por ejemplo, `rgba(255, 0, 0, 0.5)` sería rojo con una opacidad del 50%.
+    - _*HSL y HSLA:*_ La función `hsl()` especifica colores en términos de tono (hue), saturación (saturation) y luminosidad (lightness). Por ejemplo, `hsl(0, 100%, 50%)` es rojo. Al igual que con RGBA, `HSLA` añade un componente de opacidad. Por ejemplo, `hsla(0, 100%, 50%, 0.5)` sería rojo con una opacidad del 50%.
+
+    Estos tipos de valores te permiten definir prácticamente cualquier color que puedas necesitar para resaltar elementos en tus pruebas. Por ejemplo, si quisieras usar un tono específico de azul que tiene un código hex, o un valor RGB específico para una precisión de color exacta, podrías hacerlo pasando el valor correspondiente al argumento `color` en la función ``Highlight Element Async``.
+
+    Aquí algunos ejemplos de cómo pasar diferentes tipos de valores de color a tu función `highlight_element`:
+
+    == Usando un nombre de color CSS ==
+    | Highlight Element Async   id:tu-id-elemento   color=cyan
+    
+    == Usando un valor hexadecimal ==
+    | Highlight Element Async   id:tu-id-elemento color=#33cc33
+    
+    == Usando RGB ==
+    | Highlight Element Async   id:tu-id-elemento   color=rgb(255, 165, 0)
+    
+    == Usando RGBA (con opacidad) ==
+    | Highlight Element Async   id:tu-id-elemento   color=rgba(255, 99, 71, 0.5)
+
+    [https://developer.mozilla.org/es/docs/Web/CSS/color_value|Más acerca de los valores de color en CSS]
+
+    = Estilos de Borde =
+
+    Puedes personalizar el estilo del borde de los elementos resaltados en tus pruebas automatizadas con Selenium y Robot Framework. Los estilos de borde disponibles incluyen:
+
+    1. _*Solid:*_ Un borde sólido.
+    2. _*Dotted:*_ Un borde punteado.
+    3. _*Dashed:*_ Un borde discontinuo.
+    4. _*Double:*_ Un borde doble.
+    5. _*Groove:*_ Un borde en relieve.
+    6. _*Ridge:*_ Un borde en relieve.
+    7. _*Inset:*_ Un borde en relieve.
+    8. _*Outset:*_ Un borde en relieve.
+
+    [https://developer.mozilla.org/en-US/docs/Web/CSS/border-style|Más acerca de los estilos de borde en CSS]
+
+    = Sombra =
+
+    Puedes añadir una sombra a los elementos resaltados en tus pruebas automatizadas con Selenium y Robot Framework. La sombra se puede añadir con la propiedad `box-shadow` de CSS. Por ejemplo, para añadir una sombra de 5px de ancho y 5px de desplazamiento en todas las direcciones, puedes hacer lo siguiente:
+
+    | Highlight Element Async   id:tu-id-elemento   shadow='5px 5px 5px #888888'
+
+    = Opacidad de Relleno =
+
+    Puedes añadir una opacidad de relleno a los elementos resaltados en tus pruebas automatizadas con Selenium y Robot Framework. La opacidad de relleno se puede añadir con la función `rgba()` de CSS. Por ejemplo, para añadir un relleno con un 10% de opacidad, puedes hacer lo siguiente:
+
+    | Highlight Element Async   id:tu-id-elemento   fill_opacity=0.1
+
+    = Animación =
+
+    Puedes añadir animación a los elementos resaltados en tus pruebas automatizadas con Selenium y Robot Framework. La animación se puede añadir con la propiedad `transition` de CSS. Por ejemplo, para añadir una animación de 0.5 segundos al resaltar un elemento, puedes hacer lo siguiente:
+
+    | Highlight Element Async   id:tu-id-elemento   with_animation=True, seconds=0.5
+
+    = Uso =
+
+    | *** Settings ***
+    | Library    SeleniumLibrary
+    | Library    HighLightLibrary.py
+    | 
+    | *** Test Cases ***
+    | Example
+    |     Open Browser    https://www.google.com    chrome
+    |     Highlight Element Persistent    name=q
+    |     Input Text    name=q    robot framework
+    |     Click Element    name=btnK
+    |     Highlight Element Sync    name=q
+    |     Close Browser
+
+    === Consideraciones ===
+
+    - Al usar selectores web con el caracter `=`, se debe colocar una diagonal invertida `\` antes del caracter `=`, para que no sea interpretado como un operador de asignación. Ejemplo: `id\=your-element-id`. Esto ultimo se puede evitar si el locator se guarda previamente en una variable y se pasa como argumento a la función.
+    """
+
     def __init__(self, border_style="solid", border_width="4px", color="blue", with_animation=True, seconds=0.5, shadow=None, fill_opacity=0.1):
+        """Inicializa la librería HighLightLibrary con los valores predeterminados para resaltar elementos en la página web.
+
+        ===== Descripción de los argumentos =====
+        - `border_style` (str): El estilo del borde del elemento resaltado. Puede ser uno de los siguientes valores: `solid`, `dotted`, `dashed`, `double`, `groove`, `ridge`, `inset`, `outset`.
+        - `border_width` (str): El ancho del borde del elemento resaltado. Puede ser un valor en píxeles, puntos, ems, etc.
+        - `color` (str): El color del borde del elemento resaltado. Puede ser un nombre de color CSS, un valor hexadecimal, un valor RGB, un valor RGBA, un valor HSL, un valor HSLA, etc.
+        - `with_animation` (bool): Si se debe aplicar una animación al resaltar el elemento.
+        - `seconds` (float): La duración de la animación en segundos.
+        - `shadow` (str): La sombra que se aplicará al elemento resaltado. Puede ser un valor en píxeles, puntos, ems, etc.
+        - `fill_opacity` (float): La opacidad del relleno del elemento resaltado. Puede ser un valor entre 0 y 1.
+
+        ===== Ejemplo de uso =====
+        | Library    HighLightLibrary.py    border_style=dotted    border_width=3px    color=red    with_animation=True    seconds=0.5    shadow=5px 5px 5px
+        | Library    HighLightLibrary.py    color=rgba(255, 0, 0, 0.5)    fill_opacity=0.1
+        | Library    HighLightLibrary.py    color=#ff0000    fill_opacity=0.5
+
+        === Consideraciones ===
+        - Al instanciar la librería, los valores predeterminados son asignados, esta función permite cambiar estos valores en cualquier momento durante la ejecución de las pruebas.
+        - Si los valores ingresados no son válidos, se mantendrán los valores predeterminados.
+        """
         self.__border_style = border_style
         self.__border_width = border_width
         self.__color = color
@@ -170,6 +178,26 @@ class HighLightLibrary:
         return (selenium_lib, selenium_lib.driver)
 
     def set_style_default(self, **kwargs):
+        """Establece el estilo predeterminado para resaltar elementos cuando se utilicen las funciones de resaltado.
+
+        === Descripción de los argumentos ===
+        - `border_style` (str): El estilo del borde del elemento resaltado. Puede ser uno de los siguientes valores: `solid`, `dotted`, `dashed`, `double`, `groove`, `ridge`, `inset`, `outset`.
+        - `border_width` (str): El ancho del borde del elemento resaltado. Puede ser un valor en píxeles, puntos, ems, etc.
+        - `color` (str): El color del borde del elemento resaltado. Puede ser un nombre de color CSS, un valor hexadecimal, un valor RGB, un valor RGBA, un valor HSL, un valor HSLA, etc.
+        - `with_animation` (bool): Si se debe aplicar una animación al resaltar el elemento.
+        - `seconds` (float): La duración de la animación en segundos.
+        - `shadow` (str): La sombra que se aplicará al elemento resaltado. Puede ser un valor en píxeles, puntos, ems, etc.
+        - `fill_opacity` (float): La opacidad del relleno del elemento resaltado. Puede ser un valor entre 0 y 1.
+
+        === Ejemplo de uso ===
+        | Set Style Default   border_style=dotted   border_width=3px   color=red   with_animation=True   seconds=0.5   shadow=5px 5px 5px
+        | Set Style Default   color=rgba(255, 0, 0, 0.5)   fill_opacity=0.1
+        | Set Style Default   color=#ff0000   fill_opacity=0.5
+
+        === Consideraciones ===
+        - Al instanciar la librería, los valores predeterminados son asginados, esta función permite cambiar estos valores en cualquier momento durante la ejecución de las pruebas.
+        - Si los valores ingresados no son válidos, se mantendrán los valores predeterminados.
+        """
         style_updated = False
 
         for key, value in kwargs.items():
@@ -182,6 +210,20 @@ class HighLightLibrary:
             self.__update_style()
 
     def highlight_element_persistent(self, locator, **style_kwargs):
+        """ Resalta un elemento de forma permanente con un color específico y un estilo de borde.
+
+        === descripción de los argumentos ===
+        - `locator` (str): El localizador del elemento a resaltar.
+        - `**style_kwargs`: Argumentos de estilo para personalizar el resaltado del elemento. Los argumentos disponibles son los mismos que los argumentos de la función `Set Style Default`.
+
+        === Ejemplo de uso ===
+        | Highlight Element Persistent   id:your-element-id   color=red   border_style=dotted   border_width=3px
+        | Highlight Element Persistent   id:your-element-id   color=rgba(255, 0, 0, 0.5)   fill_opacity=0.1
+        | Highlight Element Persistent   id:your-element-id   color=#ff0000   fill_opacity=0.5
+
+        === Consideraciones ===
+        - Si los valores ingresados no son válidos, se mantendrán los valores predeterminados.
+        """
         self.set_style_default(**style_kwargs)
         seleniumlib, driver = self.__get_selenium_instances()
         element = seleniumlib.find_element(locator)
@@ -190,6 +232,21 @@ class HighLightLibrary:
         driver.execute_script("arguments[0].setAttribute('style', `${arguments[1]} ${arguments[2]}`);", element, self.__default_style, original_style)
 
     def highlight_element_async(self, locator, duration=1000, **style_kwargs):
+        """Resalta un elemento con un color específico y un estilo de borde durante un tiempo específico y luego restaura el estilo original.
+        
+        === Descripción de los argumentos ===
+        - `locator` (str): El localizador del elemento a resaltar.
+        - `duration` (int): Duración del resaltado en milisegundos.
+        - `**style_kwargs`: Argumentos de estilo para personalizar el resaltado del elemento. Los argumentos disponibles son los mismos que los argumentos de la función `Set Style Default`.
+
+        === Ejemplo de uso ===
+        | Highlight Element Async   id:your-element-id   duration=5000   color=red   border_style=dotted   border_width=3px
+        | Highlight Element Async   id:your-element-id   duration=3000   color=rgba(255, 0, 0, 0.5)   fill_opacity=0.1
+        | Highlight Element Async   id:your-element-id   duration=7000   color=#ff0000   fill_opacity=0.5
+
+        === Consideraciones ===
+        - Si los valores ingresados no son válidos, se mantendrán los valores predeterminados.
+        """
         self.set_style_default(**style_kwargs)
         seleniumlib, driver = self.__get_selenium_instances()
         element = seleniumlib.find_element(locator)
@@ -208,47 +265,166 @@ class HighLightLibrary:
         driver.execute_script(script, element, original_style)
 
     def highlight_elements_persistent(self, *locators, **style_kwargs):
+        """Resalta varios elementos de forma permanente con un color específico y un estilo de borde.
+        
+        === Descripción de los argumentos ===
+        - `*locators` (str): Los localizadores de los elementos a resaltar.
+        - `**style_kwargs`: Argumentos de estilo para personalizar el resaltado de los elementos. Los argumentos disponibles son los mismos que los argumentos de la función `Set Style Default`.
+        
+        === Ejemplo de uso ===
+        | Highlight Elements Persistent   id:your-element-id1   id:your-element-id2   color=red   border_style=dotted   border_width=3px
+        | Highlight Elements Persistent   id:your-element-id1   id:your-element-id2   color=rgba(255, 0, 0, 0.5)   fill_opacity=0.1
+        | Highlight Elements Persistent   id:your-element-id1   id:your-element-id2   color=#ff0000   fill_opacity=0.5
+        
+        === Consideraciones ===
+        - Si los valores ingresados no son válidos, se mantendrán los valores predeterminados.
+        - Esta funcion ejecuta n veces la función `Highlight Element Persistent` para cada locator.
+        """
         for locator in locators:
             self.highlight_element_persistent(locator, **style_kwargs)
 
     def highlight_elements_async(self, *locators, duration=3000, **style_kwargs):
+        """Resalta varios elementos con un color específico y un estilo de borde durante un tiempo específico y luego restaura el estilo original.
+
+        === Descripción de los argumentos ===
+        - `*locators` (str): Los localizadores de los elementos a resaltar.
+        - `duration` (int): Duración del resaltado en milisegundos.
+        - `**style_kwargs`: Argumentos de estilo para personalizar el resaltado de los elementos. Los argumentos disponibles son los mismos que los argumentos de la función `Set Style Default`.
+
+        === Ejemplo de uso ===
+        | Highlight Elements Async   id:your-element-id1   id:your-element-id2   duration=5000   color=red   border_style=dotted   border_width=3px
+        | Highlight Elements Async   id:your-element-id1   id:your-element-id2   duration=3000   color=rgba(255, 0, 0, 0.5)   fill_opacity=0.1
+        | Highlight Elements Async   id:your-element-id1   id:your-element-id2   duration=7000   color=#ff0000   fill_opacity=0.5
+
+        === Consideraciones ===
+        - Si los valores ingresados no son válidos, se mantendrán los valores predeterminados.
+        - Esta funcion ejecuta n veces la función `Highlight Element Async` para cada locator.
+        """
         for locator in locators:
             self.highlight_element_async(locator, duration, **style_kwargs)
     
     def fade_highlight_elements_persistent(self, *locators, duration=7000):
+        """Resalta varios elementos con una transición suave entre múltiples colores usando animación de CSS.
+
+        === Descripción de los argumentos ===
+        - `*locators` (str): Los localizadores de los elementos a resaltar.
+        - `duration` (int): Duración total de la animación en milisegundos.
+
+        === Ejemplo de uso ===
+        | Fade Highlight Elements Persistent   id:your-element-id1   id:your-element-id2   duration=7000
+        | Fade Highlight Elements Persistent   id:your-element-id1   id:your-element-id2   duration=5000
+
+        === Consideraciones ===
+        - Esta funcion ejecuta n veces la función `Fade Highlight Element Persistent` para cada locator.
+        """
         for locator in locators:
             self.fade_highlight_element_persistent(locator, duration)
 
     def rainbow_static_highlight_elements_persistent(self, *locators):
+        """Resalta varios elementos con un gradiente de arcoíris continuo en el borde de los elementos de forma permanente.
+        
+        === Descripción de los argumentos ===
+        - `*locators` (str): Los localizadores de los elementos a resaltar.
+        
+        === Ejemplo de uso ===
+        | Rainbow Static Highlight Elements Persistent   id:your-element-id1   id:your-element-id2
+        | Rainbow Static Highlight Elements Persistent   id:your-element-id1   id:your-element-id2
+        
+        === Consideraciones ===
+        - Esta funcion ejecuta n veces la función `Rainbow Static Highlight Element Persistent` para cada locator.
+        """
         for locator in locators:
             self.rainbow_static_highlight_element_persistent(locator)
 
     def rainbow_static_highlight_elements_async(self, *locators, duration=3000):
+        """Resalta varios elementos con un gradiente de arcoíris continuo en el borde de los elementos.
+
+        === Descripción de los argumentos ===
+        - `*locators` (str): Los localizadores de los elementos a resaltar.
+        - `duration` (int): Duración de la animación del gradiente en milisegundos.
+
+        === Ejemplo de uso ===
+        | Rainbow Static Highlight Elements Async   id:your-element-id1   id:your-element-id2   duration=5000
+        | Rainbow Static Highlight Elements Async   id:your-element-id1   id:your-element-id2   duration=3000
+
+        === Consideraciones ===
+        - Esta funcion ejecuta n veces la función `Rainbow Static Highlight Element Async` para cada locator.
+        """
         for locator in locators:
             self.rainbow_static_highlight_element_async(locator, duration)
 
     def fade_animated_fill_elements_persistent(self, *locators, duration=7000):
+        """Resalta varios elementos con una transición suave entre múltiples colores en el fondo usando animación de CSS.
+
+        === Descripción de los argumentos ===
+        - `*locators` (str): Los localizadores de los elementos a resaltar.
+        - `duration` (int): Duración total de la animación en milisegundos.
+
+        === Ejemplo de uso ===
+        | Fade Highlight Elements Persistent   id:your-element-id1   id:your-element-id2   duration=7000
+        | Fade Highlight Elements Persistent   id:your-element-id1   id:your-element-id2   duration=5000
+
+        === Consideraciones ===
+        - Esta funcion ejecuta n veces la función `Fade Highlight Element Persistent` para cada locator.
+        """
         for locator in locators:
             self.fade_animated_fill_element_persistent(locator, duration)
 
     def rainbow_animated_fill_elements_persistent(self, *locators):
+        """Resalta varios elementos con un gradiente de arcoíris continuo que se mueve alrededor del borde de los elementos indefinidamente.
+        
+        === Descripción de los argumentos ===
+        - `*locators` (str): Los localizadores de los elementos a resaltar.
+        
+        === Ejemplo de uso ===
+        | Rainbow Animated Fill Elements Persistent   id:your-element-id1   id:your-element-id2
+        | Rainbow Animated Fill Elements Persistent   id:your-element-id1   id:your-element-id2
+        
+        === Consideraciones ===
+        - Esta funcion ejecuta n veces la función `Rainbow Animated Fill Element Persistent` para cada locator.
+        """
         for locator in locators:
             self.rainbow_animated_fill_element_persistent(locator)
 
     def rainbow_animated_highlight_elements_persistent(self, *locators, duration=5000):
+        """Resalta varios elementos con un gradiente cónico que rota alrededor del borde de los elementos web.
+
+        === Descripción de los argumentos ===
+        - `*locators` (str): Los localizadores de los elementos a resaltar.
+        - `duration` (int): Duración de la animación del gradiente en milisegundos.
+
+        === Ejemplo de uso ===
+        | Rainbow Animated Highlight Elements Persistent   id:your-element-id1   id:your-element-id2   duration=5000
+        | Rainbow Animated Highlight Elements Persistent   id:your-element-id1   id:your-element-id2   duration=3000
+
+        === Consideraciones ===
+        - Esta funcion ejecuta n veces la función `Rainbow Animated Highlight Element Persistent` para cada locator.
+        """
         for locator in locators:
             self.rainbow_animated_highlight_element_persistent(locator, duration)
 
     def remove_highlight(self, locator):
-        """Remove any highlight styles from the element."""
+        """Elimina el estilo de resaltado de un elemento resaltado almacenado que aún es visible.
+        
+        === Descripción de los argumentos ===
+        - `locator` (str): El localizador del elemento a resaltar.
+        
+        === Ejemplo de uso ===
+        | Remove Highlight   id:your-element-id
+        
+        === Consideraciones ===
+        - Si el elemento no se encuentra, se mostrará un mensaje de error.
+        """
         seleniumlib, driver = self.__get_selenium_instances()
         element = seleniumlib.find_element(locator)
         original_style = element.get_attribute('data-original-style') or ""
         driver.execute_script("arguments[0].setAttribute('style', arguments[1]);", element, original_style)
 
     def remove_all_highlights(self):
-        """
-        Elimina el estilo de resaltado de todos los elementos resaltados almacenados que aún son visibles.
+        """Elimina el estilo de resaltado de todos los elementos resaltados almacenados que aún son visibles.
+
+        === Ejemplo de uso ===
+        | Remove All Highlights
         """
         seleniumlib, driver = self.__get_selenium_instances()
         for locator in self.__highlighted_elements:
@@ -262,15 +438,18 @@ class HighLightLibrary:
         self.__highlighted_elements.clear()
 
     def fade_highlight_element_persistent(self, locator, duration=7000):
-        """
-        Resalta un elemento con una transición suave entre múltiples colores usando animación de CSS.
+        """Resalta un elemento con una transición suave entre múltiples colores en el fondo usando animación de CSS.
 
-        Args:
-            locator (str): El localizador del elemento a resaltar.
-            duration (int): Duración total de la animación en milisegundos.
+        === Descripción de los argumentos ===
+        - `locator` (str): El localizador del elemento a resaltar.
+        - `duration` (int): Duración total de la animación en milisegundos.
 
-        Example:
-            fade_highlight_element_smooth('id:your-element-id', 7000)
+        === Ejemplo de uso ===
+        | Fade Highlight Element Persistent   id:your-element-id   duration=7000
+        | Fade Highlight Element Persistent   id:your-element-id   duration=5000
+
+        === Consideraciones ===
+        - Si los valores ingresados no son válidos, se mantendrán los valores predeterminados.
         """
         seleniumlib, driver = self.__get_selenium_instances()
         element = seleniumlib.find_element(locator)
@@ -302,15 +481,17 @@ class HighLightLibrary:
         driver.execute_script(script, element, original_style, duration)
 
     def rainbow_static_highlight_element_persistent(self, locator):
-        """
-        Aplica un gradiente de arcoíris continuo en el borde de un elemento de forma permanente.
+        """Resalta un elemento con un gradiente de arcoíris continuo en el borde de un elemento de forma permanente.
 
-        Args:
-            locator (str): El localizador del elemento a resaltar.
+        === Descripción de los argumentos ===
+        - `locator` (str): El localizador del elemento a resaltar.
 
-        Example:
-            rainbow_static_highlight_element_persistent('id:your-element-id')
-        """
+        === Ejemplo de uso ===
+        | Rainbow Static Highlight Element Persistent   id:your-element-id
+
+        === Consideraciones ===
+        - Si los valores ingresados no son válidos, se mantendrán los valores predeterminados.
+        """        
         seleniumlib, driver = self.__get_selenium_instances()
         element = seleniumlib.find_element(locator)
         self.__highlighted_elements.append(locator)
@@ -349,15 +530,17 @@ class HighLightLibrary:
         driver.execute_script(script, element, original_style)
 
     def rainbow_static_highlight_element_async(self, locator, duration=3000):
-        """
-        Aplica un gradiente de arcoíris continuo en el borde de un elemento.
+        """Resalta un elemento con un gradiente de arcoíris continuo en el borde de un elemento.
 
-        Args:
-            locator (str): El localizador del elemento a resaltar.
-            duration (int): Duración de la animación del gradiente en milisegundos.
+        === Descripción de los argumentos ===
+        - `locator` (str): El localizador del elemento a resaltar.
+        - `duration` (int): Duración de la animación del gradiente en milisegundos.
 
-        Example:
-            highlight_element_rainbow_gradient('id:your-element-id', duration=5000)
+        === Ejemplo de uso ===
+        | Rainbow Static Highlight Element Async   id:your-element-id   duration=5000
+
+        === Consideraciones ===
+        - Si los valores ingresados no son válidos, se mantendrán los valores predeterminados.
         """
         seleniumlib, driver = self.__get_selenium_instances()
         element = seleniumlib.find_element(locator)
@@ -404,15 +587,17 @@ class HighLightLibrary:
         driver.execute_script(script, element, original_style, duration)
 
     def fade_animated_fill_element_persistent(self, locator, duration=7000):
-        """
-        Resalta un elemento con una transición suave entre múltiples colores en el fondo usando animación de CSS.
+        """Resalta un elemento con una transición suave entre múltiples colores en el fondo usando animación de CSS.
 
-        Args:
-            locator (str): El localizador del elemento a resaltar.
-            duration (int): Duración total de la animación en milisegundos.
+        === Descripción de los argumentos ===
+        - `locator` (str): El localizador del elemento a resaltar.
+        - `duration` (int): Duración total de la animación en milisegundos.
 
-        Example:
-            fade_highlight_element_persistent('id:your-element-id', 7000)
+        === Ejemplo de uso ===
+        | Fade Highlight Element Persistent   id:your-element-id   duration=7000
+
+        === Consideraciones ===
+        - Si los valores ingresados no son válidos, se mantendrán los valores predeterminados.
         """
         seleniumlib, driver = self.__get_selenium_instances()
         element = seleniumlib.find_element(locator)
@@ -444,14 +629,16 @@ class HighLightLibrary:
         driver.execute_script(script, element, original_style, duration)
 
     def rainbow_animated_fill_element_persistent(self, locator):
-        """
-        Aplica un gradiente de arcoíris continuo que se mueve alrededor del borde de un elemento indefinidamente.
+        """Resalta un elemento con un gradiente de arcoíris continuo que se mueve alrededor del borde del elemento web.
 
-        Args:
-            locator (str): El localizador del elemento a resaltar.
+        === Descripción de los argumentos ===
+        - `locator` (str): El localizador del elemento a resaltar.
 
-        Example:
-            continuous_moving_rainbow_highlight_element('id:your-element-id')
+        === Ejemplo de uso ===
+        | Rainbow Animated Fill Element Persistent   id:your-element-id
+
+        === Consideraciones ===
+        - Si los valores ingresados no son válidos, se mantendrán los valores predeterminados.
         """
         seleniumlib, driver = self.__get_selenium_instances()
         element = seleniumlib.find_element(locator)
@@ -489,15 +676,17 @@ class HighLightLibrary:
         driver.execute_script(script, element, original_style)
 
     def rainbow_animated_highlight_element_persistent(self, locator, duration=5000):
-        """
-        Aplica un gradiente cónico que rota alrededor del borde de un elemento web.
+        """Resalta un elemento con un gradiente cónico que rota alrededor del borde del elemento web.
 
-        Args:
-            locator (str): El localizador del elemento a resaltar.
-            duration (int): Duración de la animación en milisegundos.
+        === Descripción de los argumentos ===
+        - `locator` (str): El localizador del elemento a resaltar.
+        - `duration` (int): Duración de la animación del gradiente en milisegundos.
 
-        Example:
-            conic_gradient_border_highlight('name:username', duration=10000)
+        === Ejemplo de uso ===
+        | Rainbow Animated Highlight Element Persistent   id:your-element-id   duration=5000
+
+        === Consideraciones ===
+        - Si los valores ingresados no son válidos, se mantendrán los valores predeterminados.
         """
         seleniumlib, driver = self.__get_selenium_instances()
         element = seleniumlib.find_element(locator)
