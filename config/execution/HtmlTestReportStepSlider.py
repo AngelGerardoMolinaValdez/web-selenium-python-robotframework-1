@@ -1,40 +1,3 @@
-"""
-En este listener es posible generar un reporte de pasos con imágenes. Para agregar una imagen a un paso, se debe agregar el tag STEP:IMAGE: en el mensaje. El mensaje se puede usar para reportar información adicional de un paso, como por ejemplo, el valor de una variable, el resultado de una operación, etc.
-
-El reporte se genera en la carpeta output/reports/report_step_slider/ y se genera un archivo HTML por cada test que se ejecute.
-
-Para utilizar el listener, se debe especificar como listener al ejecutar las pruebas:
-- robot --listener HtmlTestStepSliderReport.py tests
-
-Ejemplo:
-    *** Keywords ***
-    My Keyword
-        [Tags]  STEP:IMAGE:DESCRIPCIÓN DEL PASO:INFO
-        No Operation
-
-    My Other Keyword
-        [Tags]  STEP:IMAGE:DESCRIPCIÓN DEL PASO 2
-        No Operation
-
-    My Other Keyword
-        [Tags]  STEP:IMAGE:DESCRIPCIÓN DEL PASO 3:FAIL
-        No Operation
-
-Los estatus posibles son:
-- INFO
-- PASS
-- CRITICAL
-- FAIL
-- FALTA
-- WARNING
-- DEBUG
-
-El valor predeterminado es INFO.
-
-También es posible utilizar la keyword Log con la misma estructura de tags.
-
-Este reporte tiene la misma estructura que el HtmlTestStepsReport2.py, pero con la diferencia de que se agrega una imagen a los pasos.
-"""
 import os
 import re
 from typing import Literal
@@ -43,12 +6,30 @@ from jinja2 import Environment, FileSystemLoader
 from PIL import Image, ImageGrab
 import base64
 import io
-from test_paths import TestsOutputPath, TestsReportsPath, TestsSeleniumScreenShootsPath
+import sys
 
-class HtmlTestStepSliderReport:
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
+from libraries.test_paths import TestsOutputPath, TestsReportsPath, TestsSeleniumScreenShootsPath
+
+class HtmlTestReportStepSlider:
     ROBOT_LISTENER_API_VERSION = 2
 
     def __init__(self):
+        """Inicializar el listener de reporte de pasos con imágenes.
+        
+        Se inicializan las variables necesarias para el listener.
+        
+        Variables:
+        - keyword_config: (bool) Indica si el keyword es de configuración. Esto es para separar los keywords de configuración de los keywords de datos porque se agrega la evidencia tomada de la configuracion (SETUP, TEARDOWN) a todas las pruebas.
+        - keywords_config: (list) Lista de keywords de configuración.
+        - keywords_data: (list) Lista de keywords de datos.
+        - current_test: (dict) Diccionario con el nombre del test actual.
+        - screenshot_element_counter: (int) Contador de capturas de pantalla de elementos.
+        - screenshot_counter: (int) Contador de capturas de pantalla.
+        - base_path: (str) Ruta base del proyecto.
+        - reports_path: (str) Ruta de los reportes.
+        - selenium_screenshots_path: (str) Ruta de las capturas de pantalla de Selenium.
+        """
         self.keyword_config = False
         self.keywords_config = []
         self.keywords_data = []
@@ -62,6 +43,10 @@ class HtmlTestStepSliderReport:
         self.selenium_screenshots_path = TestsSeleniumScreenShootsPath().path()
 
     def start_test(self, name, attrs):
+        """Iniciar un test.
+
+        Se eliminan las capturas de pantalla anteriores y se inicializan las variables necesarias para el test.
+        """        
         for file in os.listdir(self.selenium_screenshots_path):
             os.remove(os.path.join(self.selenium_screenshots_path, file))
 
@@ -70,6 +55,10 @@ class HtmlTestStepSliderReport:
         }
 
     def end_test(self, name, attrs):
+        """Finalizar un test.
+
+        Se genera el reporte de pasos con imágenes y se reinician las variables necesarias para el siguiente test.
+        """
         today = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         test_name = self.current_test["name"] + " " + today.replace(":", "-")
         path_to_report = os.path.abspath(os.path.join(self.reports_path, test_name))
@@ -81,7 +70,7 @@ class HtmlTestStepSliderReport:
         os.mkdir(path_to_report)
 
         env = Environment(loader=FileSystemLoader(
-            os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "assets", "static", 'templates'))
+            os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "assets", "static", 'templates'))
             )
         )
         template = env.get_template('step_slider_report.html')
@@ -94,10 +83,18 @@ class HtmlTestStepSliderReport:
         self.screenshot_counter = 1
 
     def start_keyword(self, name, attrs):
+        """Iniciar un keyword.
+
+        Se verifica si el keyword es de configuración y se inicializa la variable para agregar la evidencia a los keywords de configuración.
+        """
         if attrs['type'].lower() in ['setup', 'teardown']:
             self.keyword_config = True
 
     def end_keyword(self, name, attrs):
+        """Finalizar un keyword.
+
+        Se verifica si el keyword es de configuración y se reinicia la variable para agregar la evidencia a los keywords de datos.
+        """
         step_image = re.search(
             r"STEP:IMAGE:(.+?)(?::(INFO|PASS|CRITICAL|FAIL|FATAL|WARNING|DEBUG))?(?:===|:|$)",
             "===>".join(attrs['tags'])
@@ -142,6 +139,10 @@ class HtmlTestStepSliderReport:
             self.keyword_config = False
 
     def log_message(self, message):
+        """Log de un mensaje.
+
+        Se verifica si el mensaje contiene un tag de imagen y se agrega la imagen al reporte.
+        """
         step_image = re.search(
             r"STEP:IMAGE:(.+?)(?::(INFO|PASS|CRITICAL|FAIL|FATAL|WARNING|DEBUG))?(?:===|:|$)",
             message['message']
