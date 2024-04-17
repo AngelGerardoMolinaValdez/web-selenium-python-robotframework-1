@@ -26,7 +26,7 @@ Select To Account
     Select From List By Value    id:toAccountId    ${to_account}
 
 Click Transfer Button
-    Highlight Element Async    css:input[value="Transfer"]
+    Highlight Element Async    css:input[value\="Transfer"]
     Log    STEP:IMAGE:Datos de la transferencia y se hace click en el botón de transferir.
     Click Element    css:input[value="Transfer"]
     Sleep    2s

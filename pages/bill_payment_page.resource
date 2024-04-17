@@ -59,7 +59,7 @@ Select Account
     Select From List By Value    name:fromAccountId    ${FROM_ACCOUNT}
 
 Send Payment
-    Highlight Element Async    css:input[value="Send Payment"]
+    Highlight Element Async    css:input[value\="Send Payment"]
     Capture Page Screenshot
     Log    STEP:CAPTURE:Formulario de pago
     Click Element    css:input[value="Send Payment"]
@@ -67,7 +67,7 @@ Send Payment
 Verify Payment
     [Arguments]    ${MESSAGE}
     Wait Until Element Is Visible    css:div[ng-show="showResult"]
-    Highlight Element Async    css:div[ng-show="showResult"]
+    Highlight Element Async    css:div[ng-show\="showResult"]
     Element Text Should Be    xpath://div[@ng-show="showResult"]//descendant::h1    ${MESSAGE}
     Capture Page Screenshot
     Log    STEP:CAPTURE:Pago exitoso:PASS

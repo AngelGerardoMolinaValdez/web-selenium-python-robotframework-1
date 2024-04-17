@@ -21,7 +21,7 @@ Input Transaction Id
     Input Text    id:criteria.transactionId    ${transaction_id}
 
 Click In To Search Transaction By Id
-    Highlight Element Async    css:button[ng-click="criteria.searchType = 'ID'"]
+    Highlight Element Async    css:button[ng-click\="criteria.searchType \= 'ID'"]
     Capture Page Screenshot
     Log    STEP:CAPTURE:Busqueda por ID
     Click Button    css:button[ng-click="criteria.searchType = 'ID'"]
@@ -32,7 +32,7 @@ Input Transaction Date
     Input Text    id:criteria.onDate    ${transaction_date}
 
 Click In To Search Transaction By Date
-    Highlight Element Async    css:button[ng-click="criteria.searchType = 'DATE'"]
+    Highlight Element Async    css:button[ng-click\="criteria.searchType \= 'DATE'"]
     Capture Page Screenshot
     Log    STEP:CAPTURE:Busqueda por Fecha
     Click Button    css:button[ng-click="criteria.searchType = 'DATE'"]
@@ -48,7 +48,7 @@ Input Transaction To Date
     Input Text    id:criteria.toDate    ${to_date}
 
 Click In To Search Transaction By Date Range
-    Highlight Element Async    css:button[ng-click="criteria.searchType = 'DATE_RANGE'"]
+    Highlight Element Async    css:button[ng-click\="criteria.searchType \= 'DATE_RANGE'"]
     Capture Page Screenshot
     Log    STEP:CAPTURE:Busqueda por Rango de Fecha
     Click Button    css:button[ng-click="criteria.searchType = 'DATE_RANGE'"]
@@ -59,7 +59,7 @@ Input Transaction Amount
     Input Text    id:criteria.amount    ${amount}
 
 Click In To Search Transaction By Amount
-    Highlight Element Async    css:button[ng-click="criteria.searchType = 'AMOUNT'"]
+    Highlight Element Async    css:button[ng-click\="criteria.searchType \= 'AMOUNT'"]
     Capture Page Screenshot
     Log    STEP:CAPTURE:Busqueda por Monto
     Click Button    css:button[ng-click="criteria.searchType = 'AMOUNT'"]

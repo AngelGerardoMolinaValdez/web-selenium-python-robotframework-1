@@ -24,7 +24,7 @@ Select From Account
     Select From List By Label    id:fromAccountId    ${account}
 
 Click Into Apply Now
-    Highlight Element Async    css:input[value="Apply Now"]
+    Highlight Element Async    css:input[value\="Apply Now"]
     Capture Page Screenshot
     Log    STEP:CAPTURE:Solicitud de préstamo
     Click Element    css:input[value="Apply Now"]

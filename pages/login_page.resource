@@ -36,7 +36,7 @@ Input Password
     Input Text    name:password    ${PASSWORD}
 
 Submit Credentials
-    Highlight Element Async    css:input[value="Log In"]
+    Highlight Element Async    css:input[value\="Log In"]
     Log    STEP:IMAGE:He enviado las credenciales
     Click Element    css:input[value="Log In"]
     Credentials Should Be Accepted
