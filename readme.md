@@ -216,6 +216,10 @@ Recomedacion: Ejecutar desde la carpeta base del proyecto para que al definir `s
 
 ![](./assets/images/test_report_slider_html.png)
 
+#### HTML horizontal con imagenes
+
+![](./assets/images/test_report_horizontal_slider_html.png)
+
 #### HTML vertical sin imagenes
 
 ![](./assets/images/test_report_log_html.png)

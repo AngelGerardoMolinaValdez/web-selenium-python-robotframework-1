@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Reporte de Ejecución de Caso de Prueba con Capturas</title>
+    <style>
+        :root {
+            --color-text: #eaeaea;
+            --background-color: #333;
+            --container-background-color: #454545;
+            --info-color: #17a2b8;
+            --debug-color: #6c757d;
+            --pass-color: #28a745;
+            --fail-color: #dc3545;
+            --fatal-color: #870000;
+            --critical-color: #ff5733;
+            --warning-color: #ff851b;
+        }
+        [data-theme="light"] {
+            --color-text: #333;
+            --background-color: #f4f4f4;
+            --container-background-color: #fff;
+            --info-color: #17a2b8;
+            --debug-color: #6c757d;
+            --pass-color: #28a745;
+            --fail-color: #dc3545;
+            --fatal-color: #870000;
+            --critical-color: #ff5733;
+            --warning-color: #ff851b;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            color: var(--color-text);
+            background-color: var(--background-color);
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background-color: var(--container-background-color);
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .theme-switcher {
+            margin-bottom: 20px; /* Espacio entre el botón y la caja de información */
+        }
+        .test-info {
+            background-color: var(--container-background-color);
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+        }
+        .navigation {
+            text-align: center;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            background-color: var(--info-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .screenshot {
+            width: 100%;
+            display: block;
+            margin-top: 15px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .step {
+            display: none;
+            border-left: 4px solid transparent; /* Preparación para la tira de color */
+            padding-left: 20px; /* Espacio extra entre el borde y el contenido */
+            background-color: var(--container-background-color);
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+        }
+        .info { border-left-color: var(--info-color); }
+        .debug { border-left-color: var(--debug-color); }
+        .pass { border-left-color: var(--pass-color); }
+        .fail { border-left_color: var(--fail-color); }
+        .fatal { border-left-color: var(--fatal-color); }
+        .critical { border-left-color: var(--critical-color); }
+        .warning { border-left-color: var(--warning-color); }
+        .step-counter {
+            margin-top: 10px;
+            color: var(--info-color);
+        }
+    </style>
+</head>
+<body data-theme="dark">
+<div class="container">
+    <button class="theme-switcher" onclick="switchTheme()">Cambiar a Tema Claro</button>
+    <div class="test-info">
+        <h1>Reporte De Ejecución Automatizada</h1>
+        <h2>Test: {{ testname }}</h2>
+    </div>
+    {% for step_data in steps_data %}
+        <div class="step {{ step_data.step_level }}" id="step-{{ loop.index }}">
+            <h3>{{ step_data.step_title }}</h3>
+            <img src="data:image/png;base64,{{ step_data.step_image }}" alt="Captura de evidencia" class="screenshot">
+        </div>
+    {% endfor %}
+    <div class="navigation">
+        <button onclick="changeStep(-1)">Anterior</button>
+        <span class="step-counter" id="step-counter">1 de {{ steps_data | length }}</span>
+        <button onclick="changeStep(1)">Siguiente</button>
+    </div>
+</div>
+<script>
+    let currentStep = 0;
+    let totalSteps = {{ steps_data | length }};
+    function showStep(index) {
+        const oldStep = document.getElementById('step-' + (currentStep + 1));
+        if (oldStep) oldStep.style.display = 'none';
+        const newStep = document.getElementById('step-' + (index + 1));
+        if (newStep) newStep.style.display = 'block';
+        currentStep = index;
+        updateStepCounter();
+    }
+    function changeStep(direction) {
+        let newIndex = currentStep + direction;
+        if (newIndex < 0) newIndex = totalSteps - 1;
+        if (newIndex >= totalSteps) newIndex = 0;
+        showStep(newIndex);
+    }
+    function updateStepCounter() {
+        const counterElement = document.getElementById('step-counter');
+        counterElement.textContent = (currentStep + 1) + ' de ' + totalSteps;
+    }
+    function switchTheme() {
+        const body = document.body;
+        const themeSwitcher = document.querySelector('.theme-switcher');
+        if (body.getAttribute('data-theme') === 'dark') {
+            body.setAttribute('data-theme', 'light');
+            themeSwitcher.textContent = 'Cambiar a Tema Oscuro';
+        } else {
+            body.setAttribute('data-theme', 'dark');
+            themeSwitcher.textContent = 'Cambiar a Tema Claro';
+        }
+    }
+    window.onload = function() {
+        showStep(0); // Mostrar el primer paso al cargar
+    };
+</script>
+</body>
+</html>
