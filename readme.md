@@ -94,6 +94,44 @@ project/
 --workflows/ # los flujos complejos y secuenciales del proyecto
 ```
 
+## Documentación de Casos de Prueba
+
+Este archivo contiene la documentación detallada de los casos de prueba para el sistema de gestión de cuentas y transacciones. Cada caso de prueba está meticulosamente diseñado para cubrir aspectos específicos de la funcionalidad del sistema, asegurando una amplia cobertura de pruebas y validación del comportamiento esperado de la aplicación.
+
+### Detalles del Archivo
+
+En este documento, cada línea representa un caso de prueba específico con los siguientes campos:
+
+- **ID del Caso de Prueba**: Identificador único para cada caso de prueba.
+- **Descripción**: Breve descripción del propósito del caso de prueba.
+- **Labels**: Etiquetas asociadas para categorizar y filtrar los casos de prueba.
+- **Keyword Asignada**: Palabra clave que define la acción principal del caso de prueba.
+- **Archivo de Datos**: Nombre del archivo CSV que contiene los datos necesarios para el caso de prueba.
+- **Fila de Datos Asignados**: Índice de la fila en el archivo de datos que se usará para el caso de prueba.
+- **Módulo de Ejecución**: Ruta del módulo de pruebas donde se ejecuta el caso.
+- **Datos Requeridos**: Descripción de los datos necesarios para ejecutar el caso de prueba.
+- **Parámetros Definidos**: Parámetros específicos que se utilizan en el caso de prueba.
+
+### Casos de Prueba
+
+Los casos están organizados por funcionalidad, incluyendo la creación de cuentas, transferencia de fondos, obtención de resúmenes de cuenta, pagos de facturas, y búsqueda de transacciones. Cada funcionalidad se prueba en diversos contextos para asegurar la robustez del sistema.
+
+#### Ejemplo de Caso de Prueba
+
+- **ID**: TC001_NewAccountChecking
+- **Descripción**: Crea una cuenta de tipo Checking.
+- **Labels**: e2e, ddt, default
+- **Keyword Asignada**: Open New Account In The Application
+- **Archivo de Datos**: account.csv
+- **Fila de Datos Asignados**: 0
+- **Módulo de Ejecución**: tests.account.Account Service Workflows
+- **Datos Requeridos**: Tipo de cuenta, cuenta de referencia
+- **Parámetros Definidos**: type_account, account_reference
+
+Este formato permite una clara visibilidad de cada caso de prueba y su propósito, facilitando la revisión, ejecución y mantenimiento de las pruebas automatizadas.
+
+Encuentra el archivo en [./docs/tests/estimation.csv](./docs/tests/estimation.csv)
+
 ## 🚀 Ejecución de Pruebas
 
 Para ejecutar las pruebas, abrir la terminal en la carpeta raiz y ejecutar:
