@@ -108,7 +108,7 @@ class HighLightLibrary:
     def __init__(self, border_style="solid", border_width="4px", color="blue", with_animation=True, seconds=0.5, shadow=None, fill_opacity=0.1):
         """Inicializa la librería HighLightLibrary con los valores predeterminados para resaltar elementos en la página web.
 
-        ===== Descripción de los argumentos =====
+        === Descripción de los argumentos ===
         - `border_style` (str): El estilo del borde del elemento resaltado. Puede ser uno de los siguientes valores: `solid`, `dotted`, `dashed`, `double`, `groove`, `ridge`, `inset`, `outset`.
         - `border_width` (str): El ancho del borde del elemento resaltado. Puede ser un valor en píxeles, puntos, ems, etc.
         - `color` (str): El color del borde del elemento resaltado. Puede ser un nombre de color CSS, un valor hexadecimal, un valor RGB, un valor RGBA, un valor HSL, un valor HSLA, etc.
@@ -117,7 +117,7 @@ class HighLightLibrary:
         - `shadow` (str): La sombra que se aplicará al elemento resaltado. Puede ser un valor en píxeles, puntos, ems, etc.
         - `fill_opacity` (float): La opacidad del relleno del elemento resaltado. Puede ser un valor entre 0 y 1.
 
-        ===== Ejemplo de uso =====
+        === Ejemplo de uso ===
         | Library    HighLightLibrary.py    border_style=dotted    border_width=3px    color=red    with_animation=True    seconds=0.5    shadow=5px 5px 5px
         | Library    HighLightLibrary.py    color=rgba(255, 0, 0, 0.5)    fill_opacity=0.1
         | Library    HighLightLibrary.py    color=#ff0000    fill_opacity=0.5

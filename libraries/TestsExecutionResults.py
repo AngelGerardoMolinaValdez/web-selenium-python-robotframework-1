@@ -103,11 +103,11 @@ class TestsExecutionResults:
     def save_test_execution_results(self, data_table, type_output="CSV"):
         """Guardar los resultados de la ejecución de los tests en un archivo de datos.
 
-        ===== Descripción de los argumentos =====
+        === Descripción de los argumentos ===
         1. data_table: (DataTable) DataTable con la información de la ejecución de los tests.
         2. type_output: (str) Tipo de archivo de datos a guardar. Puede ser CSV o JSON. Por defecto es CSV.
 
-        ===== Ejemplo de uso =====
+        === Ejemplo de uso ===
         | VAR   ${DT1}  DataTable(name="Foo", age=12, city="New York", country="EUA")
         | VAR   ${DT2}  DataTable(name="Foo", age=12, city="New York", country="EUA", is_active=True)
         | Save Test Execution Results    ${DT1}

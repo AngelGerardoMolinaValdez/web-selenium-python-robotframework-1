@@ -188,11 +188,11 @@ class DataTableLibrary:
     def create_data_table(self, path: str, index: int) -> dataclass:
         """Crea un DataTable a partir de un archivo CSV o JSON.
 
-        ===== Descripción de los argumentos =====
+        === Descripción de los argumentos ===
         - `path`: Ruta del archivo CSV o JSON.
         - `index`: Índice de la fila del archivo de datos.
 
-        ===== Ejemplo de uso =====
+        === Ejemplo de uso ===
         | ${table}=    Create Data Table    ${CURDIR}/data.csv    0
         | Log    ${table}
         | Log    ${table.name}
@@ -219,10 +219,10 @@ class DataTableLibrary:
     def create_data_table_from_fields(self, **fields) -> dataclass:
         """Crea un DataTable a partir de un diccionario de datos.
 
-        ===== Descripción de los argumentos =====
+        === Descripción de los argumentos ===
         - `fields`: Campos del DataTable.
 
-        ===== Ejemplo de uso =====
+        === Ejemplo de uso ===
         | ${table}=    Create Data Table From Fields    name=John Doe    age=30    city=New York    country=USA
         | Log    ${table}
         | Log    ${table.name}
@@ -239,11 +239,11 @@ class DataTableLibrary:
     def update_data_table(self, data_table: dataclass, **fields) -> dataclass:
         """Agrega un nuevo campo al DataTable y retorna una nueva instancia del DataTable.
 
-        ===== Descripción de los argumentos =====
+        === Descripción de los argumentos ===
         - `data_table`: DataTable.
         - `fields`: Campos del DataTable.
 
-        ===== Ejemplo de uso =====
+        === Ejemplo de uso ===
         | ${table}=    Create Data Table From Fields    name=John Doe    age=30    city=New York    country=USA     is_alive=False
         | ${new_table}=    Update Data Table    ${table}   is_active=True
         | Log    ${new_table.is_alive}
@@ -264,11 +264,11 @@ class DataTableLibrary:
     def merge_data_tables(self, data_table: dataclass, another_data_table: dataclass) -> dataclass:
         """Actualiza un DataTable con los campos de otro DataTable y retorna una nueva instancia del DataTable.
 
-        ===== Descripción de los argumentos =====
+        === Descripción de los argumentos ===
         - `data_table`: DataTable.
         - `another_data_table`: DataTable.
 
-        ===== Ejemplo de uso =====
+        === Ejemplo de uso ===
         | ${table1}=    Create Data Table From Fields    name=John Doe    age=30
         | ${table2}=    Create Data Table From Fields    city=New York    country=USA     is_alive=False
         | ${new_table}=    Merge Data Tables    ${table1}    ${table2}
@@ -294,11 +294,11 @@ class DataTableLibrary:
     def unify_data_tables(self, data_table: dataclass, *data_tables) -> dataclass:
         """Unifica varios DataTables y retorna una nueva instancia del DataTable.
 
-        ===== Descripción de los argumentos =====
+        === Descripción de los argumentos ===
         - `data_table`: DataTable.
         - `data_tables`: DataTables.
 
-        ===== Ejemplo de uso =====
+        === Ejemplo de uso ===
         | ${table1}=    Create Data Table From Fields    name=John Doe    age=30
         | ${table2}=    Create Data Table From Fields       city=New York    country=USA     is_alive=False
         | ${table3}=    Create Data Table From Fields       premium=True    account_type=premium
