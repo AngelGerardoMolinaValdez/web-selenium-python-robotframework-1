@@ -312,6 +312,12 @@ Es util para resaltar elementos en la página web durante la ejecución de prueb
 
 Encuentra la documentacion completa en [./docs/keywords/HighLighLibrary.html](./docs/keywords/HighLighLibrary.html)
 
+### CryptoLibrary.py 📚
+
+CryptoLibrary es una librería para encriptar y desencriptar texto. Se utiliza la librería cryptocode para realizar la encriptación y desencriptación.
+
+Encuentra la documentacion completa en [./docs/keywords/CryptoLibrary.html](./docs/keywords/CryptoLibrary.html)
+
 ## 📊 Análisis de código
 
 Un linter es una herramienta utilizada para analizar automáticamente el código fuente en busca de errores.
