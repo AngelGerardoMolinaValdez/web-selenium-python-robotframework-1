@@ -10,21 +10,21 @@ Wait Until Input Loan Amount Is Visible
 
 Input Loan Amount
     [Arguments]    ${amount}
-    Highlight Element Async    id:amount
+    Highlight Element Persistent    id:amount
     Input Text    id:amount    ${amount}
 
 Input Down Payment
     [Arguments]    ${payment}
-    Highlight Element Async    id:downPayment
+    Highlight Element Persistent    id:downPayment
     Input Text    id:downPayment    ${payment}
 
 Select From Account
     [Arguments]    ${account}
-    Highlight Element Async    id:fromAccountId
+    Highlight Element Persistent    id:fromAccountId
     Select From List By Label    id:fromAccountId    ${account}
 
 Click Into Apply Now
-    Highlight Element Async    css:input[value\="Apply Now"]
+    Highlight Element Persistent    css:input[value\="Apply Now"]
     Capture Page Screenshot
     Log    STEP:CAPTURE:Solicitud de préstamo
     Click Element    css:input[value="Apply Now"]
@@ -34,7 +34,7 @@ Wait Until Loan Application Is Submitted
 
 New Account With Loan Is Created
     Element Should Be Visible    id:newAccountId
-    Highlight Element Async    id:newAccountId
+    Highlight Element Persistent    id:newAccountId
     ${new_account_id}=    Get Text    id:newAccountId
     Capture Page Screenshot
     Log    STEP:CAPTURE:Cuenta creada con préstamo exitosamente: ${new_account_id}

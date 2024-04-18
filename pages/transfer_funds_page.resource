@@ -10,31 +10,34 @@ Resource    ${EXECDIR}/config/global/dependencies/pages.resource
 Input Amount
     [Tags]    STEP:Se ingreso el monto
     [Arguments]    ${amount}
-    Highlight Element Async    id:amount
+    Highlight Element Persistent    id:amount
     Input Text    id:amount    ${amount}
 
 Select From Account
     [Tags]    STEP:Se selecciona la cuenta de origen
     [Arguments]    ${from_account}
-    Highlight Element Async    id:fromAccountId
+    Highlight Element Persistent    id:fromAccountId
     Select From List By Value    id:fromAccountId    ${from_account}
 
 Select To Account
     [Tags]    STEP:Se selecciona la cuenta de destino
     [Arguments]    ${to_account}
-    Highlight Element Async    id:toAccountId
+    Highlight Element Persistent    id:toAccountId
     Select From List By Value    id:toAccountId    ${to_account}
 
 Click Transfer Button
-    Highlight Element Async    css:input[value\="Transfer"]
-    Log    STEP:IMAGE:Datos de la transferencia y se hace click en el botón de transferir.
+    Highlight Element Persistent    css:input[value\="Transfer"]
+    Capture Page Screenshot
+    Log    STEP:CAPTURE:Datos de la transferencia y se hace click en el botón de transferir.
     Click Element    css:input[value="Transfer"]
     Sleep    2s
 
 Verify Transfer Success
     Page Should Contain    Transfer Complete!
-    Log    STEP:IMAGE:Transferencia completada con éxito.:PASS
+    Capture Page Screenshot
+    Log    STEP:CAPTURE:Transferencia completada con éxito.:PASS
 
 Verify Transfer Failure
     Page Should Contain    Please enter a valid amount.
-    Log    STEP:IMAGE:Transferencia fallida por cantidad alfanumerica:PASS
+    Capture Page Screenshot
+    Log    STEP:CAPTURE:Transferencia fallida por cantidad alfanumerica:PASS

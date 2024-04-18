@@ -12,61 +12,61 @@ Wait Until Select Account To Search Transaction Is Enabled
 
 Select Account To Search Transaction
     [Arguments]    ${account}
-    Highlight Element Async    id:accountId
+    Highlight Element Persistent    id:accountId
     Select From List By Label    id:accountId    ${account}
 
 Input Transaction Id
     [Arguments]    ${transaction_id}
-    Highlight Element Async    id:criteria.transactionId
+    Highlight Element Persistent    id:criteria.transactionId
     Input Text    id:criteria.transactionId    ${transaction_id}
 
 Click In To Search Transaction By Id
-    Highlight Element Async    css:button[ng-click\="criteria.searchType \= 'ID'"]
+    Highlight Element Persistent    css:button[ng-click\="criteria.searchType \= 'ID'"]
     Capture Page Screenshot
     Log    STEP:CAPTURE:Busqueda por ID
     Click Button    css:button[ng-click="criteria.searchType = 'ID'"]
 
 Input Transaction Date
     [Arguments]    ${transaction_date}
-    Highlight Element Async    id:criteria.onDate
+    Highlight Element Persistent    id:criteria.onDate
     Input Text    id:criteria.onDate    ${transaction_date}
 
 Click In To Search Transaction By Date
-    Highlight Element Async    css:button[ng-click\="criteria.searchType \= 'DATE'"]
+    Highlight Element Persistent    css:button[ng-click\="criteria.searchType \= 'DATE'"]
     Capture Page Screenshot
     Log    STEP:CAPTURE:Busqueda por Fecha
     Click Button    css:button[ng-click="criteria.searchType = 'DATE'"]
 
 Input Transaction From Date
     [Arguments]    ${from_date}
-    Highlight Element Async    id:criteria.fromDate
+    Highlight Element Persistent    id:criteria.fromDate
     Input Text    id:criteria.fromDate    ${from_date}
 
 Input Transaction To Date
     [Arguments]    ${to_date}
-    Highlight Element Async    id:criteria.toDate
+    Highlight Element Persistent    id:criteria.toDate
     Input Text    id:criteria.toDate    ${to_date}
 
 Click In To Search Transaction By Date Range
-    Highlight Element Async    css:button[ng-click\="criteria.searchType \= 'DATE_RANGE'"]
+    Highlight Element Persistent    css:button[ng-click\="criteria.searchType \= 'DATE_RANGE'"]
     Capture Page Screenshot
     Log    STEP:CAPTURE:Busqueda por Rango de Fecha
     Click Button    css:button[ng-click="criteria.searchType = 'DATE_RANGE'"]
 
 Input Transaction Amount
     [Arguments]    ${amount}
-    Highlight Element Async    id:criteria.amount
+    Highlight Element Persistent    id:criteria.amount
     Input Text    id:criteria.amount    ${amount}
 
 Click In To Search Transaction By Amount
-    Highlight Element Async    css:button[ng-click\="criteria.searchType \= 'AMOUNT'"]
+    Highlight Element Persistent    css:button[ng-click\="criteria.searchType \= 'AMOUNT'"]
     Capture Page Screenshot
     Log    STEP:CAPTURE:Busqueda por Monto
     Click Button    css:button[ng-click="criteria.searchType = 'AMOUNT'"]
 
 Wait Until Transaction Table Is Visible
     Wait Until Element Is Visible    id:transactionTable
-    Highlight Element Async    id:transactionTable
+    Highlight Element Persistent    id:transactionTable
     Capture Page Screenshot
     Log    STEP:CAPTURE:Tabla de Transacciones
 

@@ -10,6 +10,7 @@ Resource    ${EXECDIR}/config/global/dependencies/pages.resource
 Select Account Service
     [Arguments]    ${service_name}
     Highlight Element Async    link:${service_name}
-    Log    STEP:IMAGE:Seleccione el servicio "${service_name}":PASS
+    Capture Page Screenshot
+    Log    STEP:CAPTURE:Seleccione el servicio "${service_name}":PASS
     Click Link    ${service_name}
     Wait Until Page Contains Element   css:h1.title    10s

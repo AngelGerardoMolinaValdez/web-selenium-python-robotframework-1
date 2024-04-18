@@ -10,23 +10,26 @@ Resource    ${EXECDIR}/config/global/dependencies/pages.resource
 Select Account Type
     [Arguments]    ${account_type}
     [Tags]    STEP:Se selecciona el tipo de cuenta '${account_type}'
-    Highlight Element Async    id\=type
+    Highlight Element Persistent    id\=type
     Select From List By Label    id=type    ${account_type}
 
 Select Account Owner
     [Arguments]    ${account_owner}
     [Tags]    STEP:Se selecciona el propietario de la cuenta '${account_owner}'
-    Highlight Element Async    id\=fromAccountId
+    Highlight Element Persistent    id\=fromAccountId
     Select From List By Label    id=fromAccountId    ${account_owner}
 
 Click Open Account
-    Highlight Element Async    css:input[value\="Open New Account"]
-    Log    STEP:IMAGE:Datos de la cuenta ingresados, se procede a abrir la cuenta.
+    Highlight Element Persistent    css:input[value\="Open New Account"]
+    Capture Page Screenshot
+    Log    STEP:CAPTURE:Datos de la cuenta ingresados, se procede a abrir la cuenta.
     Click Element    css:input[value="Open New Account"]
 
 Verify Account Opened And Get Account Id
     Page Should Contain    Congratulations, your account is now open.
     ${account_id}=    Get Text    id=newAccountId
-    Highlight Element Async    id\=newAccountId
-    Log    STEP:IMAGE:Se obtiene el id de la cuenta '${account_id}':PASS
+    Highlight Element Persistent    id\=newAccountId
+    Capture Page Screenshot
+    Log    STEP:CAPTURE:Se obtiene el id de la cuenta '${account_id}':PASS
+    Remove All Highlights
     RETURN    ${account_id}
