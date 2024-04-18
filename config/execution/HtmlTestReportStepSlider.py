@@ -74,7 +74,7 @@ class HtmlTestReportStepSlider:
             )
         )
         template = env.get_template('step_slider_report.html')
-        output = template.render(testname=self.current_test["name"], steps_data=self.keywords_config + self.keywords_data)
+        output = template.render(testname=self.current_test["name"], steps_data=self.keywords_config + self.keywords_data, status=attrs['status'].lower())
         with open(os.path.join(path_to_report, self.current_test["name"] + ".html"), "w", encoding="utf-8") as f:
             f.write(output)
 

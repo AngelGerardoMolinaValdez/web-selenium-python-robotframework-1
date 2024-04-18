@@ -3,20 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Reporte de Ejecución de Caso de Prueba con Capturas</title>
+    <title>{{ test_name }}</title>
     <style>
         :root {
             --color-text: #eaeaea;
             --background-color: #333;
             --container-background-color: #454545;
-            --border-color: #0056b3;
             --info-color: #17a2b8;
             --debug-color: #6c757d;
             --pass-color: #28a745;
-            --fail-color: #dc3545; /* Rojo claro para FAIL */
-            --fatal-color: #870000; /* Rojo oscuro para FATAL */
-            --critical-color: #ff5733; /* Rojo naranja para CRITICAL */
-            --warning-color: #ff851b; /* Naranja para WARNING */
+            --fail-color: #dc3545;
+            --fatal-color: #870000;
+            --critical-color: #ff5733;
+            --warning-color: #ff851b;
         }
         [data-theme="light"] {
             --color-text: #333;
@@ -47,7 +46,38 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             transition: background-color 0.3s ease;
         }
-        h1, h2, h3, .theme-switcher {
+        button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            background-color: var(--info-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.1s ease;
+        }
+
+        button:hover {
+            background-color: var(--debug-color);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        ::-moz-selection {
+            color: white;
+            background: var(--info-color);
+        }
+
+        ::selection {
+            color: white;
+            background: var(--info-color);
+        }
+
+        h1, h2, h3 {
             color: var(--color-text);
         }
         .step {
@@ -55,7 +85,6 @@
             padding: 10px 20px;
             background-color: var(--container-background-color);
             transition: background-color 0.3s ease;
-            cursor: pointer;
         }
         .info { border-left: 4px solid var(--info-color); }
         .debug { border-left: 4px solid var(--debug-color); }
@@ -67,46 +96,267 @@
         .status {
             font-weight: bold;
         }
-        .theme-switcher {
-            cursor: pointer;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            background-color: #0056b3;
-            color: white;
-            font-size: 16px;
-            text-align: left;
-        }
         .screenshot {
             max-width: 100%;
-            display: none; /* Hide by default */
+            display: none;
             margin-top: 15px;
-            border: 1px solid #ddd; /* Light border for dark theme and vice-versa */
+            border: 1px solid #ddd;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
         }
-        h2 {
-            max-width: 100%; /* Asegura que el título no exceda el ancho del contenedor */
-            overflow-wrap: break-word; /* Permite que las palabras se rompan y pasen a la siguiente línea */
-            word-break: break-word; /* Rompe la palabra si es necesario para evitar desbordamiento */
-            hyphens: auto; /* Añade guiones automáticamente si es necesario (necesita el idioma correcto en el elemento o en el documento) */
+        .screenshot:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            transform: scale(1.03);
+            cursor: pointer;
         }
+        h1, h2, h3 {
+            max-width: 100%;
+            overflow-wrap: break-word;
+            word-break: break-word;
+            hyphens: auto;
+        }
+
+        .test-info {
+            background-color: var(--container-background-color);
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+        }
+
+        [name="step-data"]:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            transform: scale(1.03);
+            cursor: pointer;
+        }
+
+        #status-text span { text-transform: uppercase; }
+        #status-text span.test-status-info { color: var(--info-color); }
+        #status-text span.test-status-debug { color: var(--debug-color); }
+        #status-text span.test-status-pass { color: var(--pass-color); }
+        #status-text span.test-status-fail { color: var(--fail-color);}
+        #status-text span.test-status-fatal { color: var(--fatal-color); }
+        #status-text span.test-status-critical { color: var(--critical-color); }
+        #status-text span.test-status-warning { color: var(--warning-color); }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.9);
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 100%;
+            max-width: none;
+            max-height: 80vh;
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-content, #caption {
+            -webkit-animation-name: zoom;
+            -webkit-animation-duration: 0.6s;
+            animation-name: zoom;
+            animation-duration: 0.6s;
+        }
+
+        .modal-caption {
+            color: white;
+            text-align: center;
+            font-size: 20px;
+            padding: 10px 20px;
+        }
+
+        @-webkit-keyframes zoom {
+            from {-webkit-transform:scale(0)}
+            to {-webkit-transform:scale(1)}
+        }
+
+        @keyframes zoom {
+            from {transform:scale(0)}
+            to {transform:scale(1)}
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 50px;
+            right: -3px;
+            width: 75px;
+            height: calc(100% - 100px);
+            padding-bottom: 50px;
+            background-color: var(--background-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 0 10px 6px;
+            border-left: 3px solid var(--info-color);
+            box-shadow: -5px 0 10px rgba(0,0,0,0.2);
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        #nav-buttons {
+            flex-grow: 1;
+            overflow-y: auto;
+            margin: 10px 0;
+        }
+
+        .sidebar button {
+            background-color: var(--info-color);
+            color: white;
+            border: none;
+            padding: 5px;
+            width: calc(100% - 4px);
+            margin: 4px 0;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .sidebar button:hover {
+            background-color: var(--debug-color);
+            transform: scale(1.05);
+        }
+
+        .highlighted {
+            border: 3px solid var(--info-color);
+            background-color: var(--debug-color);
+            animation: highlightFade 3s forwards;
+        }
+
+        @keyframes highlightFade {
+            0% { background-color: var(--debug-color); }
+            100% { background-color: var(--container-background-color); }
+        }
+        #toggleNavigationMode {
+            margin-bottom: 10px;
+        }
+
+        #scrollbar-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            padding: 10px 0;
+            overflow: visible;
+            align-items: center;
+            flex-grow: 1;
+            margin: 20px 0;
+        }
+
+        #step-range {
+            -webkit-appearance: slider-vertical;
+            writing-mode: bt-lr;
+            height: 100%;
+            width: 20px;
+            cursor: pointer;
+            margin: auto;
+            transition: background 0.3s ease;
+        }
+
+        #step-range::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            background: var(--info-color);
+            border: 2px solid var(--info-color);
+            height: 25px;
+            width: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        #step-range::-webkit-slider-runnable-track {
+            background: var(--container-background-color);
+            width: 100%;
+            height: 100%;
+        }
+
+        #step-range::-moz-range-progress {
+            background: var(--info-color);
+        }
+
+        #step-range::-moz-range-track {
+            background: var(--container-background-color);
+        }
+
+        #step-range::-ms-fill-lower {
+            background: var(--info-color);
+        }
+
+        #step-range::-ms-fill-upper {
+            background: var(--container-background-color);
+        }
+
+        #step-counter {
+            text-align: center;
+            color: var(--info-color);
+            margin-top: 10px;
+        }
+
     </style>
 </head>
 <body data-theme="dark">
 <div class="container">
     <button class="theme-switcher" onclick="switchTheme()">Cambiar a Tema Claro</button>
     <button class="theme-switcher" id="toggleAll">Desplegar Todo</button>
-    <h1>Reporte De Ejecución Automatizada</h1>
-    <h2>Test: {{ testname }}</h2>
+    <div class="test-info">
+        <h1>Reporte De Ejecución Automatizada</h1>
+        <h2>Nombre Del Caso De Prueba: {{ testname }}</h2>
+        <h3 class="status-text" id="status-text">Estatus De La Ejecución: <span class="test-status-{{ status }}">{{ status }}</span></h3>
+    </div>
 
-    {% for step_data in steps_data %}
-        <div class="step {{ step_data.step_level }}" onclick="toggleVisibility(this)">
-            <h3>{{ step_data.step_title }}</h3>
-            <img src="data:image/png;base64,{{ step_data.step_image }}" alt="Captura de evidencia" class="screenshot">
+    <div class="test-info" name="steps-data">
+        {% for step_data in steps_data %}
+            <div name="step-data" class="step {{ step_data.step_level }}" onclick="toggleVisibility(this)">
+                <h3>{{ step_data.step_title }}</h3>
+                <img src="data:image/png;base64,{{ step_data.step_image }}" alt="{{ step_data.step_title }}" class="screenshot">
+            </div>
+        {% endfor %}
+    </div>
+
+    <div id="myModal" class="modal">
+        <span class="close">&times;</span>
+        <div id="caption" class="modal-caption"></div>
+        <img class="modal-content" id="img01">
+    </div>
+
+    <div class="sidebar">
+        <button id="toggleNavigationMode">Modo Barra</button>
+        <button id="goToStart">Inicio</button>
+        <div id="nav-buttons"></div>
+        <div id="scrollbar-container">
+            <input type="range" min="0" max="1000" value="1000" id="step-range" style="writing-mode: bt-lr; -webkit-appearance: slider-vertical; width: 20px; height: 100%;">
+            <div id="step-counter">Step 1</div>
         </div>
-    {% endfor %}
 
+        <button id="goToEnd">Final</button>
+
+    </div>
 </div>
 <script>
     function switchTheme() {
@@ -149,6 +399,107 @@
 
     document.getElementById('toggleAll').addEventListener('click', toggleAllSteps);
 
+    var modal = document.getElementById("myModal");
+    var modalImg = document.getElementById("img01");
+    var captionText = document.getElementById("caption");
+
+    document.querySelectorAll('.screenshot').forEach(item => {
+        item.onclick = function(){
+            modal.style.display = "block";
+            modalImg.src = this.src;
+            modalImg.style.width = "100%";
+            modalImg.style.maxWidth = "100%";
+            captionText.innerHTML = this.alt;
+        }
+    });
+
+    var span = document.getElementsByClassName("close")[0];
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    function initializeNavigation() {
+    const steps = document.querySelectorAll('.step');
+    const navButtonsContainer = document.getElementById('nav-buttons');
+    steps.forEach((step, index) => {
+        const button = document.createElement('button');
+        button.textContent = index + 1;
+        button.onclick = () => scrollToStep(index);
+        navButtonsContainer.appendChild(button);
+    });
+    }
+
+    document.getElementById('goToStart').onclick = () => scrollToStep(0);
+    document.getElementById('goToEnd').onclick = () => scrollToStep(document.querySelectorAll('.step').length - 1);
+
+    window.onload = function() {
+        initializeScreenshots();
+        initializeNavigation();
+    };
+    document.getElementById('toggleNavigationMode').addEventListener('click', function() {
+        var navButtons = document.getElementById('nav-buttons');
+        var scrollbarContainer = document.getElementById('scrollbar-container');
+
+        if (navButtons.style.display !== 'none') {
+            navButtons.style.display = 'none';
+            scrollbarContainer.style.display = 'block';
+            this.textContent = 'Modo Botones';
+        } else {
+            navButtons.style.display = 'block';
+            scrollbarContainer.style.display = 'none';
+            this.textContent = 'Modo Barra';
+        }
+    });
+
+    function updateScrollbar() {
+        const steps = document.querySelectorAll('.step');
+        const rangeInput = document.getElementById('step-range');
+        const stepCounter = document.getElementById('step-counter');
+
+        rangeInput.max = (steps.length - 1) * 100;
+        rangeInput.value = rangeInput.max;
+
+        rangeInput.addEventListener('input', function() {
+            const stepIndex = Math.round((rangeInput.max - this.value) / 100);
+            scrollToStep(stepIndex);
+            stepCounter.textContent = "Step " + (stepIndex + 1);
+        });
+    }
+    function scrollToStep(index) {
+        const steps = document.querySelectorAll('.step');
+        const rangeInput = document.getElementById('step-range');
+        steps.forEach(step => step.classList.remove('highlighted'));
+        const step = steps[index];
+        step.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        step.classList.add('highlighted');
+        rangeInput.value = index;
+        setTimeout(() => {
+            step.classList.remove('highlighted');
+        }, 2000);
+    }
+    
+    function scrollToStep(index) {
+        const steps = document.querySelectorAll('.step');
+        const rangeInput = document.getElementById('step-range');
+
+        steps.forEach(step => step.classList.remove('highlighted'));
+        const step = steps[index];
+        step.scrollIntoView({behavior: 'smooth', block: 'center'});
+        step.classList.add('highlighted');
+        rangeInput.value = rangeInput.max - index * 100;
+        setTimeout(() => {
+            step.classList.remove('highlighted');
+        }, 2000);
+    }
+
+    window.onload = function() {
+    initializeScreenshots();
+    initializeNavigation();
+    updateScrollbar();
+    document.getElementById('scrollbar-container').style.display = 'none';
+    document.getElementById('nav-buttons').style.display = 'block';
+    document.getElementById('toggleNavigationMode').textContent = 'Modo Barra';
+};
 </script>
 </body>
 </html>
