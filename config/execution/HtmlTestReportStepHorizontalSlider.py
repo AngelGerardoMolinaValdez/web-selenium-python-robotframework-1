@@ -36,7 +36,6 @@ class HtmlTestReportStepHorizontalSlider:
         self.current_test = {}
         self.screenshot_element_counter = 1
         self.screenshot_counter = 1
-        self.base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
         self.base_path = TestsOutputPath().path()
         self.reports_path = TestsReportsPath().path()
@@ -46,10 +45,7 @@ class HtmlTestReportStepHorizontalSlider:
         """Iniciar un test.
 
         Se eliminan las capturas de pantalla anteriores y se inicializan las variables necesarias para el test.
-        """        
-        for file in os.listdir(self.selenium_screenshots_path):
-            os.remove(os.path.join(self.selenium_screenshots_path, file))
-
+        """
         self.current_test = {
             'name': name
         }
@@ -202,3 +198,7 @@ class HtmlTestReportStepHorizontalSlider:
         os.remove(image_path)
 
         return base64.b64encode(buff.getvalue()).decode("utf-8")
+
+    def end_suite(self, name, attrs):
+        for file in os.listdir(self.selenium_screenshots_path):
+            os.remove(os.path.join(self.selenium_screenshots_path, file))

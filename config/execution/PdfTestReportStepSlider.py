@@ -46,9 +46,6 @@ class PdfTestReportStepSlider:
 
         Se eliminan las capturas de pantalla anteriores y se inicializan las variables necesarias para el test.
         """
-        for file in os.listdir(self.selenium_screenshots_path):
-            os.remove(os.path.join(self.selenium_screenshots_path, file))
-
         self.current_test = {
             'name': name
         }
@@ -193,3 +190,7 @@ class PdfTestReportStepSlider:
         if os.path.exists(os.path.join(self.selenium_screenshots_path, "selenium-element-screenshot")):
             for file in os.listdir(os.path.join(self.selenium_screenshots_path, "selenium-element-screenshot")):
                 os.remove(os.path.join(self.selenium_screenshots_path, "selenium-element-screenshot", file))
+
+    def end_suite(self, name, attrs):
+        for file in os.listdir(self.selenium_screenshots_path):
+            os.remove(os.path.join(self.selenium_screenshots_path, file))
