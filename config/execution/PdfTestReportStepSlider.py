@@ -4,9 +4,11 @@ import datetime
 from typing import Literal
 from PIL import ImageGrab
 from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
-from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib import colors
 from reportlab.lib.units import inch
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, Image
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.platypus import KeepTogether
 import sys
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
@@ -29,6 +31,27 @@ class PdfTestReportStepSlider:
         - base_path: (str) Ruta base del proyecto.
         - reports_path: (str) Ruta de los reportes.
         """
+        self.color_scheme = {
+            "background_color": colors.HexColor("#333"),
+            "container_background_color": colors.HexColor("#454545"),
+            "text_color": colors.HexColor("#eaeaea"),
+            "info_color": colors.HexColor("#17a2b8"),
+            "debug_color": colors.HexColor("#6c757d"),
+            "pass_color": colors.HexColor("#28a745"),
+            "fail_color": colors.HexColor("#dc3545"),
+            "fatal_color": colors.HexColor("#870000"),
+            "critical_color": colors.HexColor("#ff5733"),
+            "warning_color": colors.HexColor("#ff851b")
+        }
+        self.styles = getSampleStyleSheet()
+        self.custom_style = ParagraphStyle(
+            'Custom',
+            parent=self.styles['Normal'],
+            fontName='Helvetica',
+            fontSize=14,
+            textColor=colors.black,  
+            alignment=1  
+        )
         self.keyword_config = False
         self.keywords_config = []
         self.current_test = {}
@@ -39,7 +62,6 @@ class PdfTestReportStepSlider:
         self.base_path = TestsOutputPath().path()
         self.reports_path = TestsReportsPath().path()
         self.selenium_screenshots_path = TestsSeleniumScreenShootsPath().path()
-        self.styles = getSampleStyleSheet()
 
     def start_test(self, name, attrs):
         """Iniciar un test.
@@ -67,7 +89,60 @@ class PdfTestReportStepSlider:
             os.mkdir(os.path.join(path_to_report, "report_pdf_slider"))
 
         doc = SimpleDocTemplate(os.path.join(path_to_report, "report_pdf_slider", self.current_test["name"]  + ".pdf"), pagesize=letter)
-        doc.build(self.keywords_config + self.story)
+
+        title_style = ParagraphStyle(
+            'TitleCustom',
+            parent=self.styles['Title'],
+            fontName='Helvetica-Bold',
+            fontSize=18,
+            textColor=colors.black,
+            alignment=1
+        )
+
+        date_style = ParagraphStyle(
+            'DateStyle',
+            parent=self.styles['Normal'],
+            fontName='Helvetica',
+            fontSize=12,
+            textColor=colors.black,
+            alignment=2
+        )
+
+        current_date = datetime.datetime.now().strftime("%d/%m/%Y")
+        date_paragraph = Paragraph("Fecha: " + current_date, date_style)
+        custom_story = []
+        custom_story.append(date_paragraph)
+        custom_story.append(Spacer(1, 0.25 * inch))
+        custom_story.append(Spacer(1, 0.25 * inch))
+
+        
+        custom_story.append(Paragraph("Reporte de Ejecución Automatizada", title_style))
+        custom_story.append(Spacer(1, 0.25 * inch))
+        custom_story.append(Spacer(1, 0.25 * inch))
+
+        
+        toc_data = [
+            [Paragraph("Nombre del Test", self.custom_style), Paragraph(self.current_test["name"], self.custom_style)],
+            [Paragraph("Estado", self.custom_style), Paragraph(attrs["status"], self.custom_style)]
+        ]
+        toc_table = Table(toc_data, colWidths=[3.5 * inch, 3.5 * inch])
+        toc_table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (0, 0), self.color_scheme["info_color"]),
+            ('BACKGROUND', (0, 1), (0, 1), self.color_scheme["info_color"]),
+            ('TEXTCOLOR', (0, 0), (-1, -1), colors.whitesmoke),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+            ('FONTSIZE', (0, 0), (-1, -1), 12),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 12),
+            ('TOPPADDING', (0, 0), (-1, -1), 12),
+            ('TEXTTRANSFORM', (0, 0), (-1, -1), 'UPPERCASE'),
+            ('BOX', (0,0), (-1,-1), 1, colors.black),  
+            ('GRID', (0,0), (-1,-1), 1, colors.black),  
+        ]))
+        custom_story.append(toc_table)
+        custom_story.append(Spacer(1, 0.25 * inch))
+        custom_story.append(Spacer(1, 0.25 * inch))
+        doc.build(custom_story + self.keywords_config + self.story)
 
         self.story = []
         self.screenshot_element_counter = 1
@@ -118,13 +193,23 @@ class PdfTestReportStepSlider:
             step_title = step_re_data.group(1)
 
             if self.keyword_config:
-                self.keywords_config.append(Paragraph(step_title, self.styles['Heading1']))
-                self.keywords_config.append(Spacer(1, 12))
-                self.keywords_config.append(Image(image_path, 7*inch, 5*inch))
+                
+                
+                
+                img = Image(image_path)
+                img.drawHeight = 3.5 * inch
+                img.drawWidth = 6.5 * inch
+                step_content = KeepTogether([Paragraph(step_title, self.custom_style), Spacer(1, 0.25 * inch), img, Spacer(1, 0.25 * inch)])
+                self.keywords_config.append(step_content)
             else:
-                self.story.append(Paragraph(step_title, self.styles['Heading1']))
-                self.story.append(Spacer(1, 12))
-                self.story.append(Image(image_path, 7*inch, 5*inch))
+                img = Image(image_path)
+                img.drawHeight = 3.5 * inch
+                img.drawWidth = 6.5 * inch
+                step_content = KeepTogether([Paragraph(step_title, self.custom_style), Spacer(1, 0.25 * inch), img, Spacer(1, 0.25 * inch)])
+                
+                
+                
+                self.story.append(step_content)
         
         if attrs['type'].lower() in ['setup', 'teardown']:
             self.keyword_config = False
@@ -165,13 +250,23 @@ class PdfTestReportStepSlider:
             step_title = step_re_data.group(1)
 
             if self.keyword_config:
-                self.keywords_config.append(Paragraph(step_title, self.styles['Heading1']))
-                self.keywords_config.append(Spacer(1, 12))
-                self.keywords_config.append(Image(image_path, 7*inch, 5*inch))
+                
+                
+                
+                img = Image(image_path)
+                img.drawHeight = 3.5 * inch
+                img.drawWidth = 6.5 * inch
+                step_content = KeepTogether([Paragraph(step_title, self.custom_style), Spacer(1, 0.25 * inch), img, Spacer(1, 0.25 * inch)])
+                self.keywords_config.append(step_content)
             else:
-                self.story.append(Paragraph(step_title, self.styles['Heading1']))
-                self.story.append(Spacer(1, 12))
-                self.story.append(Image(image_path, 7*inch, 5*inch))
+                img = Image(image_path)
+                img.drawHeight = 3.5 * inch
+                img.drawWidth = 6.5 * inch
+                step_content = KeepTogether([Paragraph(step_title, self.custom_style), Spacer(1, 0.25 * inch), img, Spacer(1, 0.25 * inch)])
+                
+                
+                
+                self.story.append(step_content)
 
     def __get_image_content(self, type_image: Literal["selenium-element-screenshot-", "selenium-screenshot-"], counter: int):
         image_path = os.path.join(self.selenium_screenshots_path, type_image + str(counter) + ".png")

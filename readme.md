@@ -216,9 +216,28 @@ Recomedacion: Ejecutar desde la carpeta base del proyecto para que al definir `s
 
 #### HTML vertical con imagenes
 
+Este reporte muestra los pasos de la ejecución de la prueba con imágenes en un formato vertical.
+
+En el reporte estan las siguientes funcionalidades:
+
+- Alternar entre dark mode y light mode.
+- Navegar con el scroll del mouse o desde la ruta de navegación de lado derecho. En esta ruta de navegación se puede navegar por el numero de la captura o por una barra de desplazamiento.
+- Contraer/Expandir los pasos de la prueba (Uno por uno o desde el boton "contraer/expandir todo").
+- Expandir la imagen de la captura de pantalla.
+- Ir a la ultima/primera captura de pantalla.
+
 ![](./assets/images/test_report_slider_html.png)
 
 #### HTML horizontal con imagenes
+
+Este reporte muestra los pasos de la ejecución de la prueba con imágenes en un formato horizontal.
+
+En el reporte estan las siguientes funcionalidades:
+
+- Alternar entre dark mode y light mode.
+- Navegar con los botones "Siguiente" y "Anterior"
+- Expandir la imagen de la captura de pantalla.
+- Ir a la ultima/primera captura de pantalla.
 
 ![](./assets/images/test_report_horizontal_slider_html.png)
 
