@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Reporte de Ejecución de Caso de Prueba con Capturas</title>
+    <title>{{ test_name }}</title>
     <style>
         :root {
             --color-text: #eaeaea;
@@ -17,6 +17,7 @@
             --critical-color: #ff5733;
             --warning-color: #ff851b;
         }
+
         [data-theme="light"] {
             --color-text: #333;
             --background-color: #f4f4f4;
@@ -29,6 +30,7 @@
             --critical-color: #ff5733;
             --warning-color: #ff851b;
         }
+
         body {
             font-family: Arial, sans-serif;
             color: var(--color-text);
@@ -36,6 +38,7 @@
             padding: 20px;
             margin: 0;
         }
+
         .container {
             max-width: 800px;
             margin: auto;
@@ -44,9 +47,11 @@
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
+
         .theme-switcher, .start-end-buttons {
-            margin-bottom: 20px; /* Espacio entre botones y contenido */
+            margin-bottom: 20px; 
         }
+
         .test-info {
             background-color: var(--container-background-color);
             padding: 15px;
@@ -54,10 +59,12 @@
             border-radius: 5px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.5);
         }
+
         .navigation {
             text-align: center;
             margin-top: 20px;
         }
+
         button {
             padding: 10px 20px;
             margin: 0 10px;
@@ -66,37 +73,137 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.1s ease; 
         }
+
+        button:hover {
+            background-color: var(--debug-color); 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
+        }
+
+        button:active {
+            transform: scale(0.98); 
+        }
+
+        ::-moz-selection { 
+            color: white;
+            background: var(--info-color);
+        }
+
+        ::selection {
+            color: white;
+            background: var(--info-color);
+        }
+
         .screenshot {
             width: 100%;
             display: block;
             margin-top: 15px;
             border: 1px solid #ddd;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: box-shadow 0.3s ease, transform 0.3s ease; 
         }
+
+        .screenshot:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4); 
+            transform: scale(1.03); 
+            cursor: pointer; 
+        }
+
         .step {
             display: none;
-            border-left: 4px solid transparent; /* Preparación para la tira de color */
-            padding-left: 20px; /* Espacio extra entre el borde y el contenido */
+            border-left: 4px solid transparent; 
+            padding-left: 20px; 
             background-color: var(--container-background-color);
             padding: 15px;
             margin-bottom: 20px;
             border-radius: 5px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.5);
         }
+
         .info { border-left-color: var(--info-color); }
         .debug { border-left-color: var(--debug-color); }
         .pass { border-left-color: var(--pass-color); }
-        .fail { border-left_color: var(--fail-color); }
+        .fail { border-left-color: var(--fail-color); }
         .fatal { border-left-color: var(--fatal-color); }
         .critical { border-left-color: var(--critical-color); }
         .warning { border-left-color: var(--warning-color); }
+
         .step-counter {
             margin-top: 10px;
             color: var(--info-color);
         }
-        .status-text {
-            color: var(--info-color); /* Color inicial, cambiar según el estado */
+
+        #status-text span { text-transform: uppercase; }
+        #status-text span.test-status-info { color: var(--info-color); }
+        #status-text span.test-status-debug { color: var(--debug-color); }
+        #status-text span.test-status-pass { color: var(--pass-color); }
+        #status-text span.test-status-fail { color: var(--fail-color);}
+        #status-text span.test-status-fatal { color: var(--fatal-color); }
+        #status-text span.test-status-critical { color: var(--critical-color); }
+        #status-text span.test-status-warning { color: var(--warning-color); }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgb(0,0,0); 
+            background-color: rgba(0,0,0,0.9); 
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 100%;  
+            max-width: none;  
+            max-height: 80vh;  
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-content, #caption {  
+            -webkit-animation-name: zoom;
+            -webkit-animation-duration: 0.6s;
+            animation-name: zoom;
+            animation-duration: 0.6s;
+        }
+
+        .modal-caption {
+            color: white; 
+            text-align: center; 
+            font-size: 20px; 
+            padding: 10px 20px; 
+        }
+
+        @-webkit-keyframes zoom {
+            from {-webkit-transform:scale(0)} 
+            to {-webkit-transform:scale(1)}
+        }
+
+        @keyframes zoom {
+            from {transform:scale(0)} 
+            to {transform:scale(1)}
         }
     </style>
 </head>
@@ -104,8 +211,9 @@
 <div class="container">
     <button class="theme-switcher" onclick="switchTheme()">Cambiar a Tema Claro</button>
     <div class="test-info">
-        <h1>Reporte De Ejecución Automatizada <span class="status-text-{{ status }}" id="status-text">Estatus: {{ status }}</span></h1>
-        <h2>Test: {{ testname }}</h2>
+        <h1>Reporte De Ejecución Automatizada</h1>
+        <h2>Nombre Del Caso De Prueba: {{ testname }}</h2>
+        <h3 class="status-text" id="status-text">Estatus De La Ejecución: <span class="test-status-{{ status }}">{{ status }}</span></h3>
     </div>
     <div class="start-end-buttons">
         <button onclick="goToStart()">Ir al Inicio</button>
@@ -114,7 +222,7 @@
     {% for step_data in steps_data %}
         <div class="step {{ step_data.step_level }}" id="step-{{ loop.index }}">
             <h3>{{ step_data.step_title }}</h3>
-            <img src="data:image/png;base64,{{ step_data.step_image }}" alt="Captura de evidencia" class="screenshot">
+            <img src="data:image/png;base64,{{ step_data.step_image }}" alt="{{ step_data.step_title }}" class="screenshot">
         </div>
     {% endfor %}
     <div class="navigation">
@@ -122,6 +230,13 @@
         <span class="step-counter" id="step-counter">1 de {{ steps_data | length }}</span>
         <button onclick="changeStep(1)">Siguiente</button>
     </div>
+
+<div id="myModal" class="modal">
+    <span class="close">&times;</span>
+    <div id="caption" class="modal-caption"></div>
+    <img class="modal-content" id="img01">
+</div>
+
 </div>
 <script>
     let currentStep = 0;
@@ -133,7 +248,6 @@
         if (newStep) newStep.style.display = 'block';
         currentStep = index;
         updateStepCounter();
-        updateStatusColor(newStep.classList.contains('fail') ? 'fail' : 'pass'); // Simplificado para ejemplo
     }
     function changeStep(direction) {
         let newIndex = currentStep + direction;
@@ -151,10 +265,6 @@
         const counterElement = document.getElementById('step-counter');
         counterElement.textContent = (currentStep + 1) + ' de ' + totalSteps;
     }
-    function updateStatusColor(status) {
-        const statusText = document.getElementById('status-text');
-        statusText.style.color = getComputedStyle(document.documentElement).getPropertyValue('--' + status + '-color');
-    }
     function switchTheme() {
         const body = document.body;
         const themeSwitcher = document.querySelector('.theme-switcher');
@@ -167,9 +277,26 @@
         }
     }
     window.onload = function() {
-        showStep(0); // Mostrar el primer paso al cargar
-        updateStatusColor('info'); // Inicializar color de estado, cambiar según necesidad
+        showStep(0); 
     };
+    
+    var modal = document.getElementById("myModal");
+    var modalImg = document.getElementById("img01");
+    var captionText = document.getElementById("caption");
+    document.querySelectorAll('.screenshot').forEach(item => {
+        item.onclick = function(){
+            modal.style.display = "block";
+            modalImg.src = this.src;
+            modalImg.style.width = "100%";  
+            modalImg.style.maxWidth = "100%";
+            captionText.innerHTML = this.alt;
+        }
+    });
+
+    var span = document.getElementsByClassName("close")[0];
+    span.onclick = function() { 
+        modal.style.display = "none";
+    }
 </script>
 </body>
 </html>
