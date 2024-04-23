@@ -5,9 +5,9 @@ import os
 
 class CsvResultWriter:
     @staticmethod
-    def write(file_path, test_data):
+    def write(file_path, test_data, encoding):
         try:
-            with open(file_path, mode='r', newline='') as f:
+            with open(file_path, mode='r', newline='', encoding=encoding) as f:
                 lector = csv.reader(f)
                 campos_existentes = next(lector, [])
         except FileNotFoundError:
@@ -19,12 +19,12 @@ class CsvResultWriter:
         if campos_nuevos:
             archivo_temporal = file_path + '.tmp'
             
-            with open(archivo_temporal, mode='w', newline='') as f_temp:
+            with open(archivo_temporal, mode='w', newline='', encoding=encoding) as f_temp:
                 escritor = csv.DictWriter(f_temp, fieldnames=campos_actualizados)
                 escritor.writeheader()
 
                 if campos_existentes:
-                    with open(file_path, mode='r', newline='') as f_orig:
+                    with open(file_path, mode='r', newline='', encoding=encoding) as f_orig:
                         lector = csv.DictReader(f_orig)
                         for fila in lector:
                             escritor.writerow(fila)
@@ -33,7 +33,7 @@ class CsvResultWriter:
 
             os.replace(archivo_temporal, file_path)
         else:
-            with open(file_path, mode='a', newline='') as f:
+            with open(file_path, mode='a', newline='', encoding=encoding) as f:
                 escritor = csv.DictWriter(f, fieldnames=campos_existentes)
                 if not campos_existentes:
                     escritor.writeheader()
@@ -41,9 +41,9 @@ class CsvResultWriter:
 
 class JsonResultWriter:
     @staticmethod
-    def write(file_path, test_data):
+    def write(file_path, test_data, encoding):
         try:
-            with open(file_path, 'r') as f:
+            with open(file_path, 'r', encoding=encoding) as f:
                 data_list = json.load(f)  # Cargar el archivo JSON existente
         except FileNotFoundError:
             data_list = []  # Inicializar una lista vacía si el archivo no existe
@@ -73,8 +73,8 @@ class JsonResultWriter:
             data_list.append(test_data)
 
         # Escribir los datos actualizados en el archivo JSON
-        with open(file_path, 'w') as f:
-            json.dump(data_list, f, indent=4)
+        with open(file_path, 'w', encoding=encoding) as f:
+            json.dump(data_list, f, indent=4, ensure_ascii=False)
 
 
 

@@ -100,18 +100,21 @@ class TestsExecutionResults:
             cls.__file_path = os.path.join(cls.__results_dir)
         return super().__new__(cls)
     
-    def save_test_execution_results(self, data_table, type_output="CSV"):
+    def save_test_execution_results(self, data_table, type_output="CSV", encoding="utf-8"):
         """Guardar los resultados de la ejecución de los tests en un archivo de datos.
 
         === Descripción de los argumentos ===
         1. data_table: (DataTable) DataTable con la información de la ejecución de los tests.
         2. type_output: (str) Tipo de archivo de datos a guardar. Puede ser CSV o JSON. Por defecto es CSV.
+        3. encoding: (str) Codificación del archivo de datos. Por defecto es utf-8.
 
         === Ejemplo de uso ===
         | VAR   ${DT1}  DataTable(name="Foo", age=12, city="New York", country="EUA")
         | VAR   ${DT2}  DataTable(name="Foo", age=12, city="New York", country="EUA", is_active=True)
         | Save Test Execution Results    ${DT1}
         | Save Test Execution Results    ${DT2}
+        | Save Test Execution Results    ${DT1}    JSON
+        | Save Test Execution Results    ${DT2}    encoding=utf-16
 
         Y esto generara un archivo CSV con el nombre del test suite con el siguiente contenido:
         | name,age,city,country,is_active
@@ -146,6 +149,7 @@ class TestsExecutionResults:
         - Los campos que no estaban en el DataTable anterior se agregaran al final
         - Se recomienda invocar la keyword `Save Test Execution Results` al final de cada bloque de test cases, para evitar que se sobrescriba el archivo de datos.
         - No se pueden guardar en diferentes tipos de archivos en una misma ejecución, es decir, si se guarda en CSV, no se puede guardar en JSON en la misma ejecución.
+        - Si se define un encoding que no es soportado, se generara un error.
         """
         try:
             # Intentar convertir el DataTable a un diccionario
@@ -158,14 +162,14 @@ class TestsExecutionResults:
             test_data = all_fields
 
         # el resultado final en ambos casos es un diccionario
-        self.__save_test_results(test_data, self.__file_path, type_output)
+        self.__save_test_results(test_data, self.__file_path, type_output, encoding)
     
     @classmethod
     def __get_file_index(cls):
         files = [f for f in os.listdir(cls.__results_dir) if os.path.isfile(os.path.join(cls.__results_dir, f))]
         return len(files)
 
-    def __save_test_results(self, test_data: dataclass, path, type_output):
+    def __save_test_results(self, test_data: dataclass, path, type_output, encoding):
         file_path = os.path.join(path, f"{self.__file__name}{type_output.lower()}")
         reader = ResultWriterType[type_output.upper()].value
-        reader.write(file_path, test_data)
+        reader.write(file_path, test_data, encoding)

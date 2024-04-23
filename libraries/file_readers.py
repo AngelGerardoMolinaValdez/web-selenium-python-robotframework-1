@@ -8,12 +8,12 @@ class CsvReader:
     __content: list[dict[str, Any]] = []
 
     @classmethod
-    def read(cls, path: str) -> list:
+    def read(cls, path: str, encoding: str) -> list:
         """Read the CSV file and return a list of dictionaries."""
         if not os.path.exists(path):
             raise FileNotFoundError(f"El archivo de datos no existe: {path}")
 
-        with open(path, 'r') as file:
+        with open(path, 'r', encoding=encoding) as file:
             cls.__content = list(csv.DictReader(file))
     
     @classmethod
@@ -32,12 +32,12 @@ class JsonReader:
     __content: list[dict[str, Any]] = []
 
     @classmethod
-    def read(cls, path: str) -> dict:
+    def read(cls, path: str, encoding: str) -> dict:
         """El contenido del json debe ser una lista de diccionarios."""
         if not os.path.exists(path):
             raise FileNotFoundError(f"El archivo de datos no existe: {path}")
 
-        with open(path, 'r', encoding="utf-8") as file:
+        with open(path, 'r', encoding=encoding) as file:
             cls.__content = json.load(file)
 
     @classmethod

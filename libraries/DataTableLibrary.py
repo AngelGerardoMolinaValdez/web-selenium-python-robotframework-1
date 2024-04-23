@@ -185,12 +185,13 @@ class DataTableLibrary:
     - Los nombres de las columnas del archivo de datos no deben contener tildes ni caracteres especiales.
     """
 
-    def create_data_table(self, path: str, index: int) -> dataclass:
+    def create_data_table(self, path: str, index: int, encoding="utf-8") -> dataclass:
         """Crea un DataTable a partir de un archivo CSV o JSON.
 
         === Descripción de los argumentos ===
         - `path`: Ruta del archivo CSV o JSON.
         - `index`: Índice de la fila del archivo de datos.
+        - `encoding`: Codificación del archivo de datos. Por defecto es utf-8.
 
         === Ejemplo de uso ===
         | ${table}=    Create Data Table    ${CURDIR}/data.csv    0
@@ -198,7 +199,7 @@ class DataTableLibrary:
         | Log    ${table.name}
         | Log    ${table.age}
 
-        | ${table}=    Create Data Table    ${CURDIR}/data.json    0
+        | ${table}=    Create Data Table    ${CURDIR}/data.json    0    encoding=utf-16
         | Log    ${table}
         | Log    ${table.name}
         | Log    ${table.age}
@@ -211,7 +212,7 @@ class DataTableLibrary:
         """
         ext_file = os.path.splitext(path)[1]
         reader = FileReaderType[ext_file[1:].upper()].value
-        reader.read(path)
+        reader.read(path, encoding)
         test_data_row = reader.get(index)
         DataTable: dataclass = make_dataclass("DataTable", test_data_row.keys())
         return DataTable(**test_data_row)
