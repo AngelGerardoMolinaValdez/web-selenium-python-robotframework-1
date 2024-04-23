@@ -27,6 +27,10 @@ class CsvReader:
             raise IndexError(f"El índice {index} está fuera de rango de las filas del archivo de datos.")
 
         return cls.__content[index]
+    
+    @classmethod
+    def get_all(cls) -> list:
+        return cls.__content
 
 class JsonReader:
     __content: list[dict[str, Any]] = []
@@ -52,7 +56,11 @@ class JsonReader:
             raise IndexError(f"El índice {index} está fuera de rango de las filas del archivo de datos.")
 
         return cls.__content[index]
-    
+
+    @classmethod
+    def get_all(cls) -> list:
+        return cls.__content
+
 class FileReaderType(Enum):
     CSV = CsvReader
     JSON = JsonReader

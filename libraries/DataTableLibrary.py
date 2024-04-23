@@ -1,6 +1,7 @@
 import os
 from dataclasses import dataclass, make_dataclass, asdict, fields
 from file_readers import FileReaderType
+from data_table_iterator import DataTableCollection
 
 
 class DataTableLibrary:
@@ -243,6 +244,44 @@ class DataTableLibrary:
         - Los nombres de las columnas del archivo de datos no deben contener tildes ni caracteres especiales.
         """
         return self.__create_data_class(field_values)
+
+    def create_data_table_iterator(self, path: str, encoding="utf-8") -> dataclass:
+        """Crea un iterador de DataTables a partir de un archivo CSV o JSON.
+
+        === Descripción de los argumentos ===
+        - `path`: Ruta del archivo CSV o JSON.
+        - `encoding`: Codificación del archivo de datos. Por defecto es utf-8.
+
+        === Ejemplo de uso ===
+        | ${iterator}=    Create Data Table Iterator    ${CURDIR}/data.csv
+        | FOR    ${table}    IN    @{iterator}
+        |    Log    ${table}
+        |    Log    ${table.name}
+        |    Log    ${table.age}
+
+        | ${iterator}=    Create Data Table Iterator    ${CURDIR}/data.json
+        | FOR    ${table}    IN    @{iterator}
+        |    Log    ${table}
+        |    Log    ${table.name}
+        |    Log    ${table.age}
+
+        === Consideraciones ===
+        - Los nombres de las columnas del archivo de datos deben ser únicos.
+        - Los nombres de las columnas del archivo de datos no deben contener espacios en blanco.
+        - Los nombres de las columnas del archivo de datos no deben contener tildes ni caracteres especiales.
+        """
+        ext_file = os.path.splitext(path)[1]
+
+        reader = FileReaderType[ext_file[1:].upper()].value
+        reader.read(path, encoding)
+        test_data_row = reader.get_all()
+
+        collection = DataTableCollection()
+        for row in test_data_row:
+            collection.add_data_table(self.__create_data_class(row))
+        iterator = collection.create_iterator()
+
+        return iterator
 
     def update_data_table(self, data_table: dataclass, **field_values) -> dataclass:
         """Agrega un nuevo campo al DataTable y retorna una nueva instancia del DataTable.
