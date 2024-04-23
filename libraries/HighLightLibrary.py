@@ -127,8 +127,6 @@ class HighLightLibrary:
         self.__shadow = shadow
         self.__fill_opacity = fill_opacity
         self.__with_background = with_background
-        self.__colors = ['red', 'green', 'blue', 'yellow', 'orange', 'purple', 'pink', 'cyan', 'magenta', 'lime', 'gray', 'black', 'white']
-        self.__borders = ['solid', 'dotted', 'dashed', 'double', 'groove', 'ridge', 'inset', 'outset']
         self.__highlighted_elements = []
         self.__update_style()
 
