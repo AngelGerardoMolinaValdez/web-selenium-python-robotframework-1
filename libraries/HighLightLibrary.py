@@ -120,21 +120,39 @@ class HighLightLibrary:
         - Al instanciar la librería, los valores predeterminados son asignados, esta función permite cambiar estos valores en cualquier momento durante la ejecución de las pruebas.
         - Si los valores ingresados no son válidos, se mantendrán los valores predeterminados.
         """
-        self.__border_style = border_style
-        self.__border_width = border_width
-        self.__color = color
+        self.__style_properties = {
+            'border_style': border_style,
+            'border_width': border_width,
+            'color': color,
+            'duration': duration,
+            'shadow': shadow,
+            'fill_opacity': fill_opacity,
+            'with_background': with_background
+        }
         self.__duration = duration
-        self.__shadow = shadow
-        self.__fill_opacity = fill_opacity
-        self.__with_background = with_background
         self.__highlighted_elements = []
-        self.__update_style()
 
-    def __update_style(self):
-        shadow_style = f"box-shadow: {self.__shadow};" if self.__shadow else ""
-        background_color = f"background-color: {self.__convert_to_rgba(self.__color, self.__fill_opacity)};" if self.__with_background else ""
-        border_color = self.__color
-        self.__default_style = f"border: {self.__border_width} {self.__border_style} {border_color}; {background_color}{shadow_style}"
+    def __create_style(self, style_properties):
+        shadow = style_properties.get("shadow")
+        shadow_style = f"box-shadow: {shadow};" if shadow else ""
+
+        color = style_properties.get("color")
+        fill_opacity = style_properties.get("fill_opacity")
+        with_background = style_properties.get("with_background")
+        background_color = f"background-color: {self.__convert_to_rgba(color, fill_opacity)};" if with_background else ""
+        border_color = color
+
+        border_style = style_properties.get("border_style")
+        border_width = style_properties.get("border_width")
+        default_style = f"border: {border_width} {border_style} {border_color}; {background_color}{shadow_style}"
+
+        return default_style
+
+    def __customise_style(self, **kwargs):
+        default_style_copy = self.__style_properties.copy()
+        default_style_copy.update(kwargs)
+
+        return self.__create_style(default_style_copy)
 
     def __convert_to_rgba(self, color, opacity=1.0):
         if "rgba" in color:
@@ -189,16 +207,7 @@ class HighLightLibrary:
         - Al instanciar la librería, los valores predeterminados son asginados, esta función permite cambiar estos valores en cualquier momento durante la ejecución de las pruebas.
         - Si los valores ingresados no son válidos, se mantendrán los valores predeterminados.
         """
-        style_updated = False
-
-        for key, value in kwargs.items():
-            attr_name = f'_HighLightLibrary__{key}'
-            if hasattr(self, attr_name) and getattr(self, attr_name) != value:
-                setattr(self, attr_name, value)
-                style_updated = True
-
-        if style_updated:
-            self.__update_style()
+        self.__style_properties.update(kwargs)
 
     def highlight_element_persistent(self, locator, **style_kwargs):
         """ Resalta un elemento de forma permanente con un color específico y un estilo de borde.
@@ -215,12 +224,12 @@ class HighLightLibrary:
         === Consideraciones ===
         - Si los valores ingresados no son válidos, se mantendrán los valores predeterminados.
         """
-        self.set_style_default(**style_kwargs)
+        tmp_style = self.__customise_style(**style_kwargs)
         seleniumlib, driver = self.__get_selenium_instances()
         element = seleniumlib.find_element(locator)
         self.__highlighted_elements.append(locator)
         original_style = element.get_attribute('style')
-        driver.execute_script("arguments[0].setAttribute('style', `${arguments[1]} ${arguments[2]}`);", element, self.__default_style, original_style)
+        driver.execute_script("arguments[0].setAttribute('style', `${arguments[1]} ${arguments[2]}`);", element, tmp_style, original_style)
 
     def highlight_element_async(self, locator, duration=None, **style_kwargs):
         """Resalta un elemento con un color específico y un estilo de borde durante un tiempo específico y luego restaura el estilo original.
@@ -238,18 +247,17 @@ class HighLightLibrary:
         === Consideraciones ===
         - Si los valores ingresados no son válidos, se mantendrán los valores predeterminados.
         """
-        self.set_style_default(**style_kwargs)
+        tmp_style = self.__customise_style(**style_kwargs)
         seleniumlib, driver = self.__get_selenium_instances()
         element = seleniumlib.find_element(locator)
         self.__highlighted_elements.append(locator)
         original_style = element.get_attribute('style')
-        highlight_style = self.__default_style
         
         highlight_ilumitation_time = duration or self.__duration
 
         script = f"""
         var element = arguments[0];
-        var newStyle = '{highlight_style}' + ' ' + arguments[1];
+        var newStyle = '{tmp_style}' + ' ' + arguments[1];
         element.setAttribute('style', newStyle);
         setTimeout(function() {{
             element.setAttribute('style', arguments[1]);  // Restaura el estilo original después de la duración especificada
