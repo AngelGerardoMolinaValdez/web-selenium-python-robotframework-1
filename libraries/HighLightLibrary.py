@@ -79,12 +79,6 @@ class HighLightLibrary:
 
     | Highlight Element Async   id:tu-id-elemento   fill_opacity=0.1
 
-    = Animación =
-
-    Puedes añadir animación a los elementos resaltados en tus pruebas automatizadas con Selenium y Robot Framework. La animación se puede añadir con la propiedad `transition` de CSS. Por ejemplo, para añadir una animación de 0.5 segundos al resaltar un elemento, puedes hacer lo siguiente:
-
-    | Highlight Element Async   id:tu-id-elemento   with_animation=True, seconds=0.5
-
     = Uso =
 
     | *** Settings ***
@@ -105,17 +99,17 @@ class HighLightLibrary:
     - Al usar selectores web con el caracter `=`, se debe colocar una diagonal invertida `\` antes del caracter `=`, para que no sea interpretado como un operador de asignación. Ejemplo: `id\=your-element-id`. Esto ultimo se puede evitar si el locator se guarda previamente en una variable y se pasa como argumento a la función.
     """
 
-    def __init__(self, border_style="solid", border_width="4px", color="blue", with_animation=True, seconds=0.5, shadow=None, fill_opacity=0.1):
+    def __init__(self, border_style="solid", border_width="4px", color="blue", seconds=0.5, shadow=None, fill_opacity=0.1, with_background=True):
         """Inicializa la librería HighLightLibrary con los valores predeterminados para resaltar elementos en la página web.
 
         === Descripción de los argumentos ===
         - `border_style` (str): El estilo del borde del elemento resaltado. Puede ser uno de los siguientes valores: `solid`, `dotted`, `dashed`, `double`, `groove`, `ridge`, `inset`, `outset`.
         - `border_width` (str): El ancho del borde del elemento resaltado. Puede ser un valor en píxeles, puntos, ems, etc.
         - `color` (str): El color del borde del elemento resaltado. Puede ser un nombre de color CSS, un valor hexadecimal, un valor RGB, un valor RGBA, un valor HSL, un valor HSLA, etc.
-        - `with_animation` (bool): Si se debe aplicar una animación al resaltar el elemento.
         - `seconds` (float): La duración de la animación en segundos.
         - `shadow` (str): La sombra que se aplicará al elemento resaltado. Puede ser un valor en píxeles, puntos, ems, etc.
         - `fill_opacity` (float): La opacidad del relleno del elemento resaltado. Puede ser un valor entre 0 y 1.
+        - `with_background` (bool): Si se debe aplicar un relleno al elemento resaltado.
 
         === Ejemplo de uso ===
         | Library    HighLightLibrary.py    border_style=dotted    border_width=3px    color=red    with_animation=True    seconds=0.5    shadow=5px 5px 5px
@@ -129,10 +123,10 @@ class HighLightLibrary:
         self.__border_style = border_style
         self.__border_width = border_width
         self.__color = color
-        self.__with_animation = with_animation
         self.__seconds = seconds
         self.__shadow = shadow
         self.__fill_opacity = fill_opacity
+        self.__with_background = with_background
         self.__colors = ['red', 'green', 'blue', 'yellow', 'orange', 'purple', 'pink', 'cyan', 'magenta', 'lime', 'gray', 'black', 'white']
         self.__borders = ['solid', 'dotted', 'dashed', 'double', 'groove', 'ridge', 'inset', 'outset']
         self.__highlighted_elements = []
@@ -140,10 +134,9 @@ class HighLightLibrary:
 
     def __update_style(self):
         shadow_style = f"box-shadow: {self.__shadow};" if self.__shadow else ""
-        animation_style = f"transition: border-color {self.__seconds}s ease-in-out, background-color {self.__seconds}s ease-in-out;" if self.__with_animation else ""
-        background_color = f"background-color: {self.__convert_to_rgba(self.__color, self.__fill_opacity)};"
+        background_color = f"background-color: {self.__convert_to_rgba(self.__color, self.__fill_opacity)};" if self.__with_background else ""
         border_color = self.__color
-        self.__default_style = f"border: {self.__border_width} {self.__border_style} {border_color}; {background_color}{shadow_style}{animation_style}"
+        self.__default_style = f"border: {self.__border_width} {self.__border_style} {border_color}; {background_color}{shadow_style}"
 
     def __convert_to_rgba(self, color, opacity=1.0):
         if "rgba" in color:
