@@ -1,5 +1,5 @@
 import os
-from dataclasses import dataclass, make_dataclass, asdict
+from dataclasses import dataclass, make_dataclass, asdict, fields
 from file_readers import FileReaderType
 
 
@@ -183,7 +183,16 @@ class DataTableLibrary:
     - Los nombres de las columnas del archivo de datos deben ser únicos.
     - Los nombres de las columnas del archivo de datos no deben contener espacios en blanco.
     - Los nombres de las columnas del archivo de datos no deben contener tildes ni caracteres especiales.
+    - Se puede utilizar `len()` para obtener la cantidad de campos del DataTable. Por ejemplo `DataTable("name", "age", "city")` retornará 3 al utilizar `len(DataTable)` porque tiene 3 campos.
     """
+    def __create_data_class(self, fields_values) -> dataclass:
+        DataTable: dataclass = make_dataclass("DataTable", fields_values.keys())
+
+        def dataclass_len(self):
+            return len(fields(self))
+        DataTable.__len__ = dataclass_len
+
+        return DataTable(**fields_values)
 
     def create_data_table(self, path: str, index: int, encoding="utf-8") -> dataclass:
         """Crea un DataTable a partir de un archivo CSV o JSON.
@@ -214,14 +223,13 @@ class DataTableLibrary:
         reader = FileReaderType[ext_file[1:].upper()].value
         reader.read(path, encoding)
         test_data_row = reader.get(index)
-        DataTable: dataclass = make_dataclass("DataTable", test_data_row.keys())
-        return DataTable(**test_data_row)
+        return self.__create_data_class(test_data_row)
 
-    def create_data_table_from_fields(self, **fields) -> dataclass:
+    def create_data_table_from_fields(self, **field_values) -> dataclass:
         """Crea un DataTable a partir de un diccionario de datos.
 
         === Descripción de los argumentos ===
-        - `fields`: Campos del DataTable.
+        - `field_values`: Campos del DataTable.
 
         === Ejemplo de uso ===
         | ${table}=    Create Data Table From Fields    name=John Doe    age=30    city=New York    country=USA
@@ -234,15 +242,14 @@ class DataTableLibrary:
         - Los nombres de las columnas del archivo de datos no deben contener espacios en blanco.
         - Los nombres de las columnas del archivo de datos no deben contener tildes ni caracteres especiales.
         """
-        DataTable: dataclass = make_dataclass("DataTable", fields.keys())
-        return DataTable(**fields)
+        return self.__create_data_class(field_values)
 
-    def update_data_table(self, data_table: dataclass, **fields) -> dataclass:
+    def update_data_table(self, data_table: dataclass, **field_values) -> dataclass:
         """Agrega un nuevo campo al DataTable y retorna una nueva instancia del DataTable.
 
         === Descripción de los argumentos ===
         - `data_table`: DataTable.
-        - `fields`: Campos del DataTable.
+        - `field_values`: Campos del DataTable.
 
         === Ejemplo de uso ===
         | ${table}=    Create Data Table From Fields    name=John Doe    age=30    city=New York    country=USA     is_alive=False
@@ -255,12 +262,8 @@ class DataTableLibrary:
         - Los nombres de las columnas del archivo de datos no deben contener tildes ni caracteres especiales.
         """
         data_class_dict = asdict(data_table)
-        data_class_dict.update(fields)
-        DataClass = make_dataclass(
-            "DataClass",
-            [(name, str) for name in data_class_dict.keys()]
-        )
-        return DataClass(**data_class_dict)
+        data_class_dict.update(field_values)
+        return self.__create_data_class(data_class_dict)
 
     def merge_data_tables(self, data_table: dataclass, another_data_table: dataclass) -> dataclass:
         """Actualiza un DataTable con los campos de otro DataTable y retorna una nueva instancia del DataTable.
@@ -286,11 +289,8 @@ class DataTableLibrary:
         data_table_dict = asdict(data_table)
         another_data_table_dict = asdict(another_data_table)
         data_table_dict.update(another_data_table_dict)
-        DataClass = make_dataclass(
-            "DataClass",
-            [(name, str) for name in data_table_dict.keys()]
-        )
-        return DataClass(**data_table_dict)
+
+        return self.__create_data_class(data_table_dict)
 
     def unify_data_tables(self, data_table: dataclass, *data_tables) -> dataclass:
         """Unifica varios DataTables y retorna una nueva instancia del DataTable.
@@ -320,8 +320,4 @@ class DataTableLibrary:
         for another_data_table in data_tables:
             another_data_table_dict = asdict(another_data_table)
             original_data_table_dict.update(another_data_table_dict)
-        DataClass = make_dataclass(
-            "DataClass",
-            [(name, str) for name in original_data_table_dict.keys()]
-        )
-        return DataClass(**original_data_table_dict)
+        return self.__create_data_class(original_data_table_dict)
