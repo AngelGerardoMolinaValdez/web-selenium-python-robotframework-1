@@ -99,20 +99,20 @@ class HighLightLibrary:
     - Al usar selectores web con el caracter `=`, se debe colocar una diagonal invertida `\` antes del caracter `=`, para que no sea interpretado como un operador de asignación. Ejemplo: `id\=your-element-id`. Esto ultimo se puede evitar si el locator se guarda previamente en una variable y se pasa como argumento a la función.
     """
 
-    def __init__(self, border_style="solid", border_width="4px", color="blue", seconds=0.5, shadow=None, fill_opacity=0.1, with_background=True):
+    def __init__(self, border_style="solid", border_width="4px", color="blue", duration=5000, shadow=None, fill_opacity=0.1, with_background=True):
         """Inicializa la librería HighLightLibrary con los valores predeterminados para resaltar elementos en la página web.
 
         === Descripción de los argumentos ===
         - `border_style` (str): El estilo del borde del elemento resaltado. Puede ser uno de los siguientes valores: `solid`, `dotted`, `dashed`, `double`, `groove`, `ridge`, `inset`, `outset`.
         - `border_width` (str): El ancho del borde del elemento resaltado. Puede ser un valor en píxeles, puntos, ems, etc.
         - `color` (str): El color del borde del elemento resaltado. Puede ser un nombre de color CSS, un valor hexadecimal, un valor RGB, un valor RGBA, un valor HSL, un valor HSLA, etc.
-        - `seconds` (float): La duración de la animación en segundos.
+        - `duration` (float): La duración de la animación en segundos.
         - `shadow` (str): La sombra que se aplicará al elemento resaltado. Puede ser un valor en píxeles, puntos, ems, etc.
         - `fill_opacity` (float): La opacidad del relleno del elemento resaltado. Puede ser un valor entre 0 y 1.
         - `with_background` (bool): Si se debe aplicar un relleno al elemento resaltado.
 
         === Ejemplo de uso ===
-        | Library    HighLightLibrary.py    border_style=dotted    border_width=3px    color=red    with_animation=True    seconds=0.5    shadow=5px 5px 5px
+        | Library    HighLightLibrary.py    border_style=dotted    border_width=3px    color=red    seconds=10000    shadow=5px 5px 5px
         | Library    HighLightLibrary.py    color=rgba(255, 0, 0, 0.5)    fill_opacity=0.1
         | Library    HighLightLibrary.py    color=#ff0000    fill_opacity=0.5
 
@@ -123,7 +123,7 @@ class HighLightLibrary:
         self.__border_style = border_style
         self.__border_width = border_width
         self.__color = color
-        self.__seconds = seconds
+        self.__duration = duration
         self.__shadow = shadow
         self.__fill_opacity = fill_opacity
         self.__with_background = with_background
@@ -224,12 +224,12 @@ class HighLightLibrary:
         original_style = element.get_attribute('style')
         driver.execute_script("arguments[0].setAttribute('style', `${arguments[1]} ${arguments[2]}`);", element, self.__default_style, original_style)
 
-    def highlight_element_async(self, locator, duration=1000, **style_kwargs):
+    def highlight_element_async(self, locator, duration=None, **style_kwargs):
         """Resalta un elemento con un color específico y un estilo de borde durante un tiempo específico y luego restaura el estilo original.
         
         === Descripción de los argumentos ===
         - `locator` (str): El localizador del elemento a resaltar.
-        - `duration` (int): Duración del resaltado en milisegundos.
+        - `duration` (int): Duración del resaltado en milisegundos. Si no se especifica, se utilizará el valor predeterminado.
         - `**style_kwargs`: Argumentos de estilo para personalizar el resaltado del elemento. Los argumentos disponibles son los mismos que los argumentos de la función `Set Style Default`.
 
         === Ejemplo de uso ===
@@ -247,13 +247,15 @@ class HighLightLibrary:
         original_style = element.get_attribute('style')
         highlight_style = self.__default_style
         
+        highlight_ilumitation_time = duration or self.__duration
+
         script = f"""
         var element = arguments[0];
         var newStyle = '{highlight_style}' + ' ' + arguments[1];
         element.setAttribute('style', newStyle);
         setTimeout(function() {{
             element.setAttribute('style', arguments[1]);  // Restaura el estilo original después de la duración especificada
-        }}, {duration});
+        }}, {highlight_ilumitation_time});
         """
         driver.execute_script(script, element, original_style)
 
@@ -276,12 +278,12 @@ class HighLightLibrary:
         for locator in locators:
             self.highlight_element_persistent(locator, **style_kwargs)
 
-    def highlight_elements_async(self, *locators, duration=3000, **style_kwargs):
+    def highlight_elements_async(self, *locators, duration=None, **style_kwargs):
         """Resalta varios elementos con un color específico y un estilo de borde durante un tiempo específico y luego restaura el estilo original.
 
         === Descripción de los argumentos ===
         - `*locators` (str): Los localizadores de los elementos a resaltar.
-        - `duration` (int): Duración del resaltado en milisegundos.
+        - `duration` (int): Duración del resaltado en milisegundos. Si no se especifica, se utilizará el valor predeterminado.
         - `**style_kwargs`: Argumentos de estilo para personalizar el resaltado de los elementos. Los argumentos disponibles son los mismos que los argumentos de la función `Set Style Default`.
 
         === Ejemplo de uso ===
@@ -293,15 +295,16 @@ class HighLightLibrary:
         - Si los valores ingresados no son válidos, se mantendrán los valores predeterminados.
         - Esta funcion ejecuta n veces la función `Highlight Element Async` para cada locator.
         """
+        highlight_ilumitation_time = duration or self.__duration
         for locator in locators:
-            self.highlight_element_async(locator, duration, **style_kwargs)
+            self.highlight_element_async(locator, highlight_ilumitation_time, **style_kwargs)
     
-    def fade_highlight_elements_persistent(self, *locators, duration=7000):
+    def fade_highlight_elements_persistent(self, *locators, duration=None):
         """Resalta varios elementos con una transición suave entre múltiples colores usando animación de CSS.
 
         === Descripción de los argumentos ===
         - `*locators` (str): Los localizadores de los elementos a resaltar.
-        - `duration` (int): Duración total de la animación en milisegundos.
+        - `duration` (int): Duración total de la animación en milisegundos. Si no se especifica, se utilizará el valor predeterminado.
 
         === Ejemplo de uso ===
         | Fade Highlight Elements Persistent   id:your-element-id1   id:your-element-id2   duration=7000
@@ -310,8 +313,9 @@ class HighLightLibrary:
         === Consideraciones ===
         - Esta funcion ejecuta n veces la función `Fade Highlight Element Persistent` para cada locator.
         """
+        highlight_ilumitation_time = duration or self.__duration
         for locator in locators:
-            self.fade_highlight_element_persistent(locator, duration)
+            self.fade_highlight_element_persistent(locator, highlight_ilumitation_time)
 
     def rainbow_static_highlight_elements_persistent(self, *locators):
         """Resalta varios elementos con un gradiente de arcoíris continuo en el borde de los elementos de forma permanente.
@@ -329,12 +333,12 @@ class HighLightLibrary:
         for locator in locators:
             self.rainbow_static_highlight_element_persistent(locator)
 
-    def rainbow_static_highlight_elements_async(self, *locators, duration=3000):
+    def rainbow_static_highlight_elements_async(self, *locators, duration=None):
         """Resalta varios elementos con un gradiente de arcoíris continuo en el borde de los elementos.
 
         === Descripción de los argumentos ===
         - `*locators` (str): Los localizadores de los elementos a resaltar.
-        - `duration` (int): Duración de la animación del gradiente en milisegundos.
+        - `duration` (int): Duración de la animación del gradiente en milisegundos. Si no se especifica, se utilizará el valor predeterminado.
 
         === Ejemplo de uso ===
         | Rainbow Static Highlight Elements Async   id:your-element-id1   id:your-element-id2   duration=5000
@@ -343,15 +347,16 @@ class HighLightLibrary:
         === Consideraciones ===
         - Esta funcion ejecuta n veces la función `Rainbow Static Highlight Element Async` para cada locator.
         """
+        highlight_ilumitation_time = duration or self.__duration
         for locator in locators:
-            self.rainbow_static_highlight_element_async(locator, duration)
+            self.rainbow_static_highlight_element_async(locator, highlight_ilumitation_time)
 
-    def fade_animated_fill_elements_persistent(self, *locators, duration=7000):
+    def fade_animated_fill_elements_persistent(self, *locators, duration=None):
         """Resalta varios elementos con una transición suave entre múltiples colores en el fondo usando animación de CSS.
 
         === Descripción de los argumentos ===
         - `*locators` (str): Los localizadores de los elementos a resaltar.
-        - `duration` (int): Duración total de la animación en milisegundos.
+        - `duration` (int): Duración total de la animación en milisegundos. Si no se especifica, se utilizará el valor predeterminado.
 
         === Ejemplo de uso ===
         | Fade Highlight Elements Persistent   id:your-element-id1   id:your-element-id2   duration=7000
@@ -360,8 +365,9 @@ class HighLightLibrary:
         === Consideraciones ===
         - Esta funcion ejecuta n veces la función `Fade Highlight Element Persistent` para cada locator.
         """
+        highlight_ilumitation_time = duration or self.__duration
         for locator in locators:
-            self.fade_animated_fill_element_persistent(locator, duration)
+            self.fade_animated_fill_element_persistent(locator, highlight_ilumitation_time)
 
     def rainbow_animated_fill_elements_persistent(self, *locators):
         """Resalta varios elementos con un gradiente de arcoíris continuo que se mueve alrededor del borde de los elementos indefinidamente.
@@ -379,12 +385,12 @@ class HighLightLibrary:
         for locator in locators:
             self.rainbow_animated_fill_element_persistent(locator)
 
-    def rainbow_animated_highlight_elements_persistent(self, *locators, duration=5000):
+    def rainbow_animated_highlight_elements_persistent(self, *locators, duration=None):
         """Resalta varios elementos con un gradiente cónico que rota alrededor del borde de los elementos web.
 
         === Descripción de los argumentos ===
         - `*locators` (str): Los localizadores de los elementos a resaltar.
-        - `duration` (int): Duración de la animación del gradiente en milisegundos.
+        - `duration` (int): Duración de la animación del gradiente en milisegundos. Si no se especifica, se utilizará el valor predeterminado.
 
         === Ejemplo de uso ===
         | Rainbow Animated Highlight Elements Persistent   id:your-element-id1   id:your-element-id2   duration=5000
@@ -393,8 +399,10 @@ class HighLightLibrary:
         === Consideraciones ===
         - Esta funcion ejecuta n veces la función `Rainbow Animated Highlight Element Persistent` para cada locator.
         """
+        highlight_ilumitation_time = duration or self.__duration
+
         for locator in locators:
-            self.rainbow_animated_highlight_element_persistent(locator, duration)
+            self.rainbow_animated_highlight_element_persistent(locator, highlight_ilumitation_time)
 
     def remove_highlight(self, locator):
         """Elimina el estilo de resaltado de un elemento resaltado almacenado que aún es visible.
@@ -430,12 +438,12 @@ class HighLightLibrary:
         
         self.__highlighted_elements.clear()
 
-    def fade_highlight_element_persistent(self, locator, duration=7000):
+    def fade_highlight_element_persistent(self, locator, duration=None):
         """Resalta un elemento con una transición suave entre múltiples colores en el fondo usando animación de CSS.
 
         === Descripción de los argumentos ===
         - `locator` (str): El localizador del elemento a resaltar.
-        - `duration` (int): Duración total de la animación en milisegundos.
+        - `duration` (int): Duración total de la animación en milisegundos. Si no se especifica, se utilizará el valor predeterminado.
 
         === Ejemplo de uso ===
         | Fade Highlight Element Persistent   id:your-element-id   duration=7000
@@ -444,6 +452,7 @@ class HighLightLibrary:
         === Consideraciones ===
         - Si los valores ingresados no son válidos, se mantendrán los valores predeterminados.
         """
+        highlight_ilumitation_time = duration or self.__duration
         seleniumlib, driver = self.__get_selenium_instances()
         element = seleniumlib.find_element(locator)
         self.__highlighted_elements.append(locator)
@@ -471,7 +480,7 @@ class HighLightLibrary:
         var animationStyle = 'animation: colorFade ' + (duration / 1000) + 's infinite;';
         element.setAttribute('style', 'border: 4px solid; ' + animationStyle + originalStyle);
         """
-        driver.execute_script(script, element, original_style, duration)
+        driver.execute_script(script, element, original_style, highlight_ilumitation_time)
 
     def rainbow_static_highlight_element_persistent(self, locator):
         """Resalta un elemento con un gradiente de arcoíris continuo en el borde de un elemento de forma permanente.
@@ -522,12 +531,12 @@ class HighLightLibrary:
         """
         driver.execute_script(script, element, original_style)
 
-    def rainbow_static_highlight_element_async(self, locator, duration=3000):
+    def rainbow_static_highlight_element_async(self, locator, duration=None):
         """Resalta un elemento con un gradiente de arcoíris continuo en el borde de un elemento.
 
         === Descripción de los argumentos ===
         - `locator` (str): El localizador del elemento a resaltar.
-        - `duration` (int): Duración de la animación del gradiente en milisegundos.
+        - `duration` (int): Duración de la animación del gradiente en milisegundos. Si no se especifica, se utilizará el valor predeterminado.
 
         === Ejemplo de uso ===
         | Rainbow Static Highlight Element Async   id:your-element-id   duration=5000
@@ -535,6 +544,7 @@ class HighLightLibrary:
         === Consideraciones ===
         - Si los valores ingresados no son válidos, se mantendrán los valores predeterminados.
         """
+        highlight_ilumitation_time = duration or self.__duration
         seleniumlib, driver = self.__get_selenium_instances()
         element = seleniumlib.find_element(locator)
         self.__highlighted_elements.append(locator)
@@ -577,14 +587,14 @@ class HighLightLibrary:
             element.setAttribute('style', originalStyle);
         }, duration);
         """
-        driver.execute_script(script, element, original_style, duration)
+        driver.execute_script(script, element, original_style, highlight_ilumitation_time)
 
-    def fade_animated_fill_element_persistent(self, locator, duration=7000):
+    def fade_animated_fill_element_persistent(self, locator, duration=None):
         """Resalta un elemento con una transición suave entre múltiples colores en el fondo usando animación de CSS.
 
         === Descripción de los argumentos ===
         - `locator` (str): El localizador del elemento a resaltar.
-        - `duration` (int): Duración total de la animación en milisegundos.
+        - `duration` (int): Duración total de la animación en milisegundos. Si no se especifica, se utilizará el valor predeterminado.
 
         === Ejemplo de uso ===
         | Fade Highlight Element Persistent   id:your-element-id   duration=7000
@@ -592,6 +602,7 @@ class HighLightLibrary:
         === Consideraciones ===
         - Si los valores ingresados no son válidos, se mantendrán los valores predeterminados.
         """
+        highlight_ilumitation_time = duration or self.__duration
         seleniumlib, driver = self.__get_selenium_instances()
         element = seleniumlib.find_element(locator)
         self.__highlighted_elements.append(locator)
@@ -619,7 +630,7 @@ class HighLightLibrary:
         var animationStyle = 'animation: colorFade ' + (duration / 1000) + 's infinite;';
         element.setAttribute('style', 'border: 4px solid transparent; ' + animationStyle + originalStyle);
         """
-        driver.execute_script(script, element, original_style, duration)
+        driver.execute_script(script, element, original_style, highlight_ilumitation_time)
 
     def rainbow_animated_fill_element_persistent(self, locator):
         """Resalta un elemento con un gradiente de arcoíris continuo que se mueve alrededor del borde del elemento web.
@@ -668,12 +679,12 @@ class HighLightLibrary:
         """
         driver.execute_script(script, element, original_style)
 
-    def rainbow_animated_highlight_element_persistent(self, locator, duration=5000):
+    def rainbow_animated_highlight_element_persistent(self, locator, duration=None):
         """Resalta un elemento con un gradiente cónico que rota alrededor del borde del elemento web.
 
         === Descripción de los argumentos ===
         - `locator` (str): El localizador del elemento a resaltar.
-        - `duration` (int): Duración de la animación del gradiente en milisegundos.
+        - `duration` (int): Duración de la animación del gradiente en milisegundos. Si no se especifica, se utilizará el valor predeterminado.
 
         === Ejemplo de uso ===
         | Rainbow Animated Highlight Element Persistent   id:your-element-id   duration=5000
@@ -681,6 +692,7 @@ class HighLightLibrary:
         === Consideraciones ===
         - Si los valores ingresados no son válidos, se mantendrán los valores predeterminados.
         """
+        highlight_ilumitation_time = duration or self.__duration
         seleniumlib, driver = self.__get_selenium_instances()
         element = seleniumlib.find_element(locator)
         self.__highlighted_elements.append(locator)
@@ -722,4 +734,4 @@ class HighLightLibrary:
 
         element.setAttribute('style', gradientStyle + animationStyle + originalStyle);
         """
-        driver.execute_script(script, element, original_style, duration)
+        driver.execute_script(script, element, original_style, highlight_ilumitation_time)
