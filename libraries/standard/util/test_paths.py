@@ -6,7 +6,7 @@ class TestsOutputPath:
 
     def __new__(cls) -> object:
         if cls.__path is None:
-            base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+            base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
             if not os.path.exists(os.path.join(base_path, "output")):
                 os.mkdir(os.path.join(base_path, "output"))
 
@@ -25,7 +25,7 @@ class TestsReportsPath:
 
     def __new__(cls) -> object:
         if cls.__path is None:
-            base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+            base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
             if not os.path.exists(os.path.join(base_path, "output", "reports")):
                 os.mkdir(os.path.join(base_path, "output", "reports"))
 
@@ -43,7 +43,7 @@ class TestsSeleniumScreenShootsPath:
 
     def __new__(cls) -> object:
         if cls.__path is None:
-            base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+            base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
             if not os.path.exists(os.path.join(base_path, "output", "selenium-screenshots")):
                 os.mkdir(os.path.join(base_path, "output", "selenium-screenshots"))
 
@@ -61,7 +61,7 @@ class TestsResultsPath:
 
     def __new__(cls) -> object:
         if cls.__path is None:
-            base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+            base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
             if not os.path.exists(os.path.join(base_path, "output", "results")):
                 os.mkdir(os.path.join(base_path, "output", "results"))
 
