@@ -1,7 +1,7 @@
 import os
 from dataclasses import dataclass, make_dataclass, asdict, fields
-from file_readers import FileReaderType
-from data_table_iterator import DataTableCollection
+from util.file_readers import FileReaderType
+from data_table_context.data_table_iterator import DataTableCollection
 
 
 class DataTableLibrary:

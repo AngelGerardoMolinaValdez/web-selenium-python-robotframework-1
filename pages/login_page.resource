@@ -15,7 +15,6 @@ ${PASSWORD}    demo
 
 *** Keywords ***
 Open Browser To Login Page
-    [Tags]    STEP: He abierto el navegador
     Open Browser    ${URL}    ${BROWSER}
     Maximize Browser Window
     Set Selenium Speed    0.1
@@ -24,6 +23,7 @@ Open Browser To Login Page
 Login Page Should Be Open
     [Tags]    robot:private    STEP:La página de login se ha abierto
     Title Should Be    ParaBank | Welcome | Online Banking
+    Add Step Capture    Pagina abierta correctamente    PASS    is_keyword_setup=True
 
 Input Username
     [Tags]    STEP:He introducido el usuario
@@ -37,14 +37,13 @@ Input Password
 
 Submit Credentials
     Highlight Element Persistent    css:input[value\="Log In"]
-    Capture Page Screenshot
-    Log    STEP:CAPTURE:He enviado las credenciales
+    Add Step Capture    Envio de credenciales    INFO    is_keyword_setup=True
     Click Element    css:input[value="Log In"]
     Credentials Should Be Accepted
 
 Credentials Should Be Accepted
     Page Should Contain    Account Services
-    Log    STEP:Las credenciales han sido aceptadas:PASS
+    Add Step Capture    Credenciales correctas    PASS    is_keyword_setup=True
 
 Logout Application
     [Tags]    STEP:He cerrado la sesión

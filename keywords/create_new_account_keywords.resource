@@ -3,7 +3,7 @@ Documentation    A keywords from open new account page
 
 Keyword Tags    open-new-account-keywords
 
-Library    ../libraries/DataTableLibrary.py
+Library    ../libraries/standard/DataTableLibrary.py
 
 Resource    ../keywords/common_keywords.resource
 Resource    ../pages/create_new_account_page.resource

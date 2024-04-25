@@ -27,17 +27,16 @@ Select To Account
 
 Click Transfer Button
     Highlight Element Persistent    css:input[value\="Transfer"]
-    Capture Page Screenshot
-    Log    STEP:CAPTURE:Datos de la transferencia y se hace click en el botón de transferir.
+    Add Step Capture   Datos de la transferencia y se hace click en el botón de transferir.    INFO
     Click Element    css:input[value="Transfer"]
     Sleep    2s
 
 Verify Transfer Success
     Page Should Contain    Transfer Complete!
     Capture Page Screenshot
-    Log    STEP:CAPTURE:Transferencia completada con éxito.:PASS
+    Add Step Capture   Transferencia completada con éxito.    PASS
 
 Verify Transfer Failure
     Page Should Contain    Please enter a valid amount.
     Capture Page Screenshot
-    Log    STEP:CAPTURE:Transferencia fallida por cantidad alfanumerica:PASS
+    Add Step Capture   Transferencia fallida por cantidad alfanumerica    PASS

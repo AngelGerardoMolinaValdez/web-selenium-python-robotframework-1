@@ -10,8 +10,7 @@ Resource    ${EXECDIR}/config/global/dependencies/pages.resource
 Click In Account In The Account Table
     [Arguments]    ${account}
     Highlight Element Persistent    //tr[descendant::a[contains(text(), "14676")]]
-    Capture Page Screenshot
-    Log    STEP:CAPTURE:Seleccione la cuenta en la tabla de cuentas "${account}"
+    Add Step Capture    Seleccione la cuenta en la tabla de cuentas "${account}"    PASS
     Click Link    ${account}
 
 Verify Account Overview Page Is Open

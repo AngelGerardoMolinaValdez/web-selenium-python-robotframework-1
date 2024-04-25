@@ -1,7 +1,7 @@
 *** Settings ***
 Keyword Tags     workflow
 
-Library    ${EXECDIR}/libraries/DataTableLibrary.py
+Library    ${EXECDIR}/libraries/standard/DataTableLibrary.py
 
 Resource    ../keywords/create_new_account_keywords.resource
 Resource    ${EXECDIR}/keywords/request_loan_keywords.resource

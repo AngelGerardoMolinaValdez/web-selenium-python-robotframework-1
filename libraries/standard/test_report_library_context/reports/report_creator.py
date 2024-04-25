@@ -2,10 +2,7 @@ import datetime
 import os
 from test_report_library_context.reports.report_types import ReportTypes
 from test_report_library_context.test_report_details import TestReportDetails
-
-import sys
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
-from test_paths import TestsReportsPath
+from util.test_paths import TestsReportsPath
 
 class ReportCreator:
     def create_report(self, test_name, status, *formats):

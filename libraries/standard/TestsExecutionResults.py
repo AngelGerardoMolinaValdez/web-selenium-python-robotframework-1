@@ -1,7 +1,7 @@
 import os
 from dataclasses import dataclass, fields
-from test_paths import TestsOutputPath, TestsResultsPath
-from file_results_writers import ResultWriterType
+from util.test_paths import TestsOutputPath, TestsResultsPath
+from util.file_results_writers import ResultWriterType
 
 class TestsExecutionResults:
     """TestsExecutionResults es una librería que permite guardar la información de la ejecución de los tests en un archivo de datos.

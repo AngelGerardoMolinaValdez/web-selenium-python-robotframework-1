@@ -1,7 +1,7 @@
 *** Settings ***
 Keyword Tags    keywords
 
-Library    ${EXECDIR}/libraries/DataTableLibrary.py
+Library    ${EXECDIR}/libraries/standard/DataTableLibrary.py
 
 Resource    ${EXECDIR}/pages/request_loan_page.resource
 Resource    ../keywords/common_keywords.resource

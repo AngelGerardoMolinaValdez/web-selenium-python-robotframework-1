@@ -21,15 +21,13 @@ Select Account Owner
 
 Click Open Account
     Highlight Element Persistent    css:input[value\="Open New Account"]
-    Capture Page Screenshot
-    Log    STEP:CAPTURE:Datos de la cuenta ingresados, se procede a abrir la cuenta.
+    Add Step Capture    Datos de la cuenta    INFO
     Click Element    css:input[value="Open New Account"]
 
 Verify Account Opened And Get Account Id
     Page Should Contain    Congratulations, your account is now open.
     ${account_id}=    Get Text    id=newAccountId
     Highlight Element Persistent    id\=newAccountId
-    Capture Page Screenshot
-    Log    STEP:CAPTURE:Se obtiene el id de la cuenta '${account_id}':PASS
+    Add Step Capture    Se obtiene el id de la cuenta '${account_id}'    PASS
     Remove All Highlights
     RETURN    ${account_id}

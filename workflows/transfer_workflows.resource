@@ -3,7 +3,7 @@ Documentation     Workflow for the user to create a new account and transfer mon
 
 Keyword Tags     workflow
 
-Library    ${EXECDIR}/libraries/DataTableLibrary.py
+Library    ${EXECDIR}/libraries/standard/DataTableLibrary.py
 
 Resource    ../keywords/create_new_account_keywords.resource
 Resource    ../keywords/transfer_keywords.resource

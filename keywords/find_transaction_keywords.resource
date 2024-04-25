@@ -4,7 +4,7 @@ Documentation    A resource file with reusable keywords from find transaction
 Keyword Tags    find_transaction-keywords
 
 Library    DateTime
-Library    ${EXECDIR}/libraries/DataTableLibrary.py
+Library    ${EXECDIR}/libraries/standard/DataTableLibrary.py
 
 Resource    ./common_keywords.resource
 Resource    ${EXECDIR}/pages/find_transaction_page.resource

@@ -1,7 +1,7 @@
 *** Settings ***
 Keyword Tags     workflow
 
-Library    ${EXECDIR}/libraries/DataTableLibrary.py
+Library    ${EXECDIR}/libraries/standard/DataTableLibrary.py
 
 Resource    ${EXECDIR}/keywords/create_new_account_keywords.resource
 Resource    ${EXECDIR}/keywords/bill_payment_keywords.resource

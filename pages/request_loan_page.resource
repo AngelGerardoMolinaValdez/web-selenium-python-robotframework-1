@@ -25,8 +25,7 @@ Select From Account
 
 Click Into Apply Now
     Highlight Element Persistent    css:input[value\="Apply Now"]
-    Capture Page Screenshot
-    Log    STEP:CAPTURE:Solicitud de préstamo
+    Add Step Capture    Solicitud de préstamo    INFO
     Click Element    css:input[value="Apply Now"]
 
 Wait Until Loan Application Is Submitted
@@ -36,6 +35,5 @@ New Account With Loan Is Created
     Element Should Be Visible    id:newAccountId
     Highlight Element Persistent    id:newAccountId
     ${new_account_id}=    Get Text    id:newAccountId
-    Capture Page Screenshot
-    Log    STEP:CAPTURE:Cuenta creada con préstamo exitosamente: ${new_account_id}
+    Add Step Capture   Cuenta creada con préstamo exitosamente: ${new_account_id}    PASS
     RETURN    ${new_account_id}

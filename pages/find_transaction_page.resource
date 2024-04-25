@@ -22,8 +22,7 @@ Input Transaction Id
 
 Click In To Search Transaction By Id
     Highlight Element Persistent    css:button[ng-click\="criteria.searchType \= 'ID'"]
-    Capture Page Screenshot
-    Log    STEP:CAPTURE:Busqueda por ID
+    Add Step Capture    Busqueda por ID    INFO
     Click Button    css:button[ng-click="criteria.searchType = 'ID'"]
 
 Input Transaction Date
@@ -33,8 +32,7 @@ Input Transaction Date
 
 Click In To Search Transaction By Date
     Highlight Element Persistent    css:button[ng-click\="criteria.searchType \= 'DATE'"]
-    Capture Page Screenshot
-    Log    STEP:CAPTURE:Busqueda por Fecha
+    Add Step Capture    Busqueda por Fecha    INFO
     Click Button    css:button[ng-click="criteria.searchType = 'DATE'"]
 
 Input Transaction From Date
@@ -49,8 +47,7 @@ Input Transaction To Date
 
 Click In To Search Transaction By Date Range
     Highlight Element Persistent    css:button[ng-click\="criteria.searchType \= 'DATE_RANGE'"]
-    Capture Page Screenshot
-    Log    STEP:CAPTURE:Busqueda por Rango de Fecha
+    Add Step Capture    Busqueda por Rango de Fecha    INFO
     Click Button    css:button[ng-click="criteria.searchType = 'DATE_RANGE'"]
 
 Input Transaction Amount
@@ -60,15 +57,13 @@ Input Transaction Amount
 
 Click In To Search Transaction By Amount
     Highlight Element Persistent    css:button[ng-click\="criteria.searchType \= 'AMOUNT'"]
-    Capture Page Screenshot
-    Log    STEP:CAPTURE:Busqueda por Monto
+    Add Step Capture    Busqueda por Monto   INFO
     Click Button    css:button[ng-click="criteria.searchType = 'AMOUNT'"]
 
 Wait Until Transaction Table Is Visible
     Wait Until Element Is Visible    id:transactionTable
     Highlight Element Persistent    id:transactionTable
-    Capture Page Screenshot
-    Log    STEP:CAPTURE:Tabla de Transacciones
+    Add Step Capture    Tabla de Transacciones   PASS
 
 Transaction Table Should Have Transactions
     ${total_trs}    Get Element Count    id:transactionTable >> tag:tbody >> tag:tr

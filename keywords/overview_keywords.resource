@@ -3,7 +3,7 @@ Documentation    A keywords from account overview
 
 Keyword Tags    account-overview-keywords
 
-Library    ../libraries/DataTableLibrary.py
+Library    ../libraries/standard/DataTableLibrary.py
 
 Resource    ../keywords/common_keywords.resource
 Resource    ../pages/account_overview_page.resource

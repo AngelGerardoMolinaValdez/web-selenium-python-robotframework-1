@@ -10,8 +10,8 @@ Metadata    Test Level    regression
 Test Tags    regression    data_driven
 
 Library    DataDriver    file=${EXECDIR}/data/tests/bill_payment.csv    encoding=utf_8
-Library    ../libraries/DataTableLibrary.py
-Library    ../libraries/TestsExecutionResults.py
+Library    ../libraries/standard/DataTableLibrary.py
+Library    ../libraries/standard/TestsExecutionResults.py
 
 Resource    ../keywords/login_keywords.resource
 Resource    ${EXECDIR}/keywords/bill_payment_keywords.resource

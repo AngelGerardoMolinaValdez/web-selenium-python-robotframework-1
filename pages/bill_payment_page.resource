@@ -60,8 +60,7 @@ Select Account
 
 Send Payment
     Highlight Element Persistent    css:input[value\="Send Payment"]
-    Capture Page Screenshot
-    Log    STEP:CAPTURE:Formulario de pago
+    Add Step Capture    Formulario de pago    INFO
     Click Element    css:input[value="Send Payment"]
 
 Verify Payment
@@ -69,5 +68,4 @@ Verify Payment
     Wait Until Element Is Visible    css:div[ng-show="showResult"]
     Highlight Element Persistent    css:div[ng-show\="showResult"]
     Element Text Should Be    xpath://div[@ng-show="showResult"]//descendant::h1    ${MESSAGE}
-    Capture Page Screenshot
-    Log    STEP:CAPTURE:Pago exitoso:PASS
+    Add Step Capture    Pago exitoso    PASS

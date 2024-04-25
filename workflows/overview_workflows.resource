@@ -3,7 +3,7 @@ Documentation     Workflow for the user to get overview of the account
 
 Keyword Tags     workflow
 
-Library    ${EXECDIR}/libraries/DataTableLibrary.py
+Library    ${EXECDIR}/libraries/standard/DataTableLibrary.py
 
 Resource    ${EXECDIR}/keywords/create_new_account_keywords.resource
 Resource    ${EXECDIR}/keywords/transfer_keywords.resource
