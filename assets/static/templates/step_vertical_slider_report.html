@@ -332,9 +332,9 @@
 
     <div class="test-info" name="steps-data">
         {% for step_data in steps_data %}
-            <div name="step-data" class="step {{ step_data.step_level }}" onclick="toggleVisibility(this)">
-                <h3>{{ step_data.step_title }}</h3>
-                <img src="data:image/png;base64,{{ step_data.step_image }}" alt="{{ step_data.step_title }}" class="screenshot">
+            <div name="step-data" class="step {{ step_data.status }}" onclick="toggleVisibility(this)">
+                <h3>{{ step_data.title }}</h3>
+                <img src="data:image/png;base64,{{ step_data.screenshot }}" alt="{{ step_data.title }}" class="screenshot">
             </div>
         {% endfor %}
     </div>

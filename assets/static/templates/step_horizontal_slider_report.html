@@ -220,9 +220,9 @@
         <button onclick="goToEnd()">Ir al Final</button>
     </div>
     {% for step_data in steps_data %}
-        <div class="step {{ step_data.step_level }}" id="step-{{ loop.index }}">
-            <h3>{{ step_data.step_title }}</h3>
-            <img src="data:image/png;base64,{{ step_data.step_image }}" alt="{{ step_data.step_title }}" class="screenshot">
+        <div class="step {{ step_data.status }}" id="step-{{ loop.index }}">
+            <h3>{{ step_data.title }}</h3>
+            <img src="data:image/png;base64,{{ step_data.screenshot }}" alt="{{ step_data.title }}" class="screenshot">
         </div>
     {% endfor %}
     <div class="navigation">

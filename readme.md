@@ -150,146 +150,25 @@ Se puede especificar mas de un tipo de reporte de evidencia en el mismo comando:
 
 - `poetry run robot --outputdir output/robot --listener .\libraries\HtmlTestStepLogReport.py --listener .\libraries\HtmlTestStepSilderReport.py tests\account.robot`
 
-## Reportes
+## TestReportLibrary.py
 
-Robot Framework ya ofrece reportes de ejecución de test cases, pero no ofrece un reporte de los pasos de ejecución de un test case.
-
-### Consideraciones
-- El reporte se genera en un archivo de log con el mismo nombre del test case.
-- El reporte se genera en la carpeta ./base/output/reports/
-- Es posible desde no generar el reporte de todos los listeners.
-
-Hay 5 listeners que podremos usar para generar reportes de los pasos de ejecución de un test case:
-- **HtmlTestReportStepLog.py:** Genera un reporte de los pasos de ejecución de un test case en un archivo html.
-- **HtmlTestReportStepSlider.py:** Genera un reporte de los pasos de ejecución de un test case en un archivo html con imágenes.
-- **PdfTestReportStepLog.py:** Genera un reporte de los pasos de ejecución de un test case en un archivo pdf.
-- **PdfTestReportStepSlider.py:** Genera un reporte de los pasos de ejecución de un test case en un archivo pdf con imágenes.
-- **HtmlTestReportStepHorizontalSlider.py:** Genera un reporte de los pasos de ejecución de un test case en un archivo html con imágenes en horizontal.
-
-Para utilizar estos listeners, se debe especificar como listener al ejecutar las pruebas:
-
-- `robot --listener ./config/execution/HtmlTestReportStepLog.py tests`
-
-En caso de querer agregar mas de un listener, se pueden agregar de la siguiente manera:
-
-- `robot --listener ./config/execution/HtmlTestReportStepLog.py --listener ./config/execution/HtmlTestReportStepSlider.py tests`
-
-Cada reporte se generara en la carpeta output/reports/ con el nombre del test case. Segun el listener que se use, se generara un archivo html o pdf en una carpeta especifica.
-
-Las carpetas que crea cada listener son:
-
-- **HtmlTestReportStepLog.py:** output/reports/report_step_log/
-- **HtmlTestReportStepSlider.py:** output/reports/report_step_slider/
-- **PdfTestReportStepLog.py:** output/reports/report_pdf_log/
-- **PdfTestReportStepSlider.py:** output/reports/report_pdf_slider/
-- **HtmlTestReportStepHorizontalSlider.py:** output/reports/report_horizontal_step_slider/
-
-Pese a que hay 4 listeners, se pueden clasificar en 2 tipos: con imágenes y sin imágenes. Los listeners que contienen la palabra "Slider" generan reportes con imágenes, mientras que los otros generan reportes sin imágenes.
-
-Para agregar un paso al reporte, dependera del listener que se este utilizando.
-
-### Con imagenes
-- Se deberan utilizar los prefijos `STEP:IMAGE`:, `STEP:CAPTURE`: y `STEP:ELEMENT`: en la keyword o en el mensaje de log.
-- El mensaje se puede usar para reportar información adicional de un paso, como por ejemplo, el valor de una variable, el resultado de una operación, etc.
-- El reporte se generara con una imagen por cada vez que se use uno de los prefijos.
-- Con el fin de evitar el uso de libreas externas, se utilizara la keyword Log para agregar un paso al reporte. Ejemplo: `Log    STEP:IMAGE:DESCRIPCIÓN DEL PASO`
-- `STEP:IMAGE:` se utilizara para agregar un paso con una imagen generada con la libreria PIL.
-- `STEP:CAPTURE:` se utilizara para agregar un paso con una imagen capturada con la keyword Capture Page Screenshot de SeleniumLibrary. Nota: Primero se debe capturar la imagen con la keyword y luego se debe agregar el paso con el prefijo `STEP:CAPTURE:` o fallara.
-- `STEP:ELEMENT:` se utilizara para agregar un paso con una imagen capturada de un elemento con la keyword `Capture Element Screenshot` de SeleniumLibrary. Nota: Primero se debe capturar la imagen con la keyword y luego se debe agregar el paso con el prefijo `STEP:ELEMENT:` o fallara.
-- A parte de la keyword Log, se puede agregar el prefijo en las etiquetas de la keyword. Hacer esto tomara la captura hasta que la ultima keyword de donde se agrego el prefijo se ejecute.
-
-### Sin imagenes
-- Se deberan utilizar los prefijos `STEP:`
-- El mensaje se puede usar para reportar información adicional de un paso, como por ejemplo, el valor de una variable, el resultado de una operación, etc.
-- Los prefijos para imagenes tambien se tomaran en cuenta, pero no se tomara la captura de pantalla.
-- Con el fin de evitar el uso de libreas externas, se utilizara la keyword Log para agregar un paso al reporte. Ejemplo: `Log    STEP:DESCRIPCIÓN DEL PASO`
-- A parte de la keyword Log, se puede agregar el prefijo en las etiquetas de la keyword. Hacer esto tomara la captura hasta que la ultima keyword de donde se agrego el prefijo se ejecute.
-
-Los estatus posibles son:
-- **INFO:** Información general. Se utiliza para describir un paso. Contexto de ejemplo: "Se abre la página de inicio".
-- **PASS:** Éxito. Se utiliza para describir un paso que se ejecuto correctamente. Contexto de ejemplo: "Se ingreso el usuario correctamente".
-- **CRITICAL:** Error crítico. Se utiliza para describir un paso que fallo y no se puede continuar con la ejecución. Contexto de ejemplo: "No se pudo ingresar el usuario".
-- **FAIL:** Error. Se utiliza para describir un paso que fallo pero se puede continuar con la ejecución. Contexto de ejemplo: "No se pudo ingresar el usuario".
-- **FALTA:** Falta de implementación. Se utiliza para describir un paso que no se ha implementado. Contexto de ejemplo: "Falta implementar el ingreso de usuario".
-- **WARNING:** Advertencia. Se utiliza para describir un paso que se ejecuto correctamente pero con advertencias. Contexto de ejemplo: "Se ingreso el usuario correctamente pero se tardo mucho".
-- **DEBUG:** Depuración. Se utiliza para describir un paso que se ejecuto correctamente pero se necesita información adicional. Contexto de ejemplo: "Se ingreso el usuario correctamente. Se tardo 5 segundos".
-
-El valor predeterminado es **INFO**.
-
-Para asignarle un estatus a un paso, se debe agregar el estatus al final del prefijo. Ejemplo: `STEP:DESCRIPCIÓN DEL PASO:INFO`, `STEP:CAPTURE:DESCRIPCIÓN DEL PASO:FAIL`, `STEP:IMAGE:DESCRIPCIÓN DEL PASO:PASS`, `STEP:ELEMENT:DESCRIPCIÓN DEL PASO:CRITICAL`.
-
-Esto hara que el color del paso en el reporte cambie segun el estatus.
-
-```robotframework
-Ejemplos de uso:
-    *** Keywords ***
-    My Keyword
-        [Tags]  STEP:IMAGE:DESCRIPCIÓN DEL PASO:INFO
-        No Operation
-
-    My Other Keyword
-        [Tags]  STEP:CAPTURE:DESCRIPCIÓN DEL PASO 2
-        Capture Page Screenshot
-        Log    STEP:CAPTURE:DESCRIPCIÓN DEL PASO 2
-
-    My Another Keyword
-        Capture Element Screenshot    xpath=//div[@id="foo"]
-        Log    STEP:ELEMENT:DESCRIPCIÓN DEL PASO 3:FAIL
-    
-    My Last Keyword
-        Log    STEP:DESCRIPCIÓN DEL PASO 4:CRITICAL
-```
-
-### Configuracion
-
-Al importar SeleniumLibrary, es necesario modificar los siguientes argumentos:
-- `screenshot_root_directory` a `./output/selenium_screenshots/`
-
-Esto se hace para que las capturas de pantalla se guarden en la carpeta correcta y se puedan agregar al reporte.
-Si no se hace esto, las capturas de pantalla se guardaran en la carpeta de logs de SeleniumLibrary y no se podran agregar al reporte.
-
-Recomedacion: Ejecutar desde la carpeta base del proyecto para que al definir `screenshot_root_directory` se pueda definir de esta forma `${EXECDIR}/selenium_screenshots/`
-
-### Ejemplos
+Test Report Library es una librearía que permite generar reportes de pruebas de manera dinámica. Los reportes pueden ser generados en formato PDF, HTML Vertical Slider y HTML Horizontal Slider.
 
 #### HTML vertical con imagenes
-
-Este reporte muestra los pasos de la ejecución de la prueba con imágenes en un formato vertical.
-
-En el reporte estan las siguientes funcionalidades:
-
-- Alternar entre dark mode y light mode.
-- Navegar con el scroll del mouse o desde la ruta de navegación de lado derecho. En esta ruta de navegación se puede navegar por el numero de la captura o por una barra de desplazamiento.
-- Contraer/Expandir los pasos de la prueba (Uno por uno o desde el boton "contraer/expandir todo").
-- Expandir la imagen de la captura de pantalla.
-- Ir a la ultima/primera captura de pantalla.
 
 ![](./assets/images/test_report_slider_html.png)
 
 #### HTML horizontal con imagenes
 
-Este reporte muestra los pasos de la ejecución de la prueba con imágenes en un formato horizontal.
-
-En el reporte estan las siguientes funcionalidades:
-
-- Alternar entre dark mode y light mode.
-- Navegar con los botones "Siguiente" y "Anterior"
-- Expandir la imagen de la captura de pantalla.
-- Ir a la ultima/primera captura de pantalla.
-
 ![](./assets/images/test_report_horizontal_slider_html.png)
-
-#### HTML vertical sin imagenes
-
-![](./assets/images/test_report_log_html.png)
 
 #### PDF con imagenes
 
 ![](./assets/images/test_report_slider_pdf.png)
 
-#### PDF sin imagenes
 
-![](./assets/images/test_report_log_pdf.png)
+Encuentra la documentacion completa en [./docs/keywords/standard/TestReportLibrary.html](./docs/keywords/TestReportLibrary.html)
+
 
 ## DataTableLibrary.py
 
