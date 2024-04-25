@@ -174,14 +174,14 @@ Encuentra la documentacion completa en [./docs/keywords/standard/TestReportLibra
 
 DataTableLibrary es una librería de Robot Framework que permite crear DataTables a partir de un archivo CSV o JSON y acceder a los datos de la fila como atributos del objeto.
 
-Encuentra la documentacion completa en [./docs/keywords/DataTableLibrary.html](./docs/keywords/DataTableLibrary.html)
+Encuentra la documentacion completa en [./docs/keywords/standard/DataTableLibrary.html](./docs/keywords/standard/DataTableLibrary.html)
 
 ## TestsExecutionResults.py
 TestsExecutionResults es una librería que permite guardar la información de la ejecución de los tests en un archivo de datos.
 
 Las funcionalidades se integran con la librería DataTableLibrary.py de este proyecto, es decir, se puede utilizar un DataTable para guardar la información de la ejecución de los tests, sin embargo, se puede adaptar también a diccionarios.
 
-Encuentra la documentacion completa en [./docs/keywords/TestsExecutionResults.html](./docs/keywords/TestsExecutionResults.html)
+Encuentra la documentacion completa en [./docs/keywords/standard/TestsExecutionResults.html](./docs/keywords/standard/TestsExecutionResults.html)
 
 ### HighLightLibrary.py 📚
 
@@ -189,13 +189,13 @@ Esta libreria permite resaltar elementos en la página web durante la ejecución
 
 Es util para resaltar elementos en la página web durante la ejecución de pruebas, para que los usuarios puedan ver claramente que elementos están siendo afectados por las pruebas. 👀
 
-Encuentra la documentacion completa en [./docs/keywords/HighLighLibrary.html](./docs/keywords/HighLighLibrary.html)
+Encuentra la documentacion completa en [./docs/keywords/standard/HighLighLibrary.html](./docs/keywords/standard/HighLighLibrary.html)
 
 ### CryptoLibrary.py 📚
 
 CryptoLibrary es una librería para encriptar y desencriptar texto. Se utiliza la librería cryptocode para realizar la encriptación y desencriptación.
 
-Encuentra la documentacion completa en [./docs/keywords/CryptoLibrary.html](./docs/keywords/CryptoLibrary.html)
+Encuentra la documentacion completa en [./docs/keywords/standard/CryptoLibrary.html](./docs/keywords/standard/CryptoLibrary.html)
 
 ## 📊 Análisis de código
 
