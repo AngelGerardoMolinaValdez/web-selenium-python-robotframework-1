@@ -90,12 +90,12 @@ Este proyecto de scripts automatizados se implementaron varios patrones de arqui
 
 ```bash
 project/
---libraries/ # librerías externas
---data/ # los archivos de datos para DDT
---pages/ # los archivos .resource que representaran los objetos de cada pagina de la aplicacion (adaptada a keywords)
---keywords/ # las palabras clave que se usaran para invocarse desde los casos de prueba
---tests/ # los casos de prueba que se ejecutaran
---workflows/ # los flujos complejos y secuenciales del proyecto
+├── libraries/ # librerías externas
+├── data/ # los archivos de datos para DDT
+├── pages/ # los archivos .resource que representaran los objetos de cada pagina de la aplicacion (adaptada a keywords)
+├── keywords/ # las palabras clave que se usaran para invocarse desde los casos de prueba
+├── tests/ # los casos de prueba que se ejecutaran
+└── workflows/ # los flujos complejos y secuenciales del proyecto
 ```
 
 ## Documentación de Casos de Prueba
