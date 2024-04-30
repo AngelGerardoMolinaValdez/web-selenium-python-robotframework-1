@@ -41,7 +41,7 @@ Para que este proyecto funcione necesitamos:
 - Tu navegador favorito como: [GoogleChrome](https://www.google.com/intl/es-419/chrome/), [FireFox](https://www.mozilla.org/es-MX/firefox/new/), etc
 - Algún controlador web de tu navegador favorito como: [ChromeDriver](https://chromedriver.chromium.org/downloads), [GeckoDriverFirefox](https://github.com/mozilla/geckodriver/releases)
 
-NOTA: El controlador web debe ser del navegador que vas a utilizar, ejemplo: chrome == chromedriver
+NOTA: El controlador web debe ser del navegador que vas a utilizar, ejemplo: chrome 124 == chromedriver 124
 
 ## 🔗 Instalación
 
@@ -52,6 +52,10 @@ Los módulos que usamos en este proyecto los gestionamos con [Poetry](https://py
 Hecho esto, podremos instalar las dependencias para ejecución:
 
 - `poetry install`
+
+Si este comando no funciona, intenta con este otro:
+
+- `poetry install --no-root`
 
 ## 📦 Gestión de dependencias
 
@@ -150,22 +154,21 @@ Se puede especificar mas de un tipo de reporte de evidencia en el mismo comando:
 
 - `poetry run robot --outputdir output/robot --listener .\libraries\HtmlTestStepLogReport.py --listener .\libraries\HtmlTestStepSilderReport.py tests\account.robot`
 
-## TestReportLibrary.py
+## TestReportLibrary.py 📚
 
 Test Report Library es una librearía que permite generar reportes de pruebas de manera dinámica. Los reportes pueden ser generados en formato PDF, HTML Vertical Slider y HTML Horizontal Slider.
 
-#### HTML vertical con imagenes
+### HTML vertical con imagenes
 
-![](./assets/images/test_report_slider_html.png)
+![Reporte vertical en formato HTML](./assets/images/test_report_slider_html.png)
 
-#### HTML horizontal con imagenes
+### HTML horizontal con imagenes
 
-![](./assets/images/test_report_horizontal_slider_html.png)
+![Reporte horizontal en formato HTML](./assets/images/test_report_horizontal_slider_html.png)
 
-#### PDF con imagenes
+### PDF con imagenes
 
-![](./assets/images/test_report_slider_pdf.png)
-
+![Reporte en formato PDF](./assets/images/test_report_slider_pdf.png)
 
 Encuentra la documentacion completa en [./docs/keywords/standard/TestReportLibrary.html](./docs/keywords/TestReportLibrary.html)
 
@@ -175,15 +178,16 @@ Este es un listener que se encuentra en la ruta `./config/execution/`  y permite
 
 Si se agrega este listener a la ejecucion se creara en la carpeta `output/reports/suite_report` el archivo html con el reporte generado.
 
-[Reporte de ejecucion por suite](./assets/images/suite_report.png)
+![Reporte de ejecucion por suite](./assets/images/suite_report.png)
 
-## DataTableLibrary.py
+## DataTableLibrary.py 📚
 
 DataTableLibrary es una librería de Robot Framework que permite crear DataTables a partir de un archivo CSV o JSON y acceder a los datos de la fila como atributos del objeto.
 
 Encuentra la documentacion completa en [./docs/keywords/standard/DataTableLibrary.html](./docs/keywords/standard/DataTableLibrary.html)
 
-## TestsExecutionResults.py
+## TestsExecutionResults.py 📚
+
 TestsExecutionResults es una librería que permite guardar la información de la ejecución de los tests en un archivo de datos.
 
 Las funcionalidades se integran con la librería DataTableLibrary.py de este proyecto, es decir, se puede utilizar un DataTable para guardar la información de la ejecución de los tests, sin embargo, se puede adaptar también a diccionarios.
