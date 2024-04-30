@@ -169,6 +169,13 @@ Test Report Library es una librearía que permite generar reportes de pruebas de
 
 Encuentra la documentacion completa en [./docs/keywords/standard/TestReportLibrary.html](./docs/keywords/TestReportLibrary.html)
 
+## SuiteReportGenerator.py
+
+Este es un listener que se encuentra en la ruta `./config/execution/`  y permite la creacion de un reporte general de todos los casos de prueba, es similar al reporte que genera Robot Framework (`report.html`) pero con un estilo diferente.
+
+Si se agrega este listener a la ejecucion se creara en la carpeta `output/reports/suite_report` el archivo html con el reporte generado.
+
+[Reporte de ejecucion por suite](./assets/images/suite_report.png)
 
 ## DataTableLibrary.py
 
