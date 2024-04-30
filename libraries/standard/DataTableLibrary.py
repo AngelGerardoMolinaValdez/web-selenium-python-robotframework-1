@@ -1,5 +1,5 @@
 import os
-from dataclasses import dataclass, make_dataclass, asdict, fields
+from dataclasses import dataclass, make_dataclass, asdict, fields, is_dataclass
 from util.file_readers import FileReaderType
 from data_table_context.data_table_iterator import DataTableCollection
 
@@ -54,6 +54,30 @@ class DataTableLibrary:
     | ]
 
     Esta estructura de datos crea el mismo DataTable que el archivo CSV.
+
+    = Crear un DataTable anidado =
+
+    Con los siguientes datos de prueba:
+
+    *data.csv*
+    | user.name,user.age,user.address.city,user.address.country,user.work.company.name,user.work.company.address.city,user.work.company.address.country
+    | John Doe,30,New York,USA,Google,Mountain View,USA
+
+    Se puede crear un DataTable anidado de la siguiente manera:
+
+    | *** Test Cases ***
+    | Create Nested DataTable
+    |     ${table}=    Create Nested Data Table    ${CURDIR}/data.csv    0
+    |     Log    ${table} # DataTable(user=DataTable(name='John Doe', age='30', address=DataTable(city='New York', country='USA'), work=DataTable(company=DataTable(name='Google', address=DataTable(city='Mountain View', country='USA')))))
+    |     Log    ${table.user.name} # John Doe
+    |     Log    ${table.user.age} # 30
+    |     Log    ${table.user.address.city} # New York
+    |     Log    ${table.user.address.country} # USA
+    |     Log    ${table.user.work.company.name} # Google
+    |     Log    ${table.user.work.company.address.city} # Mountain View
+    |     Log    ${table.user.work.company.address.country} # USA
+
+    Esto ayudara a poder definir estructuras de datos mas complejas y anidadas, ademas que se puede definir el mismo nombre de un campo pero con diferentes contextos dentro de la estructura de datos.
 
     = Crear DataTable sin archivo de datos =
 
@@ -225,6 +249,100 @@ class DataTableLibrary:
         reader.read(path, encoding)
         test_data_row = reader.get(index)
         return self.__create_data_class(test_data_row)
+
+    def __parse_nested_fields(self, fields):
+        nested_dict = {}
+        for field in fields:
+            parts = field.split('.')
+            current = nested_dict
+            for part in parts[:-1]:
+                current = current.setdefault(part, {})
+            current[parts[-1]] = str
+        return nested_dict
+
+    def __create_dataclass_from_nested_dict(self, name, nested_dict):
+        fields = []
+        for key, value in nested_dict.items():
+            if isinstance(value, dict):
+                nested_class = self.__create_dataclass_from_nested_dict(key, value)
+                fields.append((key, nested_class))
+            else:
+                fields.append((key, value))
+        return make_dataclass(name, fields)
+
+    def __create_nested_dataclass(self, name, fields):
+        nested_dict = self.__parse_nested_fields(fields)
+        return self.__create_dataclass_from_nested_dict(name, nested_dict)
+
+    def __parse_keys_to_nested_dict(self, data_values):
+        """Parse flattened dict keys into a nested dictionary."""
+        result = {}
+        for key, value in data_values.items():
+            parts = key.split('.')
+            current = result
+            for part in parts[:-1]:
+                if part not in current:
+                    current[part] = {}
+                current = current[part]
+            current[parts[-1]] = value
+        return result
+
+    def __fill_dataclass_values(self, dataclass, data_values):
+        data_dict = {}
+        for field_name, field_type in dataclass.__annotations__.items():
+            if is_dataclass(field_type):
+                sub_data_values = data_values.get(field_name, {})
+                data_dict[field_name] = self.__fill_dataclass_values(field_type, sub_data_values)
+            else:
+                data_dict[field_name] = data_values.get(field_name)
+        return dataclass(**data_dict)
+
+    def create_nested_data_table(self, path: str, index: int, encoding="utf-8"):
+        """Crea un DataTable a partir de un archivo CSV o JSON y retorna un DataTable anidado.
+
+        === Descripción de los argumentos ===
+
+        - `path`: Ruta del archivo CSV o JSON.
+        - `index`: Índice de la fila del archivo de datos.
+        - `encoding`: Codificación del archivo de datos. Por defecto es utf-8.
+
+        === Ejemplo de uso ===
+        
+        Dado el siguiente archivo CSV:
+
+        *data.csv*
+        | user.name,user.age,user.address.city,user.address.country,user.work.company.name,user.work.company.address.city,user.work.company.address.country
+        | John Doe,30,New York,USA,Google,Mountain View,USA
+
+        Se puede crear un DataTable anidado de la siguiente manera:
+
+        | ${table}=    Create Nested Data Table    ${CURDIR}/data.csv    0
+        | Log    ${table} # DataTable(user=DataTable(name='John Doe', age='30', address=DataTable(city='New York', country='USA'), work=DataTable(company=DataTable(name='Google', address=DataTable(city='Mountain View', country='USA')))))
+        | Log    ${table.user.name} # John Doe
+        | Log    ${table.user.age} # 30
+        | Log    ${table.user.address.city} # New York
+        | Log    ${table.user.address.country} # USA
+        | Log    ${table.user.work.company.name} # Google
+        | Log    ${table.user.work.company.address.city} # Mountain View
+        | Log    ${table.user.work.company.address.country} # USA
+
+        === Consideraciones ===
+        - Los nombres de las columnas del archivo de datos deben ser únicos.
+        - Los nombres de las columnas del archivo de datos no deben contener espacios en blanco.
+        - Los nombres de las columnas del archivo de datos no deben contener tildes ni caracteres especiales.
+        - Si se aplicara anidación a un DataTable que no tiene un campo anidado, se creará un DataTable con un campo anidado vacío.
+        - Para anidar correctamente los campos, se debe seguir la convención de nombres de los campos. Por ejemplo, si se desea anidar el campo `address.city`, se debe separar los campos con un punto `.`.
+        """
+        ext_file = os.path.splitext(path)[1].lower().strip('.')
+        reader = FileReaderType[ext_file.upper()].value
+        reader.read(path, encoding)
+        data_values = reader.get(index)
+
+        nested_data_values = self.__parse_keys_to_nested_dict(data_values)
+
+        headers = list(data_values.keys())
+        dataclass = self.__create_nested_dataclass('DataTable', headers)
+        return self.__fill_dataclass_values(dataclass, nested_data_values)
 
     def create_data_table_from_fields(self, **field_values) -> dataclass:
         """Crea un DataTable a partir de un diccionario de datos.
