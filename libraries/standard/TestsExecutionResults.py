@@ -1,5 +1,5 @@
 import os
-from dataclasses import dataclass, fields
+from dataclasses import dataclass, fields, is_dataclass
 from util.test_paths import TestsOutputPath, TestsResultsPath
 from util.file_results_writers import ResultWriterType
 
@@ -157,6 +157,18 @@ class TestsExecutionResults:
         # el resultado final en ambos casos es un diccionario
         self.__save_test_results(test_data, path, file_name, type_output, encoding)
 
+    def __serialize_dataclass_to_flat_dict(self, dataclass_instance, parent_key=''):
+        """ Serializa una dataclass (incluyendo dataclasses anidadas) a un diccionario plano con claves anidadas como strings."""
+        items = {}
+        for field_name, field_type in dataclass_instance.__annotations__.items():
+            key = f"{parent_key}.{field_name}" if parent_key else field_name
+            value = getattr(dataclass_instance, field_name)
+            if is_dataclass(value):
+                items.update(self.__serialize_dataclass_to_flat_dict(value, key))
+            else:
+                items[key] = value
+        return items
+
     def save_test_execution_results(self, data_table, type_output="CSV", encoding="utf-8", output_dir=None):
         """Guardar los resultados de la ejecución de los tests en un archivo de datos utilizando un DataTable como fuente de información.
 
@@ -212,19 +224,10 @@ class TestsExecutionResults:
         - No se pueden guardar en diferentes tipos de archivos en una misma ejecución, es decir, si se guarda en CSV, no se puede guardar en JSON en la misma ejecución.
         - Si se define un encoding que no es soportado, se generara un error.
         """
-        try:
-            # Intentar convertir el DataTable a un diccionario
-            test_data = dict(data_table)
-        except:
-            # Si no se puede convertir, obtener los campos del DataTable con la función fields
-            all_fields = {}
-            for field in fields(data_table):
-                all_fields[field.name] = getattr(data_table, field.name)
-            test_data = all_fields
+        test_data = self.__serialize_dataclass_to_flat_dict(data_table)
 
         path = output_dir if output_dir else self.__file_path
         file_name = f"TestExecutionResults{self.__get_file_index(output_dir)}." if output_dir else self.__file__name
-        # el resultado final en ambos casos es un diccionario
         self.__save_test_results(test_data, path, file_name, type_output, encoding)
 
     @classmethod
