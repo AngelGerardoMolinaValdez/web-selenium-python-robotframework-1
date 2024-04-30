@@ -194,7 +194,7 @@ Las funcionalidades se integran con la librería DataTableLibrary.py de este pro
 
 Encuentra la documentacion completa en [./docs/keywords/standard/TestsExecutionResults.html](./docs/keywords/standard/TestsExecutionResults.html)
 
-### HighLightLibrary.py 📚
+## HighLightLibrary.py 📚
 
 Esta libreria permite resaltar elementos en la página web durante la ejecución de pruebas. ✨
 
@@ -202,7 +202,7 @@ Es util para resaltar elementos en la página web durante la ejecución de prueb
 
 Encuentra la documentacion completa en [./docs/keywords/standard/HighLighLibrary.html](./docs/keywords/standard/HighLighLibrary.html)
 
-### CryptoLibrary.py 📚
+## CryptoLibrary.py 📚
 
 CryptoLibrary es una librería para encriptar y desencriptar texto. Se utiliza la librería cryptocode para realizar la encriptación y desencriptación.
 
