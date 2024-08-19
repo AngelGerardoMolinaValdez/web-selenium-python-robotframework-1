@@ -1,4 +1,3 @@
 *** Test Cases ***;[Documentation];[Tags];${keyword_name};${data_row_index}
 TC013_BillPaymentOfANewAccountChecking;Crea una cuenta de tipo Checking y realiza un pago de factura;workflow,ddt;Create New Account And Make Bill Payment;0
 TC014_BillPaymentOfANewAccountSavings;Crea una cuenta de tipo Savings y realiza un pago de factura;workflow,ddt;Create New Account And Make Bill Payment;1
-TC029_BillPayment;" Realiza un pago de factura de una cuenta existente";e2e,default;Bill Payment;0
