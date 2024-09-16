@@ -3,7 +3,7 @@ import csv
 from robot.api.deco import keyword
 
 class CSVDataSetReader:
-    @keyword("Read DataSet", tags=["library", "dataset-reader"])
+    @keyword("Read Data Set", tags=["library", "dataset-reader"])
     def read_dataset(self, file_path: str, index: int, encoding: str = "utf-8") -> dict:
         self.__validate(file_path, index, encoding)
 
@@ -11,7 +11,7 @@ class CSVDataSetReader:
             reader = list(csv.DictReader(file))
             return reader[index]
 
-    @keyword("Read All DataSets", tags=["library", "dataset-reader"])
+    @keyword("Read All Data Sets", tags=["library", "dataset-reader"])
     def read_all_datasets(self, file_path: str, encoding: str = "utf-8") -> list:
         self.__validate(file_path, index=None, encoding=encoding)
 
