@@ -18,16 +18,16 @@ class PdfReporterManager:
     def create_reporter(self, report_name: str, *tags):
         return PdfReporter(report_name, tags)
 
-    def save_reports(self, output_dir: str, reporters: list[BaseReporter]):
-        report_directory_path = self.__create_report_directory(output_dir)
+    def save_reports(self, output_dir: str, report_space_name: str, reporters: list[BaseReporter]):
+        report_directory_path = self.__create_report_directory(output_dir, report_space_name)
         for reporter in reporters:
             report_path = self.__generate_report_path(reporter, report_directory_path)
             custom_story, paragraph_style, color_scheme = self.__build_report_content(reporter)
             self.__build_pdf(report_path, custom_story, paragraph_style, color_scheme, reporter.content)
 
-    def __create_report_directory(self, path: str):
+    def __create_report_directory(self, path: str, space_name: str):
         today = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        report_dirname = os.path.basename(path) + " " + today.replace(":", "-")
+        report_dirname = space_name + " " + today.replace(":", "-")
         test_report_path = os.path.abspath(os.path.join(path, report_dirname))
         if not os.path.exists(test_report_path):
             os.mkdir(test_report_path)
