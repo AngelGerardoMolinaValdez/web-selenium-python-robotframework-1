@@ -1,23 +1,44 @@
 from abc import ABC, abstractmethod
 
 class BaseReporter(ABC):
-    def __init__(self, output_dir: str, name: str) -> None:
-        self.__output_dir = output_dir
+    def __init__(self, name: str, tags: list) -> None:
+        self.__message = ""
+        self.__status = ""
         self.__name = name
+        self.__tags = tags
         self.__report_data = []
 
-    def output_dir_value(self):
-        return self.__output_dir
-
-    def name_value(self):
+    @property
+    def name(self):
         return self.__name
 
-    def report_data_value(self):
+    @property
+    def tags(self):
+        return self.__tags
+
+    @property
+    def message(self):
+        return self.__message
+
+    @property
+    def status(self):
+        return self.__status
+
+    @message.setter
+    def message(self, message: str):
+        self.__message = message
+
+    @status.setter
+    def status(self, status: str):
+        self.__status = status
+
+    @property
+    def content(self):
         return self.__report_data
     
-    def _add_data(self, content: dict):
+    def _add_content(self, content: dict):
         self.__report_data.append(content)
 
     @abstractmethod
-    def add_content_to_report(self, desc: str, level: str):
+    def add_content(self, desc: str, level: str):
         pass

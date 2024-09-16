@@ -15,28 +15,29 @@ from reporter.pdf_reporter import PdfReporter
 from reporter.base_reporter import BaseReporter
 
 class PdfReporterManager:
-    def create_reporter(self, output_dir: str, report_name: str):
-        return PdfReporter(output_dir, report_name)
+    def create_reporter(self, report_name: str, *tags):
+        return PdfReporter(report_name, tags)
 
-    def save_reporter(self, reporter: BaseReporter, status: str, message: str = ""):
-        path_dir_report = self.__create_report_directory(reporter)
-        report_path = self.__generate_report_path(reporter, path_dir_report)
-        custom_story, paragraph_style, color_scheme = self.__build_report_content(reporter, status, message)
-        self.__build_pdf(report_path, custom_story, paragraph_style, color_scheme, reporter.report_data_value())
+    def save_reports(self, output_dir: str, reporters: list[BaseReporter]):
+        report_directory_path = self.__create_report_directory(output_dir)
+        for reporter in reporters:
+            report_path = self.__generate_report_path(reporter, report_directory_path)
+            custom_story, paragraph_style, color_scheme = self.__build_report_content(reporter)
+            self.__build_pdf(report_path, custom_story, paragraph_style, color_scheme, reporter.content)
 
-    def __create_report_directory(self, reporter):
+    def __create_report_directory(self, path: str):
         today = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        test_name_report = reporter.name_value() + " " + today.replace(":", "-")
-        path_dir_report = os.path.abspath(os.path.join(reporter.output_dir_value(), test_name_report))
-        if not os.path.exists(path_dir_report):
-            os.mkdir(path_dir_report)
-        return path_dir_report
+        report_dirname = os.path.basename(path) + " " + today.replace(":", "-")
+        test_report_path = os.path.abspath(os.path.join(path, report_dirname))
+        if not os.path.exists(test_report_path):
+            os.mkdir(test_report_path)
+        return test_report_path
 
-    def __generate_report_path(self, reporter, path_dir_report):
-        report_name = reporter.name_value() + ".pdf"
+    def __generate_report_path(self, reporter: BaseReporter, path_dir_report: str):
+        report_name = reporter.name + ".pdf"
         return os.path.join(path_dir_report, report_name)
 
-    def __build_report_content(self, reporter, status, message):
+    def __build_report_content(self, reporter: BaseReporter):
         color_scheme = {
             "background_color": colors.HexColor("#f2f2f2"), 
             "container_background_color": colors.HexColor("#e0e0e0"), 
@@ -89,9 +90,9 @@ class PdfReporterManager:
         custom_story.append(Spacer(1, 0.25 * inch))
 
         toc_data = [
-            [Paragraph("Test Name", paragraph_style), Paragraph(reporter.name_value(), paragraph_style)],
-            [Paragraph("Test Status", paragraph_style), Paragraph(status, paragraph_style)],
-            [Paragraph("Test Message", paragraph_style), Paragraph(message, paragraph_style)]
+            [Paragraph("Test Name", paragraph_style), Paragraph(reporter.name, paragraph_style)],
+            [Paragraph("Test Status", paragraph_style), Paragraph(reporter.status, paragraph_style)],
+            [Paragraph("Test Message", paragraph_style), Paragraph(reporter.message, paragraph_style)]
         ]
         toc_table = Table(toc_data, colWidths=[3.5 * inch, 3.5 * inch])
         toc_table.setStyle(TableStyle([
