@@ -10,6 +10,7 @@ from reportlab.lib import colors
 from reportlab.lib.units import inch
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, Image
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.platypus import PageBreak
 
 from reporter.pdf_reporter import PdfReporter
 from reporter.base_reporter import BaseReporter
@@ -116,6 +117,11 @@ class PdfReporterManager:
 
     def __build_pdf(self, report_path, custom_story, paragraph_style, color_scheme, steps_data):
         doc = SimpleDocTemplate(report_path, pagesize=letter)
+        
+        first_page_content = custom_story[:]
+        
+        first_page_content.append(Spacer(1, 0.5 * inch))
+        
         content = []
 
         for step_info in steps_data:
@@ -147,4 +153,8 @@ class PdfReporterManager:
             content.append(step_table)
             content.append(Spacer(1, 0.2 * inch))
 
-        doc.build(custom_story + content)
+        content.insert(0, PageBreak())
+
+        report_content = first_page_content + content
+
+        doc.build(report_content)
