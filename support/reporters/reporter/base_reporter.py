@@ -1,11 +1,12 @@
+from typing import Union
 from abc import ABC, abstractmethod
 
 class BaseReporter(ABC):
-    def __init__(self, name: str, tags: list) -> None:
+    def __init__(self, name: str, tags: Union[list, None]) -> None:
         self.__message = ""
         self.__status = ""
         self.__name = name
-        self.__tags = tags
+        self.__tags = tags if tags is not None else []
         self.__report_data = []
 
     @property

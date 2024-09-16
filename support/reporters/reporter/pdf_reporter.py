@@ -1,10 +1,11 @@
+from typing import Union
 import base64
 from io import BytesIO
 from PIL import ImageGrab
 from .base_reporter import BaseReporter
 
 class PdfReporter(BaseReporter):
-    def __init__(self, name: str, tags) -> None:
+    def __init__(self, name: str, tags: Union[list, None]) -> None:
         super().__init__(name, tags)
         self.__buffered = BytesIO()
     

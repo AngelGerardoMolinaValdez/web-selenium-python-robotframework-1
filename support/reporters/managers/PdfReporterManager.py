@@ -2,6 +2,7 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from typing import Optional
 import datetime
 import base64
 from io import BytesIO
@@ -16,7 +17,7 @@ from reporter.pdf_reporter import PdfReporter
 from reporter.base_reporter import BaseReporter
 
 class PdfReporterManager:
-    def create_reporter(self, report_name: str, *tags):
+    def create_reporter(self, report_name: str, tags: Optional[list] = None) -> BaseReporter:
         return PdfReporter(report_name, tags)
 
     def save_reports(self, output_dir: str, report_space_name: str, reporters: list[BaseReporter]):
