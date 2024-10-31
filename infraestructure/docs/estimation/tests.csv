@@ -1,0 +1,34 @@
+Test Name,Tags,Suite,Scenario
+Test 001 New Account Checking,account-checking,Account,Open New Account
+Test 002 New Account Savings,account-savings,Account,Open New Account
+Test 003 Transfer Funds To New Account Checking From Existing Account,"account-checking,transfer,positive-balance",Transfer.To New Account,Transfer Funds To Account
+Test 004 Transfer Funds To New Account Savings From Existing Account,"account-savings,transfer,positive-balance",Transfer.To New Account,Transfer Funds To Account
+Test 005 Transfer Funds To Existing Account From New Account Checking,"account-checking,transfer,positive-balance",Transfer.To Existing Account,Transfer Funds To Account
+Test 006 Transfer Funds To Existing Account From New Account Savings,"account-savings,transfer,positive-balance",Transfer.To Existing Account,Transfer Funds To Account
+Test 007 Transfer Funds Positive Balance To New Account,"account-savings,transfer,positive-balance",Transfer.To New Account,Transfer Funds To Account
+Test 008 Transfer Funds Negative Balance To New Account,"account-savings,transfer,negative-balance",Transfer.To New Account,Transfer Funds To Account
+Test 009 Transfer Funds Alphanumeric Amount To New Account,"account-savings,transfer,alphanumeric-balance",Transfer.To New Account,Transfer Funds To Account
+Test 010 Account Overview From New Account Savings,"account-savings,overview",Overview.To New Account,Account Overview For New Accounts
+Test 011 Account Overview From New Account Checking,"account-checking,overview",Overview.To New Account,Account Overview For New Accounts
+Test 012 Account Overview Of A Funds Transfer To New Account Checking,"account-checking,overview,transfer",Overview.Transfer To New Account,Account Overview For Transfers
+Test 013 Account Overview Of A Funds Transfer To New Account Savings,"account-savings,overview,transfer",Overview.Transfer To New Account,Account Overview For Transfers
+Test 014 Account Overview Of A Funds Transfer To Existing Account Checking,"account-checking,overview,transfer",Overview.Transfer To Existing Account,Account Overview For Transfers
+Test 015 Account Overview Of A Funds Transfer To Existing Account Savings,"account-savings,overview,transfer",Overview.Transfer To Existing Account,Account Overview For Transfers
+Test 016 Bill Payment To New Account Checking From Existing Account,"account-checking,bill-pay",Bill Pay,Bill Payment To Account
+Test 017 Bill Payment To New Account Savings From Existing Account,"account-savings,bill-pay",Bill Pay,Bill Payment To Account
+Test 018 Account Overview Of A Bill Payment To New Account Checking From Existing Account,"account-checking,bill-pay,overview",Bill Pay,Account Overview For Bill Payments
+Test 019 Account Overview Of A Bill Payment To New Account Savings From Existing Account,"account-savings,bill-pay,overview",Bill Pay,Account Overview For Bill Payments
+Test 020 Bill Payment To Existing Account Checking From New Account,"account-checking,bill-pay",Bill Pay,Bill Payment To Account
+Test 021 Bill Payment To Existing Account Savings From New Account,"account-savings,bill-pay",Bill Pay,Bill Payment To Account
+Test 022 Account Overview Of A Bill Payment To Existing Account Checking From New Account,"account-savings,bill-pay,overview",Bill Pay,Account Overview For Bill Payments
+Test 023 Account Overview Of A Bill Payment To Existing Account Savings From New Account,"account-savings,bill-pay,overview",Bill Pay,Account Overview For Bill Payments
+Test 024 Find Transaction By Id Of Transfer Funds To New Account Checking,"account-checking,transfer,find-transaction",Find Transaction,Find Transactions For Transfer Funds
+Test 025 Find Transaction By Date Of Transfer Funds To New Account Checking,"account-checking,transfer,find-transaction",Find Transaction,Find Transactions For Transfer Funds
+Test 026 Find Transaction By Date Range Of Transfer Funds To New Account Checking,"account-checking,transfer,find-transaction",Find Transaction,Find Transactions For Transfer Funds
+Test 027 Find Transaction By Amount Of Transfer Funds To New Account Checking,"account-savings,transfer,find-transaction",Find Transaction,Find Transactions For Transfer Funds
+Test 028 Find Transaction By Id Of Transfer Funds To New Account Savings,"account-savings,transfer,find-transaction",Find Transaction,Find Transactions For Transfer Funds
+Test 029 Find Transaction By Date Of Transfer Funds To New Account Savings,"account-savings,transfer,find-transaction",Find Transaction,Find Transactions For Transfer Funds
+Test 030 Find Transaction By Date Range Of Transfer Funds To New Account Savings,"account-savings,transfer,find-transaction",Find Transaction,Find Transactions For Transfer Funds
+Test 031 Find Transaction By Amount Of Transfer Funds To New Account Savings,"account-savings,transfer,find-transaction",Find Transaction,Find Transactions For Transfer Funds
+Test 032 Request Loan Of A New Account Checking,"account-checking,request-loan",Request Loan,Request Loan For Account
+Test 033 Request Loan Of A New Account Savings,"account-savings,request-loan",Request Loan,Request Loan For Account
