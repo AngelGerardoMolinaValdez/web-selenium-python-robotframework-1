@@ -5,9 +5,8 @@ class DictDataSetMerger:
     def merge_datasets(self, **datasets) -> dict:
         merged_dict = {}
 
-        for dataset_name, dataset in datasets.items():
+        for _, dataset in datasets.items():
             for key, value in dataset.items():
-                combined_key = f"{dataset_name}.{key}"
-                merged_dict[combined_key] = value
+                merged_dict[key] = value
 
         return merged_dict
