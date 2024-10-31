@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "robotframework-project-skeleton"
+version = "0.1.0"
+description = "Una plantilla robusta y escalable para proyectos de automatización, basada en Clean Architecture, Arquitectura Hexagonal, Screaming Architecture y Vertical Slice. Ideal para simplificar y estandarizar los flujos de trabajo de testing automatizado. Licenciada bajo Apache 2.0, libre para usar y modificar."
+authors = ["Angel Gerardo Molina Valdez <angelgerardomolinavaldez@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.12,<3.13"
+robotframework = "^7.1"
+pyyaml = "^6.0.2"
+pillow = "^10.4.0"
+reportlab = "^4.2.2"
+robotframework-robocop = "^5.4.0"
+robotframework-tidy = "^4.14.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
