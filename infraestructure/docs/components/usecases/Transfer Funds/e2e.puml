@@ -1,0 +1,26 @@
+@startuml TRANSFER_FUNDS_E2E
+rectangle "Transfer Funds" {
+    partition "Account Services Page" {
+        :Add Info To Report;
+        :Click On "Transfer Funds";
+    }
+    partition "Transfer Funds Page" {
+        :Enter [Amount]; <<input>>
+        :Select [From Account]; <<input>>
+        :Select [To Account]; <<input>>
+        :Add Info To Report;
+        :Click On "TRANSFER";
+    }
+    partition "Transfer Result Page" {
+        if (Did The Transfer Completion Message Appear?) then (YES)
+            :Add Pass To Report;
+            #palegreen:Use Case Has Been Completed;
+        else (NO)
+            :Add Error To Report;
+            #pink:Use Case Has Failed;
+            stop
+        endif
+    }
+
+}
+@enduml

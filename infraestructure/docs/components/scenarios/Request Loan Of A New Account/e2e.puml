@@ -1,0 +1,7 @@
+@startuml REQUEST_LOAN_OF_A_NEW_ACCOUNT_E2E
+start
+!include ../../usecases/Login/e2e.puml!0
+!include ../../usecases/Open New Account/e2e.puml!0
+!include ../../usecases/Request Loan/e2e.puml!0
+end
+@enduml

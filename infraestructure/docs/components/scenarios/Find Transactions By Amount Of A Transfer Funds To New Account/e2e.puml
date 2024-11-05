@@ -1,0 +1,9 @@
+@startuml FIND_TRANSACTIONS_OF_A_TRANSFER_FUNDS_TO_NEW_ACCOUNT_USECASE
+start
+!include ../../usecases/Login/e2e.puml
+!include ../../usecases/Open New Account/e2e.puml
+!include ../../usecases/Transfer Funds/e2e.puml
+!include ../../usecases/Accounts Overview/e2e.puml
+!include ../../usecases/Find Transactions by amount/e2e.puml
+end
+@enduml

@@ -1,0 +1,8 @@
+@startuml OPEN_NEW_ACCOUNT_USECASE
+start
+!include ../../usecases/Login/e2e.puml
+!include ../../usecases/Open New Account/e2e.puml
+!include ../../usecases/Bill Pay/e2e.puml
+!include ../../usecases/Accounts Overview/e2e.puml
+end
+@enduml

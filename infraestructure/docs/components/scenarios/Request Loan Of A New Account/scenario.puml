@@ -1,0 +1,17 @@
+@startuml REQUEST_LOAN_OF_A_NEW_ACCOUNT_SCENARIO
+
+!pragma teoz true
+skinparam ParticipantPadding 20
+skinparam BoxPadding 10
+skinparam actorStyle awesome
+
+actor "User" as user
+participant "Login" as login #BUSINESS
+participant "Open New Account" as open_account #BUSINESS
+participant "Request Loan" as loan #BUSINESS
+
+user -> login
+login -> open_account
+open_account -> loan: Using [Account Number] value
+loan --> user: value [Account Number Loan] getted
+@enduml

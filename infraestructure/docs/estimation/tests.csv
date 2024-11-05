@@ -22,13 +22,13 @@ Test 020 Bill Payment To Existing Account Checking From New Account,"account-che
 Test 021 Bill Payment To Existing Account Savings From New Account,"account-savings,bill-pay",Bill Pay,Bill Payment To Account
 Test 022 Account Overview Of A Bill Payment To Existing Account Checking From New Account,"account-savings,bill-pay,overview",Bill Pay,Account Overview For Bill Payments
 Test 023 Account Overview Of A Bill Payment To Existing Account Savings From New Account,"account-savings,bill-pay,overview",Bill Pay,Account Overview For Bill Payments
-Test 024 Find Transaction By Id Of Transfer Funds To New Account Checking,"account-checking,transfer,find-transaction",Find Transaction,Find Transactions For Transfer Funds
-Test 025 Find Transaction By Date Of Transfer Funds To New Account Checking,"account-checking,transfer,find-transaction",Find Transaction,Find Transactions For Transfer Funds
-Test 026 Find Transaction By Date Range Of Transfer Funds To New Account Checking,"account-checking,transfer,find-transaction",Find Transaction,Find Transactions For Transfer Funds
-Test 027 Find Transaction By Amount Of Transfer Funds To New Account Checking,"account-savings,transfer,find-transaction",Find Transaction,Find Transactions For Transfer Funds
-Test 028 Find Transaction By Id Of Transfer Funds To New Account Savings,"account-savings,transfer,find-transaction",Find Transaction,Find Transactions For Transfer Funds
-Test 029 Find Transaction By Date Of Transfer Funds To New Account Savings,"account-savings,transfer,find-transaction",Find Transaction,Find Transactions For Transfer Funds
-Test 030 Find Transaction By Date Range Of Transfer Funds To New Account Savings,"account-savings,transfer,find-transaction",Find Transaction,Find Transactions For Transfer Funds
-Test 031 Find Transaction By Amount Of Transfer Funds To New Account Savings,"account-savings,transfer,find-transaction",Find Transaction,Find Transactions For Transfer Funds
+Test 024 Find Transaction By Id Of Transfer Funds To New Account Checking,"account-checking,transfer,find-transaction",Find Transaction,Find Transactions By Id Of A Transfer Funds To New Account
+Test 025 Find Transaction By Date Of Transfer Funds To New Account Checking,"account-checking,transfer,find-transaction",Find Transaction,Find Transactions By Date Of A Transfer Funds To New Account
+Test 026 Find Transaction By Date Range Of Transfer Funds To New Account Checking,"account-checking,transfer,find-transaction",Find Transaction,Find Transactions By Date Range Of A Transfer Funds To New Account
+Test 027 Find Transaction By Amount Of Transfer Funds To New Account Checking,"account-savings,transfer,find-transaction",Find Transaction,Find Transactions By Amount Of A Transfer Funds To New Account
+Test 028 Find Transaction By Id Of Transfer Funds To New Account Savings,"account-savings,transfer,find-transaction",Find Transaction,Find Transactions By Id Of A Transfer Funds To New Account
+Test 029 Find Transaction By Date Of Transfer Funds To New Account Savings,"account-savings,transfer,find-transaction",Find Transaction,Find Transactions By Date Of A Transfer Funds To New Account
+Test 030 Find Transaction By Date Range Of Transfer Funds To New Account Savings,"account-savings,transfer,find-transaction",Find Transaction,Find Transactions By Date Range Of A Transfer Funds To New Account
+Test 031 Find Transaction By Amount Of Transfer Funds To New Account Savings,"account-savings,transfer,find-transaction",Find Transaction,Find Transactions By Amount Of A Transfer Funds To New Account
 Test 032 Request Loan Of A New Account Checking,"account-checking,request-loan",Request Loan,Request Loan For Account
 Test 033 Request Loan Of A New Account Savings,"account-savings,request-loan",Request Loan,Request Loan For Account

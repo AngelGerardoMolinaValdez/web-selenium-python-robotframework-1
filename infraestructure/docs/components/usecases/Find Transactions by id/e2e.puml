@@ -1,0 +1,22 @@
+@startuml FIND_TRANSACTIONS_E2E
+rectangle "Find Transactions By ID" {
+    partition "Account Services Page" {
+        :Add Info To Report;
+        :Click On "Find Transactions";
+    }
+    partition "Find Transactions Page" {
+        :Select [Account Number]; <<input>>
+        :Enter [Transaction Id]; <<input>>
+        :Add Info To Report;
+        :Click On "FIND TRANSACTIONS";
+        if (Did Transactions Results Have Items?) then (YES)
+            :Add Pass To Report;
+            #palegreen:Use Case Has Been Completed;
+        else (NO)
+            :Add Error To Report;
+            #pink:Use Case Has Failed;
+            stop
+        endif
+    }
+}
+@enduml

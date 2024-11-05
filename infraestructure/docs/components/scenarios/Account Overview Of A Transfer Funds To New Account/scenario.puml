@@ -1,0 +1,19 @@
+@startuml ACCOUNT_OVERVIEW_TO_NEW_ACCOUNT
+
+!pragma teoz true
+skinparam ParticipantPadding 20
+skinparam BoxPadding 10
+skinparam actorStyle awesome
+
+actor "User" as user
+participant "Login" as login #BUSINESS
+participant "Open New Account" as open_account #BUSINESS
+participant "Transfer Funds" as transfer #BUSINESS
+participant "Account Overview" as overview #BUSINESS
+
+user -> login
+login -> open_account
+open_account -> transfer: Using [Account Number] value to account transfer
+transfer -> overview: using [Account Number] to get overview
+overview --> user: [Account Details] and [Transactions Details] getted
+@enduml
