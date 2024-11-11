@@ -4,7 +4,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from reporter.base_reporter import BaseReporter
 
-class ReporterBuilder:
+class ReporterWriter:
     def add_info_to_report(self, desc: str, reporters: list[BaseReporter], **kwargs) -> None:
         self.__add_to_report(desc, "info", reporters, kwargs)
 
