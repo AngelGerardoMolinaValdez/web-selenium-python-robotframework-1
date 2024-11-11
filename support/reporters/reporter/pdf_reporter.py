@@ -7,11 +7,20 @@ from .base_reporter import BaseReporter
 class PdfReporter(BaseReporter):
     image_output_path = None
 
-    def __new__(cls, *args, **kwargs):
+    @classmethod
+    def get_image_output_path(cls):
+        cls.set_image_output_directory()
+        return cls.image_output_path
+
+    @classmethod
+    def set_image_output_directory(cls):
         if cls.image_output_path is None:
             cls.image_output_path = os.path.abspath(
                 os.path.join(os.path.dirname(__file__), "..", "..", "..", "output", "images")
             )
+
+    def __new__(cls, *args, **kwargs):
+        cls.set_image_output_directory()
         return super().__new__(cls)
 
     def __init__(self, name: str, tags: Union[list, None]) -> None:

@@ -1,5 +1,6 @@
 import sys
 import os
+from glob import glob
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from typing import Optional
@@ -26,6 +27,14 @@ class PdfReporterManager:
         report_path = self.__generate_report_path(report_name, report_directory_path)
         custom_story, paragraph_style, color_scheme = self.__build_report_content(report_name, report_status, report_message)
         self.__build_pdf(report_path, custom_story, paragraph_style, color_scheme, execution_story)
+    
+    def clear_images_folder(self):
+        self.__clear_images_folder()
+
+    def __clear_images_folder(self):
+        image_output_path = PdfReporter.get_image_output_path()
+        for image_file in glob(os.path.join(image_output_path, "*.jpg")):
+            os.remove(os.path.join(image_output_path, image_file))
 
     def __create_report_directory(self, path: str, space_name: str):
         today = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
