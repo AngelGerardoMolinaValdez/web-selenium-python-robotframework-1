@@ -19,7 +19,7 @@ class PdfReporterManager:
     def create_reporter(self, report_name: str, tags: Optional[list] = None) -> BaseReporter:
         return PdfReporter(report_name, tags)
 
-    def save_reports(self, output_dir: str, report_name: str, report_status: str, report_message: str, reporters: list[BaseReporter]):
+    def generate_report(self, output_dir: str, report_name: str, report_status: str, report_message: str, reporters: list[BaseReporter]):
         report_directory_path = self.__create_report_directory(output_dir, report_name)
         execution_story = [item for reporter in reporters for item in reporter.content]
         report_path = self.__generate_report_path(report_name, report_directory_path)
