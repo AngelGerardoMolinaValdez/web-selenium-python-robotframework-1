@@ -20,12 +20,12 @@ class PdfReporterManager:
     def create_reporter(self, report_name: str, tags: Optional[list] = None) -> BaseReporter:
         return PdfReporter(report_name, tags)
 
-    def save_reports(self, output_dir: str, report_space_name: str, reporters: list[BaseReporter]):
-        report_directory_path = self.__create_report_directory(output_dir, report_space_name)
-        for reporter in reporters:
-            report_path = self.__generate_report_path(reporter, report_directory_path)
-            custom_story, paragraph_style, color_scheme = self.__build_report_content(reporter)
-            self.__build_pdf(report_path, custom_story, paragraph_style, color_scheme, reporter.content)
+    def save_reports(self, output_dir: str, report_name: str, report_status: str, report_message: str, reporters: list[BaseReporter]):
+        report_directory_path = self.__create_report_directory(output_dir, report_name)
+        execution_story = [item for reporter in reporters for item in reporter.content]
+        report_path = self.__generate_report_path(report_name, report_directory_path)
+        custom_story, paragraph_style, color_scheme = self.__build_report_content(report_name, report_status, report_message)
+        self.__build_pdf(report_path, custom_story, paragraph_style, color_scheme, execution_story)
 
     def __create_report_directory(self, path: str, space_name: str):
         today = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -35,11 +35,11 @@ class PdfReporterManager:
             os.mkdir(test_report_path)
         return test_report_path
 
-    def __generate_report_path(self, reporter: BaseReporter, path_dir_report: str):
-        report_name = reporter.name + ".pdf"
+    def __generate_report_path(self, name: str, path_dir_report: str):
+        report_name = name + ".pdf"
         return os.path.join(path_dir_report, report_name)
 
-    def __build_report_content(self, reporter: BaseReporter):
+    def __build_report_content(self, name, status, message):
         color_scheme = {
             "background_color": colors.HexColor("#f2f2f2"), 
             "container_background_color": colors.HexColor("#e0e0e0"), 
@@ -92,9 +92,9 @@ class PdfReporterManager:
         custom_story.append(Spacer(1, 0.25 * inch))
 
         toc_data = [
-            [Paragraph("Test Name", paragraph_style), Paragraph(reporter.name, paragraph_style)],
-            [Paragraph("Test Status", paragraph_style), Paragraph(reporter.status, paragraph_style)],
-            [Paragraph("Test Message", paragraph_style), Paragraph(reporter.message, paragraph_style)]
+            [Paragraph("Test Name", paragraph_style), Paragraph(name, paragraph_style)],
+            [Paragraph("Test Status", paragraph_style), Paragraph(status, paragraph_style)],
+            [Paragraph("Test Message", paragraph_style), Paragraph(message, paragraph_style)]
         ]
         toc_table = Table(toc_data, colWidths=[3.5 * inch, 3.5 * inch])
         toc_table.setStyle(TableStyle([
@@ -129,9 +129,8 @@ class PdfReporterManager:
             level = step_info["level"]
             border_color = color_scheme.get(level + "_color", colors.black)
 
-            image_data = base64.b64decode(step_info["image"])
-            image = BytesIO(image_data)
-            img = Image(image)
+            image_path = step_info["image"]
+            img = Image(image_path)
             img.drawHeight = 3.3 * inch
             img.drawWidth = 7.5 * inch
             step_title = Paragraph(step_info["message"], paragraph_style)
