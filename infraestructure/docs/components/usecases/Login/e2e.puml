@@ -3,10 +3,12 @@ rectangle "Login" {
     :Open Browser;
     :Go To [Url]; <<input>>
     partition "Login Page" {
+        :Wait Until Username Field Is Visible;
         :Enter [Username]; <<input>>
         :Enter [Password]; <<input>>
         :Add Info To Report;
         :Click On "Login";
+        :Wait Until Left Menu Is Visible;
         if (Is Home Page Visible?) then (YES)
             :Add Pass To Report;
             #palegreen:Use Case Has Been Completed;
