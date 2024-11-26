@@ -1,6 +1,6 @@
 @startuml OPEN_NEW_ACCOUNT_E2E
 rectangle "Open New Account" {
-    partition "Account Services Page" {
+    partition "Home Page" {
         :Add Info To Report;
         :Click On "Open New Account";
     }
@@ -8,9 +8,9 @@ rectangle "Open New Account" {
         :Select [Account Type]; <<input>>
         :Select [Account Reference]; <<input>>
         :Add Info To Report;
-    }
-    partition "Account Result Page" {
         :Click On "Open New Account";
+    }
+    partition "Account Opened Page" {
         if (Did Confirmation Account Open Message Appear?) then (YES)
             :Save [Account Number] Opened;
             :Add Pass To Report;
