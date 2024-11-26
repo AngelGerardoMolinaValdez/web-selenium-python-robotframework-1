@@ -1,0 +1,21 @@
+@startuml OVERVIEW_OF_A_BILL_PAY_TO_NEW_ACCOUNT_USECASE
+left to right direction
+skinparam actorStyle awesome
+
+actor JohnUser as user
+
+package "Account Overview Of A Bill Pay To New Account From Existing Account" {
+    usecase (Login)/ as login
+    usecase (Open New Account)/ as account
+    usecase (Bill Pay)/ as billpay
+    usecase (Accounts Overview)/ as overview
+}
+
+user --> account
+user --> billpay
+user --> overview
+
+account --> login: <<include>>
+billpay --> login: <<include>>
+overview --> login: <<include>>
+@enduml

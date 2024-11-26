@@ -1,0 +1,20 @@
+@startuml LOGIN_E2E
+rectangle "Login" {
+    partition "Login Page" {
+        :Open Browser;
+        :Go To [Url]; <<input>>
+        :Type [Username]; <<input>>
+        :Type [Password]; <<input>>
+        :Add Info To Report;
+        :Click On "Login";
+        if (Is Home Page Visible?) then (YES)
+            :Add Pass To Report;
+            #palegreen:Use Case Has Been Completed;
+        else (NO)
+            :Add Error To Report;
+            #pink:Use Case Has Failed;
+            stop
+        endif
+    }
+}
+@enduml 

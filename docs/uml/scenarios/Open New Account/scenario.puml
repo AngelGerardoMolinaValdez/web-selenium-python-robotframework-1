@@ -1,0 +1,40 @@
+@startuml OPEN_NEW_ACCOUNT_SCENARIO
+!pragma teoz true
+skinparam ParticipantPadding 30
+skinparam BoxPadding 20
+
+participant "Orchestrator" as orchestrator
+participant "Scenario" as scenario #APPLICATION
+
+participant "Login" as login #BUSINESS
+participant "Open New Account" as open_account #BUSINESS
+
+participant "Data Set Reader" as reader #TECHNOLOGY
+participant "Data Set Updater" as updater #TECHNOLOGY
+
+orchestrator -> scenario: Test/Task invokes the scenario
+activate scenario #APPLICATION
+
+scenario -> login: Performs login
+activate login #BUSINESS
+scenario <- login: Login successful
+deactivate login
+
+scenario -> reader: Retrieves the data set
+activate reader #TECHNOLOGY
+return Data set generated
+deactivate reader
+
+scenario -> open_account: Invokes the use case Open New Account
+activate open_account #BUSINESS
+return Successful result
+deactivate open_account
+
+scenario -> updater: Updates the data set
+activate updater #TECHNOLOGY
+return Data set updated
+deactivate updater
+
+orchestrator <- scenario: Returns the final result
+deactivate scenario
+@enduml

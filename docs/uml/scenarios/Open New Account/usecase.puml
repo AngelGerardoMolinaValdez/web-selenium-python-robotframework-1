@@ -1,0 +1,13 @@
+@startuml OPEN_NEW_ACCOUNT_USECASE
+left to right direction
+skinparam actorStyle awesome
+
+actor JohnUser as user
+
+usecase (Login) as login
+package "Open New Account" {
+    usecase (Open New Account)/ as open_new_account
+}
+user --> login
+login -> open_new_account: Once Logged In
+@enduml

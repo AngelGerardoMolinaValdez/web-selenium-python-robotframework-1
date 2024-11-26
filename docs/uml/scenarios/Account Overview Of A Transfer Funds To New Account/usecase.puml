@@ -1,0 +1,21 @@
+@startuml ACCOUNT_OVERVIEW_OF_A_TRANSFER_TO_NEW_ACCOUNT_USECASE
+left to right direction
+skinparam actorStyle awesome
+
+actor JohnUser as user
+
+package "Account Overview Of A Transfer Funds To New Account" {
+    usecase (Login)/ as login
+    usecase (Open New Account)/ as account
+    usecase (Transfer Funds)/ as transfer
+    usecase (Accounts Overview)/ as overview
+}
+
+user --> account
+user --> transfer
+user --> overview
+account --> login: <<include>>
+transfer --> login: <<include>>
+overview --> login: <<include>>
+
+@enduml

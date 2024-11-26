@@ -1,0 +1,70 @@
+@startuml ACCOUNT_OVERVIEW_TO_NEW_ACCOUNT_SCENARIO
+!pragma teoz true
+skinparam ParticipantPadding 20
+skinparam BoxPadding 10
+
+actor JohnUser as user
+
+participant "Read Login Data" as read_login_data #TECHNOLOGY
+participant "Login" as login #APPLICATION
+participant "Create Account Data Set" as create_account_dt #TECHNOLOGY
+participant "Open New Account" as account #BUSINESS
+participant "Update Account Data Set" as update_account_dt #TECHNOLOGY
+participant "Create Overview Data Set" as create_overview_dt #TECHNOLOGY
+participant "Update Overview Data Set" as update_overview_dt #TECHNOLOGY
+participant "Accounts Overview" as overview #BUSINESS
+participant "Update Overview DataTable" as update_overview_dt2 #TECHNOLOGY
+participant "Merge DataTables" as merge_dts #TECHNOLOGY
+
+user -> read_login_data: <<LOGIN_DATA_PATH>>
+activate read_login_data
+return <<login_data>>
+deactivate read_login_data
+
+user -> login: <<URL>> <<USERNAME>> <<PASSWORD>>
+activate login
+user <- login
+deactivate login
+
+user -> create_account_dt: <<ACCOUNT_DATA_PATH>> <<ACCOUNT_DATA_INDEX>>
+activate create_account_dt
+return <<account_dt>>
+deactivate create_account_dt
+
+user -> account: <<account_dt>>
+activate account
+account --> user: <<account_opened>>
+deactivate account
+
+user -> update_account_dt: <<account_dt>> <<ACCOUNT_OPENED=<<account_opened>>>>
+activate update_account_dt
+update_account_dt --> user: <<account_dt_updated>>
+deactivate update_account_dt
+
+
+user -> create_overview_dt: <<OVERVIEW_DATA_PATH>> <<OVERVIEW_DATA_INDEX>>
+activate create_overview_dt
+return <<overview_dt>>
+deactivate create_overview_dt
+
+user -> update_overview_dt: <<overview_dt>> <<ACCOUNT=<<account_opened>>>>
+activate update_overview_dt
+update_overview_dt --> user: <<overview_dt_updated>>
+deactivate update_overview_dt
+
+user -> overview: <<overview_dt_updated>>
+activate overview
+overview --> user: <<account_details>> <<account_activity>> <<account_transactions>>
+deactivate overview
+
+user -> update_overview_dt2: <<overview_dt_updated>> <<ACCOUNT_DETAILS=<<account_details>>>> <<ACCOUNT_ACTIVITY=<<account_activity>>>> <<ACCOUNT_TRANSACTIONS=<<account_transactions>>>>
+activate update_overview_dt2
+update_overview_dt2 --> user: <<overview_dt_updated>>
+deactivate update_overview_dt2
+
+user -> merge_dts: <<account_dt_updated>> <<overview_dt_updated>>
+activate merge_dts
+merge_dts --> user: <<usecase_dt>>
+deactivate merge_dts
+
+@enduml

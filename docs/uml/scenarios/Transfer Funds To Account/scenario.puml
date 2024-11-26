@@ -1,0 +1,54 @@
+@startuml TRANSFER_TO_NEW_ACCOUNT_SCENARIO
+
+!pragma teoz true
+skinparam ParticipantPadding 20
+skinparam BoxPadding 10
+
+participant "Scenario" as scenario #APPLICATION
+
+participant "Open New Account" as open_account #BUSINESS
+participant "Transfer Funds" as transfer #BUSINESS
+
+
+scenario -> login: Performs login
+activate login #BUSINESS
+scenario <- login: Login successful
+deactivate login
+
+group Open New Account
+    scenario -> open_account: Invokes the use case Open New Account
+    activate open_account #BUSINESS
+    return Account created
+    deactivate open_account
+end group
+
+group Transfer Funds
+    scenario -> reader: Retrieves the data set for transfer
+    activate reader #TECHNOLOGY
+    return Data set for transfer
+    deactivate reader
+    
+    scenario -> updater: Updates the data set with the account for transfer
+    activate updater #TECHNOLOGY
+    return Data set updated with account info
+    deactivate updater
+    
+    scenario -> transfer: Invokes the use case Transfer Funds
+    activate transfer #BUSINESS
+    return Transfer successful
+    deactivate transfer
+    
+    scenario -> updater: Updates the data set with the transfer details
+    activate updater #TECHNOLOGY
+    return Data set updated with transfer
+    deactivate updater
+end group
+
+scenario -> merger: Merges the account and transfer data sets
+activate merger #TECHNOLOGY
+return Data sets merged
+deactivate merger
+
+orchestrator <- scenario: Returns the final result with the merged data set
+deactivate scenario
+@enduml

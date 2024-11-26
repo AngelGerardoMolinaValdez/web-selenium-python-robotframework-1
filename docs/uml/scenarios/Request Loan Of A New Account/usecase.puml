@@ -1,0 +1,17 @@
+@startuml REQUEST_LOAN_OF_A_NEW_ACCOUNT_USECASE
+left to right direction
+skinparam actorStyle awesome
+
+actor JohnUser as user
+
+usecase (Login)/ as login
+
+package "Request Loan Of A New Account" {
+    usecase (Open New Account)/ as account
+    usecase (Request Loan)/ as loan
+}
+
+user --> login
+login --> account: Once Logged In
+login --> loan: Once Logged In
+@enduml

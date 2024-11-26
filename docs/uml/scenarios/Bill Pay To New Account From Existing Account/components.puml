@@ -1,0 +1,24 @@
+@startuml BILL_PAY_TO_NEW_ACCOUNT_COMPONENTS
+skinparam componentStyle uml2
+
+package "Scenarios" {
+    component "Bill Pay To Existing Account From New Account" <<main>> as billpay_to_account_scenario
+}
+
+package "UseCases" {
+    component "Open New Account" as open_account_usecase
+    component "Bill Pay" as billpay_usecase
+    component "Login" as login
+}
+
+package "Utils" {
+    interface "ReporterCreator" as reporter
+    interface "DataSetReader" as dataset_reader
+}
+
+billpay_to_account_scenario -up-> open_account_usecase: <<import>>
+billpay_to_account_scenario -up-> billpay_usecase: <<import>>
+billpay_to_account_scenario -up-> login: <<import>>
+billpay_to_account_scenario -down-> reporter: <<use>>
+billpay_to_account_scenario -down-> dataset_reader: <<use>>
+@enduml

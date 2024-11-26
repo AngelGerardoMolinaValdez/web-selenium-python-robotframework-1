@@ -1,0 +1,26 @@
+@startuml ACCOUNTS_OVERVIEW_E2E
+rectangle "Accounts Overview" {
+    partition "Account Services Page" {
+        :Add Info To Report;
+        :Click On "Accounts Overview";
+    }
+    partition "Accounts Overview Page" {
+        if (Did Accounts Table Not Display the Account Number?) then (YES)
+            :Add Error To Report;
+            #pink:Use Case Has Failed;
+            stop
+        endif
+        :Click On [Account Number];
+        :Save Account Details; <<save>>
+        :Save Account Activity; <<save>>
+        :Add Info To Report;
+        if (Save Details Of All Transactions?) then (YES)
+            :Save Transactions Details; <<save>>
+            :Add Info To Report;
+        else (NO)
+        endif
+        :Add Pass To Report;
+        #palegreen:Use Case Has Been Completed;
+    }
+}
+@enduml

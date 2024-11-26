@@ -1,0 +1,11 @@
+@startuml pages
+package "Components" {
+    component "Scenarios"
+}
+
+package "Components" {
+    component "UseCases"
+}
+
+"Scenarios" -right-> "UseCases": <<implements>>
+@enduml

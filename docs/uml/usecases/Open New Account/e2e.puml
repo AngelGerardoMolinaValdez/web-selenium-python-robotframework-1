@@ -1,0 +1,23 @@
+@startuml OPEN_NEW_ACCOUNT_E2E
+rectangle "Open New Account" {
+    partition "Account Services Page" {
+        :Add Info To Report;
+        :Click On "Open New Account";
+    }
+    partition "Open New Account Page" {
+        :Select [Account Type]; <<input>>
+        :Select [Account Reference]; <<input>>
+        :Add Info To Report;
+        :Click On "Open New Account";
+        if (Did Confirmation Account Open Message Appear?) then (YES)
+            :Save Id Of Account Opened; <<save>>
+            :Add Pass To Report;
+            #palegreen:Use Case Has Been Completed;
+        else (NO)
+            :Add Error To Report;
+            #pink:Use Case Has Failed;
+            stop
+        endif
+    }
+}
+@enduml

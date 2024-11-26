@@ -1,0 +1,30 @@
+@startuml BILL_PAY_E2E
+rectangle "Bill Pay" {
+    partition "Account Services Page" {
+        :Add Info To Report;
+        :Click On "Bill Pay";
+    }
+    partition "Bill Pay Page" {
+        :Type [Payee Name]; <<input>>
+        :Type [Address]; <<input>>
+        :Type [City]; <<input>>
+        :Type [State]; <<input>>
+        :Type [Zip Code]; <<input>>
+        :Type [Phone]; <<input>>
+        :Type [Account]; <<input>>
+        :Type [Verify Account]; <<input>>
+        :Type [Amount]; <<input>>
+        :Select [From Account]; <<input>>
+        :Add Info To Report;
+        :Click On "SEND PAYMENT";
+        if (Did Payment Confirmation Appear?) then (YES)
+            :Add Pass To Report;
+            #palegreen:Use Case Has Been Completed;
+        else
+            :Add Error To Report;
+            #pink:Use Case Has Failed;
+            stop
+        endif
+    }
+}
+@enduml

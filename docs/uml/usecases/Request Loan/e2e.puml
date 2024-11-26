@@ -1,0 +1,23 @@
+@startuml REQUEST_LOAN_E2E
+rectangle "Request Loan" {
+    partition "Account Services Page" {
+        :Add Info To Report;
+        :Click On "Request Loan";
+    }
+    partition "Request Loan Page" {
+        :Type [Loan Amount]; <<input>>
+        :Type [Down Amount]; <<input>>
+        :Select [From Account]; <<input>>
+        :Add Info To Report;
+        :Click On "APPLY NOW";
+        if (Did The Loan Approved Message Appear?) then (YES)
+            :Add Pass To Report;
+            #palegreen:Use Case Has Been Completed;
+        else (NO)
+            :Add Error To Report;
+            #pink:Use Case Has Failed;
+            stop
+        endif
+    }
+}
+@enduml

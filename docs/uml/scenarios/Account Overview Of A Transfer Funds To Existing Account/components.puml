@@ -1,0 +1,26 @@
+@startuml ACCOUNT_OVERVIEW_OF_A_TRANSFER_TO_EXISTING_ACCOUNT_COMPONENTS
+skinparam componentStyle uml2
+
+package "Scenarios" {
+    component "Account Overview Of A Transfer Funds To Existing Account" <<main>> as overview_of_a_transfer_to_account_scenario
+}
+
+package "UseCases" {
+    component "Open New Account" as open_account_usecase
+    component "Transfer Funds" as transfer_usecase
+    component "Accounts Overview" as overview_to_account_usecase
+    component "Login" as login
+}
+
+package "Utils" {
+    interface "ReporterCreator" as reporter
+    interface "DataSetReader" as dataset_reader
+}
+
+overview_of_a_transfer_to_account_scenario -up-> open_account_usecase: <<import>>
+overview_of_a_transfer_to_account_scenario -up-> overview_to_account_usecase: <<import>>
+overview_of_a_transfer_to_account_scenario -up-> transfer_usecase: <<import>>
+overview_of_a_transfer_to_account_scenario -up-> login: <<import>>
+overview_of_a_transfer_to_account_scenario -down-> reporter: <<use>>
+overview_of_a_transfer_to_account_scenario -down-> dataset_reader: <<use>>
+@enduml

@@ -1,0 +1,26 @@
+@startuml FIND_TRANSACTION_OF_A_TRANSFER_TO_NEW_ACCOUNT_COMPONENTS
+skinparam componentStyle uml2
+
+package "Scenarios" {
+    component "Find Transactions Of A Transfer Funds To New Account" <<main>> as find_transaction_of_a_transfer_to_account_scenario
+}
+
+package "UseCases" {
+    component "Open New Account" as open_account_usecase
+    component "Transfer Funds" as transfer_funds_usecase
+    component "Find Transactions" as find_transactions_usecase
+    component "Login" as login
+}
+
+package "Utils" {
+    interface "ReporterCreator" as reporter
+    interface "DataSetReader" as dataset_reader
+}
+
+find_transaction_of_a_transfer_to_account_scenario -up-> open_account_usecase: <<import>>
+find_transaction_of_a_transfer_to_account_scenario -up-> find_transactions_usecase: <<import>>
+find_transaction_of_a_transfer_to_account_scenario -up-> transfer_funds_usecase: <<import>>
+find_transaction_of_a_transfer_to_account_scenario -up-> login: <<import>>
+find_transaction_of_a_transfer_to_account_scenario -down-> reporter: <<use>>
+find_transaction_of_a_transfer_to_account_scenario -down-> dataset_reader: <<use>>
+@enduml

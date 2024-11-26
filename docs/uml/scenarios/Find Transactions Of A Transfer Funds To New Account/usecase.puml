@@ -1,0 +1,20 @@
+@startuml FIND_TRANSACTION_OF_A_TRANSFER_TO_NEW_ACCOUNT_USECASE
+left to right direction
+skinparam actorStyle awesome
+
+actor JohnUser as user
+
+package "Find Transactions Of A Transfer Funds To New Account" {
+    usecase (Login)/ as login
+    usecase (Open New Account)/ as account
+    usecase (Transfer Funds)/ as transfer
+    usecase (Find Transactions)/ as find
+}
+
+user --> account
+user --> transfer
+user --> find
+account --> login: <<include>>
+transfer --> login: <<include>>
+find --> login: <<include>>
+@enduml

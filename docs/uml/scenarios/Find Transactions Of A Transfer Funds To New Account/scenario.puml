@@ -1,0 +1,82 @@
+@startuml FIND_TRANSACTION_OF_A_TRANSFER_TO_NEW_ACCOUNT_SCENARIO
+!pragma teoz true
+skinparam ParticipantPadding 20
+skinparam BoxPadding 10
+
+actor JohnUser as user
+
+participant "Read Login Data" as read_login_data #TECHNOLOGY
+participant "Login" as login #APPLICATION
+participant "Create Account DataTable" as create_account_dt #TECHNOLOGY
+participant "Open New Account" as account #BUSINESS
+participant "Update Account DataTable" as update_account_dt #TECHNOLOGY
+participant "Create Transfer DataTable" as create_transfer_dt #TECHNOLOGY
+participant "Update Transfer DataTable" as update_transfer_dt #TECHNOLOGY
+participant "Transfer Funds" as transfer #BUSINESS
+participant "Create Find Transactions DataTable" as create_findt_dt #TECHNOLOGY
+participant "Update Find Transactions DataTable" as update_findt_dt #TECHNOLOGY
+participant "Find Transactions" as find #BUSINESS
+participant "Merge DataTables" as merge_dts #TECHNOLOGY
+
+user -> read_login_data: <<LOGIN_DATA_PATH>>
+activate read_login_data
+return <<login_data>>
+deactivate read_login_data
+
+user -> login: <<URL>> <<USERNAME>> <<PASSWORD>>
+activate login
+user <- login
+deactivate login
+
+user -> create_account_dt: <<ACCOUNT_DATA_PATH>> <<ACCOUNT_DATA_INDEX>>
+activate create_account_dt
+return <<account_dt>>
+deactivate create_account_dt
+
+user -> account: <<account_dt>>
+activate account
+account --> user: <<account_opened>>
+deactivate account
+
+user -> update_account_dt: <<account_dt>> <<ACCOUNT_OPENED=<<account_opened>>>>
+activate update_account_dt
+update_account_dt --> user: <<account_dt_updated>>
+deactivate update_account_dt
+
+
+user -> create_transfer_dt: <<TRANSFER_DATA_PATH>> <<TRANSFER_DATA_INDEX>>
+activate create_transfer_dt
+return <<transfer_dt>>
+deactivate create_transfer_dt
+
+user -> update_transfer_dt: <<transfer_dt>> <<TO_ACCOUNT=<<account_opened>>>>
+activate update_transfer_dt
+update_transfer_dt --> user: <<transfer_dt_updated>>
+deactivate update_transfer_dt
+
+user -> transfer: <<transfer_dt_updated>>
+activate transfer
+transfer --> user
+deactivate transfer
+
+user -> create_findt_dt: <<FIND_T_DATA_PATH>> <<FIND_T_DATA_INDEX>>
+activate create_findt_dt
+return <<find_t_dt>>
+deactivate create_findt_dt
+
+user -> update_findt_dt: <<find_t_dt>> <<ACCOUNT_TO_SEARCH_TRANSACTIONS=<<account_opened>>>>
+activate update_findt_dt
+update_findt_dt --> user: <<find_t_dt_updated>>
+deactivate update_findt_dt
+
+user -> find: <<find_t_dt_updated>>
+activate find
+find --> user
+deactivate find
+
+user -> merge_dts: <<account_dt_updated>> <<transfer_dt_updated>> <<find_t_dt_updated>>
+activate merge_dts
+merge_dts --> user: <<usecase_dt>>
+deactivate merge_dts
+
+@enduml

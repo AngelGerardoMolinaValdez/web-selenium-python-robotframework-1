@@ -1,0 +1,27 @@
+@startuml UPDATE_CONTACT_INFO_E2E
+rectangle "Update Contact Info" {
+    partition "Account Services Page" {
+        :Add Info To Report;
+        :Click On "Update Contact Info";
+    }
+    partition "Update Contact Info Page" {
+        :Type [First Name]; <<input>>
+        :Type [Last Name]; <<input>>
+        :Type [Address]; <<input>>
+        :Type [City]; <<input>>
+        :Type [State]; <<input>>
+        :Type [Zip Code]; <<input>>
+        :Type [Phone]; <<input>>
+        :Add Info To Report;
+        :Click On "UPDATE PROFILE";
+        if (Did the Information Change Confirmation Appear?) then (YES)
+            :Add Pass To Report;
+            #palegreen:Use Case Has Been Completed;
+        else (NO)
+            :Add Error To Report;
+            #pink:Use Case Has Failed;
+            stop
+        endif
+    }
+}
+@enduml

@@ -1,0 +1,12 @@
+@startuml pages
+
+package "Components" {
+    component "UseCases"
+}
+
+package "Components" {
+    component "Pages"
+}
+
+"UseCases" -right-> "Pages": <<implements>>
+@enduml

@@ -1,0 +1,24 @@
+@startuml ACCOUNT_OVERVIEW_TO_NEW_ACCOUNT_COMPONENTS
+skinparam componentStyle uml2
+
+package "Scenarios" {
+    component "Account Overview To New Account" <<main>> as overview_to_account_scenario
+}
+
+package "UseCases" {
+    component "Open New Account" as open_account_usecase
+    component "Accounts Overview" as overview_to_account_usecase
+    component "Login" as login
+}
+
+package "Utils" {
+    interface "ReporterCreator" as reporter
+    interface "DataSetReader" as dataset_reader
+}
+
+overview_to_account_scenario -up-> open_account_usecase: <<import>>
+overview_to_account_scenario -up-> overview_to_account_usecase: <<import>>
+overview_to_account_scenario -up-> login: <<import>>
+overview_to_account_scenario -down-> reporter: <<use>>
+overview_to_account_scenario -down-> dataset_reader: <<use>>
+@enduml

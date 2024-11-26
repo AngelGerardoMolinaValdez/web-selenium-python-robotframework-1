@@ -1,0 +1,39 @@
+@startuml REQUEST_LOAN_OF_A_NEW_ACCOUNT_COMPONENTS
+skinparam componentStyle uml2
+
+package "Scenarios" {
+    component "Request Loan Of A New Account" <<main>> as request_loan_of_a_account_scenario
+}
+
+package "UseCases" {
+    component "Request Loan" as request_loan_usecase
+    component "Open New Account" as open_account_usecase
+    component "Login" as login
+}
+
+package "Utils" {
+    interface "Data Set Reader" as reader
+    interface "Data Set Updater" as updater
+    interface "Data Set Merger" as merger
+    interface "Reporter" as reporter
+}
+
+package "Config" {
+    interface "Scenario Config" as scenario_config
+}
+
+package "Data" {
+    interface "Login Data" as login_data
+}
+
+request_loan_of_a_account_scenario -up-> request_loan_usecase: <<import>>
+request_loan_of_a_account_scenario -up-> open_account_usecase: <<import>>
+request_loan_of_a_account_scenario -up-> login: <<import>>
+request_loan_of_a_account_scenario -up-> login_data: <<import>>
+request_loan_of_a_account_scenario -down-> reader: <<import>>
+request_loan_of_a_account_scenario -down-> merger: <<import>>
+request_loan_of_a_account_scenario -down-> updater: <<import>>
+request_loan_of_a_account_scenario -down-> reporter: <<argument>>
+request_loan_of_a_account_scenario -down-> scenario_config: <<argument>>
+
+@enduml

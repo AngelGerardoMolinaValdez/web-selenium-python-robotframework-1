@@ -1,0 +1,68 @@
+@startuml REQUEST_LOAN_OF_A_NEW_ACCOUNT_SCENARIO
+!pragma teoz true
+skinparam ParticipantPadding 20
+skinparam BoxPadding 10
+
+participant "Orchestrator" as orchestrator #APPLICATION
+participant "Request Loan Of A New Account" as scenario #APPLICATION
+
+participant "Login" as usecase_login #BUSINESS
+participant "Open New Account" as usecase_open_new_account #BUSINESS
+participant "Request Loan" as usecase_request_loan #BUSINESS
+
+participant "Data Set Reader" as reader #TECHNOLOGY
+participant "Data Set Updater" as updater #TECHNOLOGY
+participant "Data Set Merger" as merger #TECHNOLOGY
+
+orchestrator --> scenario: <<scenario_config>> <<reporters>>
+activate scenario #Blue
+
+group Login
+scenario --> usecase_login: <<URL>> <<USERNAME>> <<PASSWORD>>
+activate usecase_login
+scenario <-- usecase_login
+deactivate usecase_login
+end group
+
+group Open New Account
+scenario --> reader: <<ACCOUNT_DATA_PATH>> <<ACCOUNT_DATA_INDEX>>
+activate reader
+return <<account_data_set>>
+deactivate reader
+
+scenario --> usecase_open_new_account: <<account_data_set>> <<reporters>>
+activate usecase_open_new_account
+return <<account_opened>>
+deactivate usecase_open_new_account
+
+scenario --> updater: <<account_data_set>> <<ACCOUNT_OPENED=<<account_opened>>>>
+activate updater
+return <<transfer_data_set_updated>>
+deactivate updater
+end group
+
+group Request Loan
+scenario --> reader: <<LOAN_DATA_PATH>> <<LOAN_DATA_INDEX>>
+activate reader
+return <<loan_data_set>>
+deactivate reader
+
+scenario --> updater: <<loan_data_set>> <<FROM_ACCOUNT=<<account_opened>>>>
+activate updater
+return <<loan_data_set_updated>>
+deactivate updater
+
+scenario --> usecase_request_loan: <<loan_data_set_updated>> <<reporters>>
+activate usecase_request_loan
+scenario <-- usecase_request_loan
+deactivate usecase_request_loan
+end group
+
+scenario --> merger: <<account_data_set_updated>> <<loan_data_set_updated>>
+activate merger
+return  <<scenario_data_set>>
+deactivate merger
+
+orchestrator <-- scenario: <<usecase_data_set>>
+deactivate scenario
+@enduml

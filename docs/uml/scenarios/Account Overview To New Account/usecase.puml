@@ -1,0 +1,17 @@
+@startuml ACCOUNT_OVERVIEW_TO_NEW_ACCOUNT_USECASE
+left to right direction
+skinparam actorStyle awesome
+
+actor JohnUser as user
+
+package "Account Overview To New Account" {
+    usecase (Login)/ as login
+    usecase (Open New Account)/ as account
+    usecase (Account Overview)/ as overview
+}
+
+user --> account
+user --> overview
+account --> login: <<include>>
+overview --> login: <<include>>
+@enduml
